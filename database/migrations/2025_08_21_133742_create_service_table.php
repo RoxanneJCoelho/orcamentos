@@ -15,8 +15,6 @@ return new class extends Migration
             $table->id();
             $table->string('code')->unique();
             $table->string('description');
-            $table->string('name');
-            $table->integer('quantity');
             $table->double('price', 8, 2);
             $table->double('discount', 3, 2);
             $table->unsignedBigInteger('category_id');

@@ -18,6 +18,7 @@ return new class extends Migration
             $table->foreign('budget_id')->references('id')->on('budget');
             $table->unsignedBigInteger('service_id');
             $table->foreign('service_id')->references('id')->on('service');
+            $table->integer('qtd');
         });
     }
 

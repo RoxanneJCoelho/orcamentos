@@ -14,11 +14,6 @@ class AuthController extends Controller
         return view('auth.homepage');
     }
 
-    // mostra a página do formulário
-    public function showForm(){
-        return view('auth.form');
-    }
-
     // mostra a página do login
     public function showLogin(){
         return view('auth.login');
@@ -53,6 +48,13 @@ class AuthController extends Controller
         return redirect()->route('show.homepage');
 
     }
+
+    // valida o formulario
+    public function form( Request $request)
+    {
+        //
+    }
+
 
     // mostrar espaço admin
     public function showAdmin(){
