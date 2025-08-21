@@ -21,16 +21,22 @@
             <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
                 <div class="navbar-nav">
                     @guest
-                    <a class="nav-link" href="{{route('show.login')}}">Login</a>
+                    <a href="{{ route('show.login') }}" class="btn btn-link nav-link" style="padding: 0;">
+                        Login
+                    </a>
                     @endguest
                     @auth
                     <span>
                         hi there, {{Auth::user()->name}}
                     </span>
-                    <form action="{{route('logout')}}" method="POST">
+                    <form action="{{ route('logout') }}" method="POST" class="d-inline">
                         @csrf
-                        <a class="nav-link" href="{{route('logout')}}">Logout</a>
+                        <button type="submit" class="btn btn-link nav-link"
+                            style="padding: 0; border: none; background: none;">
+                            Logout
+                        </button>
                     </form>
+
                     @endauth
                 </div>
             </div>
