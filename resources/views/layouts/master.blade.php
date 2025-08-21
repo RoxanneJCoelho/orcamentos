@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>OrcamentosJa</title>
     <!-- Bootstrap CSS local -->
-    <link rel="stylesheet" href="{{ asset('assets/bootstrap.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/bootstrap.css') }}">
 </head>
 
 <body>
@@ -39,7 +39,7 @@
     @yield('content')
 
     <!-- Bootstrap JS local -->
-    <script src="{{ asset('assets/bootstrap.js') }}"></script>
+    <script src="{{ asset('assets/js/bootstrap.js') }}"></script>
 
     @yield('scripts')
 </body>

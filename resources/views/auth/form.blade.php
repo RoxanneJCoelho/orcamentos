@@ -25,7 +25,7 @@
             <select id="categoriaFiltro" class="form-select">
                 <option value="">Todas</option>
                 @foreach($categorias as $categoria)
-                    <option value="{{ $categoria->id }}">{{ $categoria->nome }}</option>
+                <option value="{{ $categoria['id'] }}">{{ $categoria['name'] }}</option>
                 @endforeach
             </select>
         </div>
@@ -33,15 +33,15 @@
         {{-- Lista de Serviços --}}
         <div id="listaServicos">
             @foreach($categorias as $categoria)
-                <div class="categoria" data-id="{{ $categoria->id }}">
-                    <h4>{{ $categoria->nome }}</h4>
-                    @foreach($categoria->servicos as $servico)
-                        <div class="servico" data-id="{{ $servico->id }}" data-preco="{{ $servico->preco }}">
-                            {{ $servico->nome }} - €{{ number_format($servico->preco, 2) }}
-                            <button type="button" class="btn btn-sm btn-primary addServico">Adicionar</button>
-                        </div>
-                    @endforeach
+            <div class="categoria" data-id="{{ $categoria['id'] }}">
+                <h4>{{ $categoria['name'] }}</h4>
+                @foreach($categoria['servicos'] as $servico)
+                <div class="servico" data-id="{{ $servico['id'] }}" data-preco="{{ $servico['price'] }}">
+                    {{ $servico['name'] }} - €{{ number_format($servico['price'], 2) }}
+                    <button type="button" class="btn btn-sm btn-primary addServico">Adicionar</button>
                 </div>
+                @endforeach
+            </div>
             @endforeach
         </div>
 
@@ -57,8 +57,5 @@
 @endsection
 
 @section('scripts')
-    <script src="{{ asset('js/orcamento.js') }}"></script>
+<script src="{{ asset('assets/js/budget.js') }}"></script>
 @endsection
-
-</body>
-</html>

@@ -22,8 +22,8 @@ class BudgetController extends Controller
                 'category.id as categoria_id',
                 'category.name as categoria_nome',
                 'service.id as servico_id',
-                'service.name as servico_nome',
-                'service.price'
+                'service.description as servico_descricao',
+                'service.price as preco'
             )
             ->orderBy('category.name')
             ->get();
@@ -31,16 +31,26 @@ class BudgetController extends Controller
         // Agrupa serviços por categoria
         $result = [];
         foreach ($categorias as $row) {
-            $result[$row->categoria_id]['id'] = $row->categoria_id;
-            $result[$row->categoria_id]['nome'] = $row->categoria_nome;
-            $result[$row->categoria_id]['servicos'][] = [
-                'id' => $row->servico_id,
-                'nome' => $row->servico_nome,
-                'preco' => $row->preco,
-            ];
+            // Cria categoria se ainda não existir
+            if (!isset($result[$row->categoria_id])) {
+                $result[$row->categoria_id] = [
+                    'id' => $row->categoria_id,
+                    'name' => $row->categoria_nome,
+                    'servicos' => []
+                ];
+            }
+
+            // Adiciona serviço se existir
+            if ($row->servico_id) {
+                $result[$row->categoria_id]['servicos'][] = [
+                    'id' => $row->servico_id,
+                    'name' => $row->servico_descricao,
+                    'price' => $row->preco,
+                ];
+            }
         }
 
-        return $result;
+        // Converte para array indexado numericamente para facilitar na view
+        return array_values($result);
     }
-
 }
