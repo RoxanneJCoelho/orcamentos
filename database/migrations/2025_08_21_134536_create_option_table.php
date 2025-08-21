@@ -19,6 +19,7 @@ return new class extends Migration
             $table->unsignedBigInteger('service_id');
             $table->foreign('service_id')->references('id')->on('service');
             $table->integer('qtd');
+            $table->double('valor', 8, 2);
         });
     }
 
