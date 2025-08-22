@@ -24,8 +24,15 @@ Route::post('/logout',[AuthController::class, 'logout'] )->name('logout');
 
 // rota espaço admin - principal
 Route::get('/admin',[AdminController::class, 'showAdmin'] )->name('show.admin')->middleware('auth');
+
+// rotas get e post do adicionar categoria
 Route::get('/admin/category/add',[AdminController::class, 'addCategory'] )->name('add.category')->middleware('auth');
+Route::post('/admin/category/add',[AdminController::class, 'addCategoryStore'] )->name('add.category.store')->middleware('auth');
+
+// rotas get e post do editar categoria
 Route::get('/admin/category/edit/{id}',[AdminController::class, 'editCategory'] )->name('edit.category')->middleware('auth');
+Route::put('/admin/category/edit/{id}',[AdminController::class, 'editCategoryStore'] )->name('edit.category.store')->middleware('auth');
+
 Route::get('/admin/category/delete/{id}',[AdminController::class, 'deleteCategory'] )->name('delete.category')->middleware('auth');
 Route::get('/admin/service/add',[AdminController::class, 'addService'] )->name('add.service')->middleware('auth');
 Route::get('/admin/service/edit/{id}',[AdminController::class, 'editService'] )->name('edit.service')->middleware('auth');

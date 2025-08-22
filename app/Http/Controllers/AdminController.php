@@ -22,11 +22,55 @@ class AdminController extends Controller
         return view('admin.category-add');
     }
 
+    // valida a categoria e insere na BD
+
+    public function addCategoryStore(Request $request)
+    {
+
+        // Validação dos novos dados
+        $request->validate([
+            'name' => 'required|string|max:255|regex:/^[A-Za-zÀ-ÿ\s]+$/|unique:category,name',
+        ], [
+            'name.unique' => 'Categoria já existente',
+            'name.regex'  => 'Nome inválido: apenas pode colocar espaços e letras',
+        ]);
+
+        // Criação da nova categoria
+
+        Category::insert([
+            'name' => $request->name,
+        ]);
+
+
+        // Redirecionar com mensagem de sucesso
+        return redirect()->route('show.admin')->with('message', 'Categoria adicionada com sucesso!');
+    }
+
     // editar categoria
     public function editCategory($id)
     {
         $myCategory = Category::where('id', $id)->first();
         return view('admin.category-edit', compact('myCategory'));
+    }
+
+    // atualiza a categoria na bd
+
+    public function editCategoryStore(Request $request)
+    {
+        $request->validate([
+            'name' => 'required|string|max:255|regex:/^[A-Za-zÀ-ÿ\s]+$/|unique:category,name,'.$request->id,
+        ], [
+            'name.unique' => 'Categoria já existente',
+            'name.regex'  => 'Nome inválido: apenas pode colocar espaços e letras',
+        ]);
+
+        Category::where('id', $request->id)
+            ->update([
+                'name' => $request->name,
+                'updated_at' => now()
+            ]);
+
+        return redirect()->route('show.admin')->with('message', 'Categoria atualizada com sucesso!');
     }
 
     // mostrar eliminar categoria
@@ -49,7 +93,7 @@ class AdminController extends Controller
     {
         $myService = Service::where('id', $id)->first();
         $categories = $this->getDataCategories();
-        return view('admin.service-edit', compact ('myService', 'categories'));
+        return view('admin.service-edit', compact('myService', 'categories'));
     }
 
     // mostrar apagar servicos
