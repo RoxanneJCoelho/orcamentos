@@ -58,7 +58,7 @@ class AdminController extends Controller
     public function editCategoryStore(Request $request)
     {
         $request->validate([
-            'name' => 'required|string|max:255|regex:/^[A-Za-zÀ-ÿ\s]+$/|unique:category,name,'.$request->id,
+            'name' => 'required|max:255|regex:/^[A-Za-zÀ-ÿ\s]+$/|unique:category,name,' . $request->id,
         ], [
             'name.unique' => 'Categoria já existente',
             'name.regex'  => 'Nome inválido: apenas pode colocar espaços e letras',
@@ -78,14 +78,49 @@ class AdminController extends Controller
     {
         Category::where('id', $id)->delete();
 
-        return back();
+        return redirect()->route('show.admin')->with('message', 'Categoria removida com sucesso!');;
     }
 
     // mostrar adicionar servicos
     public function addService()
     {
+        $categories = $this->getDataCategories();
+        return view('admin.service-add', compact('categories'));
+    }
 
-        return view('admin.service-add');
+    // valida o servico e adiciona na bd
+    public function addServiceStore(Request $request)
+    {
+
+        // Validação dos novos dados
+        $request->validate([
+            'code' => 'required|regex:/^[0-9]{6}[a-z]$/|unique:service,code,',
+            'description' => 'required|max:255|regex:/^[A-Za-zÀ-ÿ\s]+$/|unique:service,description',
+            'price' => 'required|regex:/^\d+(\.\d{1,2})?$/',
+            'discount' => 'required|numeric|between:0,1|regex:/^0(\.\d{1,2})?$/',
+            'category_id' => 'required|exists:category,id',
+        ], [
+            'code.regex' => 'O código deve ter exatamente 6 dígitos seguidos de uma letra minúscula (ex: 654377i).',
+            'code.unique' => 'Código já existente',
+            'description.unique' => 'Serviço já existente',
+            'description.regex'  => 'Nome inválido: apenas pode colocar espaços e letras',
+            'price.regex' => 'O preço deve ser um número válido com no máximo duas casas decimais, com um ponto a separar a parte inteira da decimal (ex: 10.84).',
+            'discount.numeric' => 'O desconto deve ser um valor entre 0 e 1 , com um ponto a separar a parte inteira da decimal (ex: 0.84).',
+        ]);
+
+        // Criação da nova categoria
+
+        Service::insert([
+            'code' => $request->code,
+            'description' => $request->description,
+            'price' => $request->price,
+            'discount' => $request->discount,
+            'category_id' => $request->category_id,
+        ]);
+
+
+        // Redirecionar com mensagem de sucesso
+        return redirect()->route('show.admin')->with('message', 'Serviço adicionado com sucesso!');
     }
 
     // mostrar editar servicos
@@ -96,12 +131,57 @@ class AdminController extends Controller
         return view('admin.service-edit', compact('myService', 'categories'));
     }
 
+    // valida os dados do editar servico
+
+    public function editServiceStore(Request $request, $id)
+{
+    // Validação dos novos dados
+    $request->validate([
+        'code' => 'nullable|regex:/^[0-9]{6}[a-z]$/|unique:service,code,' . $id,
+        'description' => 'nullable|max:255|regex:/^[A-Za-zÀ-ÿ\s]+$/|unique:service,description,' . $id,
+        'price' => 'nullable|numeric|regex:/^\d+(\.\d{1,2})?$/',
+        'discount' => 'nullable|numeric|between:0,1',
+        'category_id' => 'required|exists:category,id',
+    ], [
+        'code.regex' => 'O código deve ter exatamente 6 dígitos seguidos de uma letra minúscula (ex: 654377i).',
+        'code.unique' => 'Código já existente',
+        'description.unique' => 'Serviço já existente',
+        'description.regex'  => 'Nome inválido: apenas pode colocar espaços e letras',
+        'price.regex' => 'O preço deve ser um número válido com no máximo duas casas decimais, com um ponto a separar a parte inteira da decimal (ex: 10.84).',
+        'discount.numeric' => 'O desconto deve ser um valor entre 0 e 1 (ex: 0.84).',
+    ]);
+
+    $service = Service::find($id);
+
+    if ($request->code) {
+        $service->code = $request->code;
+    }
+    if ($request->description) {
+        $service->description = $request->description;
+    }
+    if ($request->price) {
+        $service->price = $request->price;
+    }
+    if ($request->discount) {
+        $service->discount = $request->discount;
+    }
+    if ($request->category_id) {
+        $service->category_id = $request->category_id;
+    }
+
+    $service->save();
+
+    // Redirecionar com mensagem de sucesso
+    return redirect()->route('show.admin')->with('message', 'Serviço atualizado com sucesso!');
+}
+
+
     // mostrar apagar servicos
     public function deleteService($id)
     {
         Service::where('id', $id)->delete();
 
-        return back();
+        return redirect()->route('show.admin')->with('message', 'Serviço removido com sucesso!');;
     }
 
     // função privada que vai buscar os dados á base de dados das categorias

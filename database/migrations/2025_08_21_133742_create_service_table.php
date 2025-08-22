@@ -18,7 +18,7 @@ return new class extends Migration
             $table->double('price', 8, 2);
             $table->double('discount', 3, 2);
             $table->unsignedBigInteger('category_id');
-            $table->foreign('category_id')->references('id')->on('category');
+            $table->foreign('category_id')->references('id')->on('category')->onDelete('cascade');
             $table->timestamps();
         });
     }

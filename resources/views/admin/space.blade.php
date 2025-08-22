@@ -31,14 +31,45 @@
                     <tr>
                         <td>{{ $category->id }}</td>
                         <td>{{ $category->name }}</td>
-                        <td>
+                        <td class="text-end">
                             <a href="{{ route('edit.category', $category->id) }}"
-                                class="btn btn-sm btn-warning">Editar</a>
-                            <form action="{{ route('delete.category', $category->id) }}" method="POST" class="d-inline">
-                                @csrf
-                                @method('DELETE')
-                                <button class="btn btn-sm btn-danger"
-                                    onclick="return confirm('Tens a certeza que queres remover esta categoria?')">Remover</button>
+                                class="btn btn-sm btn-warning me-1">Editar</a>
+                            <!-- Botão que abre o modal -->
+                            <button type="button" class="btn btn-sm btn-danger me-1" data-bs-toggle="modal"
+                                data-bs-target="#deleteModal{{ $category->id }}">
+                                Remover
+                            </button>
+
+                            <!-- Modal -->
+                            <div class="modal fade" id="deleteModal{{ $category->id }}" tabindex="-1"
+                                aria-labelledby="deleteModalLabel{{ $category->id }}" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header bg-danger text-white">
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                aria-label="Fechar"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            Tem a certeza que quer remover a categoria <b>{{ $category->name
+                                                }}</b>? Esta ação vai apagar não só a categoria, como todos os serviços a ela associados?
+                                        </div>
+                                        <div class="modal-footer">
+                                            <!-- Botão cancelar -->
+                                            <button type="button" class="btn btn-secondary"
+                                                data-bs-dismiss="modal">Cancelar</button>
+
+                                            <!-- Form de apagar -->
+                                            <form action="{{ route('delete.category', $category->id) }}" method="POST"
+                                                class="d-inline">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="btn btn-danger">Eliminar</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
                             </form>
                         </td>
                     </tr>
@@ -66,7 +97,7 @@
                         <th>#</th>
                         <th>Código</th>
                         <th>Descrição</th>
-                        <th>Preço</th>
+                        <th>Preço Unitário</th>
                         <th>Desconto</th>
                         <th>Nome da Categoria</th>
                         <th></th>
@@ -78,17 +109,48 @@
                         <td>{{ $service->id }}</td>
                         <td>{{ $service->code }}</td>
                         <td>{{ $service->description }}</td>
-                        <td>€{{ number_format($service->price, 2) }}</td>
-                        <td>{{ $service->discount }}</td>
+                        <td>{{ number_format($service->price, 2) }}€</td>
+                        <td>{{ $service->discount }}%</td>
                         <td>{{ $service->name ?? '-' }}</td>
-                        <td>
+                        <td class="text-end">
                             <a href="{{ route('edit.service', $service->id) }}"
-                                class="btn btn-sm btn-warning">Editar</a>
-                            <form action="{{ route('delete.service', $service->id) }}" method="POST" class="d-inline">
-                                @csrf
-                                @method('DELETE')
-                                <button class="btn btn-sm btn-danger"
-                                    onclick="return confirm('Tens a certeza que queres remover este serviço?')">Remover</button>
+                                class="btn btn-sm btn-warning me-1">Editar</a>
+                            <!-- Botão que abre o modal -->
+                            <button type="button" class="btn btn-sm btn-danger me-1" data-bs-toggle="modal"
+                                data-bs-target="#deleteServiceModal{{ $service->id }}">
+                                Remover
+                            </button>
+
+                            <!-- Modal -->
+                            <div class="modal fade" id="deleteServiceModal{{ $service->id }}" tabindex="-1"
+                                aria-labelledby="deleteServiceModalLabel{{ $service->id }}" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header bg-danger text-white">
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                aria-label="Fechar"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            Tem a certeza que quer remover o serviço <b>{{ $service->description
+                                                }}</b>?
+                                        </div>
+                                        <div class="modal-footer">
+                                            <!-- Botão cancelar -->
+                                            <button type="button" class="btn btn-secondary"
+                                                data-bs-dismiss="modal">Cancelar</button>
+
+                                            <!-- Form de apagar -->
+                                            <form action="{{ route('delete.service', $service->id) }}" method="POST"
+                                                class="d-inline">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="btn btn-danger">Eliminar</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
                             </form>
                         </td>
                     </tr>

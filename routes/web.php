@@ -14,8 +14,8 @@ Route::get('/', function () {
 Route::get('/home',[UtilController::class, 'showHomepage'] )->name('show.homepage');
 
 // rotas get e post do formulário - pedido de orçamento
-Route::get('/form',[BudgetController::class, 'showForm'] )->name('show.form');
-Route::post('/form',[BudgetController::class, 'form'] )->name('form.store');
+Route::get('/form',[BudgetController::class, 'showForm'] )->name('show.form')->middleware('guest');;
+Route::post('/form',[BudgetController::class, 'form'] )->name('form.store')->middleware('guest');;
 
 // rotas get e post do login e logout
 Route::get('/login',[AuthController::class, 'showLogin'] )->name('show.login');
@@ -33,7 +33,16 @@ Route::post('/admin/category/add',[AdminController::class, 'addCategoryStore'] )
 Route::get('/admin/category/edit/{id}',[AdminController::class, 'editCategory'] )->name('edit.category')->middleware('auth');
 Route::put('/admin/category/edit/{id}',[AdminController::class, 'editCategoryStore'] )->name('edit.category.store')->middleware('auth');
 
-Route::get('/admin/category/delete/{id}',[AdminController::class, 'deleteCategory'] )->name('delete.category')->middleware('auth');
+// rota de apagar categoria
+Route::delete('/admin/category/delete/{id}',[AdminController::class, 'deleteCategory'] )->name('delete.category')->middleware('auth');
+
+// rotas get e post do adicionar servico
 Route::get('/admin/service/add',[AdminController::class, 'addService'] )->name('add.service')->middleware('auth');
+Route::post('/admin/service/add',[AdminController::class, 'addServiceStore'] )->name('add.service.store')->middleware('auth');
+
+// rotas get e post do editar servico
 Route::get('/admin/service/edit/{id}',[AdminController::class, 'editService'] )->name('edit.service')->middleware('auth');
-Route::get('/admin/service/delete/{id}',[AdminController::class, 'deleteCategory'] )->name('delete.service')->middleware('auth');
+Route::put('/admin/service/edit/{id}',[AdminController::class, 'editServiceStore'] )->name('edit.service.store')->middleware('auth');
+
+// rotas de apagar servico
+Route::delete('/admin/service/delete/{id}',[AdminController::class, 'deleteService'] )->name('delete.service')->middleware('auth');
