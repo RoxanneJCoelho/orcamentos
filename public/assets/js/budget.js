@@ -1,108 +1,79 @@
-// filtro por categoria
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener("DOMContentLoaded", () => {
+    const tabelaSelecionados = document.querySelector("#tabelaSelecionados tbody");
+    const precoTotalEl = document.getElementById("precoTotal");
+
+    // FILTRO DE CATEGORIAS
     const filtro = document.getElementById('categoriaFiltro');
-    const categorias = document.querySelectorAll('#listaServicos .categoria');
+    const categoriasDivs = document.querySelectorAll('#listaServicos .categoria');
 
     filtro.addEventListener('change', function() {
         const valor = this.value;
-
-        categorias.forEach(categoria => {
-            if (valor === '' || categoria.dataset.id === valor) {
-                categoria.style.display = 'block';
-            } else {
-                categoria.style.display = 'none';
-            }
+        categoriasDivs.forEach(categoria => {
+            categoria.style.display = (valor === '' || categoria.dataset.id === valor) ? 'block' : 'none';
         });
     });
-});
 
-// Seleciona todos os botões de adicionar serviço
-const tabela = document.querySelector('#tabelaSelecionados tbody');
-const precoTotal = document.getElementById('precoTotal');
+    // Função para atualizar tabela e total
+    function atualizarTabela() {
+        let total = 0;
+        tabelaSelecionados.innerHTML = "";
 
-let total = 0;
-const carrinho = {}; // {id: {nome, preco, quantidade}}
+        document.querySelectorAll(".servico").forEach(servico => {
+            let quantidade = parseInt(servico.querySelector(".quantidade").value) || 0;
+            if (quantidade > 0) {
+                let descricao = servico.querySelector(".fw-semibold").innerText;
+                let preco = parseFloat(servico.dataset.preco);
+                let desconto = parseFloat(servico.dataset.desconto) || 0;
 
-// Função para atualizar tabela e total
-function atualizarTabela() {
-    tabela.innerHTML = '';
-    total = 0;
+                let precoSemDesconto = preco * quantidade;
+                let valorComDesconto = precoSemDesconto - (precoSemDesconto * desconto );
 
-    Object.keys(carrinho).forEach(id => {
-        const item = carrinho[id];
-        total += item.preco * item.quantidade;
+                total += valorComDesconto;
 
-        const tr = document.createElement('tr');
-        tr.innerHTML = `
-            <td>${item.nome}</td>
-            <td>${item.quantidade}</td>
-            <td>€${(item.preco * item.quantidade).toFixed(2)}</td>
-            <td>
-                <button type="button" class="btn btn-danger btn-sm btn-remover" data-id="${id}">
-                    🗑️
-                </button>
-            </td>
-        `;
-        tabela.appendChild(tr);
-    });
+                let row = document.createElement("tr");
+                row.innerHTML = `
+                    <td>${descricao}</td>
+                    <td>${quantidade}</td>
+                    <td>€${precoSemDesconto.toFixed(2)}</td>
+                    <td>${desconto}%</td>
+                    <td>€${valorComDesconto.toFixed(2)}</td>
+                    <td>
+                        <button type="button" class="btn btn-sm btn-danger btn-remover">❌</button>
+                    </td>
+                `;
 
-    precoTotal.textContent = total.toFixed(2);
+                // botão remover → zera a quantidade
+                row.querySelector(".btn-remover").addEventListener("click", () => {
+                    servico.querySelector(".quantidade").value = 0;
+                    atualizarTabela();
+                });
 
-    // Evento remover
-    document.querySelectorAll('.btn-remover').forEach(btn => {
-        btn.addEventListener('click', () => {
-            const id = btn.dataset.id;
-            delete carrinho[id];
-            const servicoDiv = document.querySelector(`.servico[data-id="${id}"]`);
-            servicoDiv.querySelector('.quantidade').value = 0;
+                tabelaSelecionados.appendChild(row);
+            }
+        });
+
+        precoTotalEl.textContent = total.toFixed(2);
+    }
+
+    // botões plus/minus
+    document.querySelectorAll(".btn-plus").forEach(btn => {
+        btn.addEventListener("click", () => {
+            let input = btn.closest(".input-group").querySelector(".quantidade");
+            input.value = parseInt(input.value) + 1;
             atualizarTabela();
         });
     });
-}
 
-// Configurar botões + e -
-document.querySelectorAll('.servico').forEach(servicoDiv => {
-    const id = servicoDiv.dataset.id;
-    const nome = servicoDiv.querySelector('.flex-grow-1').textContent.split(' - ')[0].trim();
-    const preco = parseFloat(servicoDiv.dataset.preco);
-
-    const input = servicoDiv.querySelector('.quantidade');
-    const btnPlus = servicoDiv.querySelector('.btn-plus');
-    const btnMinus = servicoDiv.querySelector('.btn-minus');
-
-    btnPlus.addEventListener('click', () => {
-        let qtd = parseInt(input.value);
-        qtd++;
-        input.value = qtd;
-        carrinho[id] = { nome, preco, quantidade: qtd };
-        atualizarTabela();
-    });
-
-    btnMinus.addEventListener('click', () => {
-        let qtd = parseInt(input.value);
-        if (qtd > 0) qtd--;
-        input.value = qtd;
-
-        if (qtd === 0) delete carrinho[id];
-        else carrinho[id].quantidade = qtd;
-
-        atualizarTabela();
-    });
-
-    // Input manual
-    input.addEventListener('input', () => {
-        let qtd = parseInt(input.value);
-
-        // Corrige valores inválidos
-        if (isNaN(qtd) || qtd < 0) {
-            input.value = 0;
-            delete carrinho[id];
-        } else if (qtd === 0) {
-            delete carrinho[id];
-        } else {
-            carrinho[id] = { nome, preco, quantidade: qtd };
-        }
-
-        atualizarTabela();
+    document.querySelectorAll(".btn-minus").forEach(btn => {
+        btn.addEventListener("click", () => {
+            let input = btn.closest(".input-group").querySelector(".quantidade");
+            let atual = parseInt(input.value);
+            if (atual > 0) input.value = atual - 1;
+            atualizarTabela();
+        });
     });
 });
+
+
+
+

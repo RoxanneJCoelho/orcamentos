@@ -2,59 +2,34 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 
 class BudgetController extends Controller
 {
     // busca os dados da bd e mostra o formulário
     public function showForm()
     {
-        $categorias = $this->getDataForm();
+        $categorias = Category::with('services')->get(); // traz os servicos as categorias associados
         return view('budget.form', compact('categorias'));
     }
 
-    // função privada que vai buscar os dados á base de dados
-    private function getDataForm()
+    // função privada que vai buscar os dados á base de dados dos serviços
+    private function getDataServices()
     {
-        // Faz join de categorias com serviços
-        $categorias = DB::table('category')
-            ->leftJoin('service', 'category.id', '=', 'service.category_id')
+        // join de categorias e servicos
+        $services = Category::join('service', 'category.id', '=', 'service.category_id')
             ->select(
-                'category.id as categoria_id',
-                'category.name as categoria_nome',
-                'service.id as servico_id',
-                'service.description as servico_descricao',
-                'service.price as preco'
+                'service.*',
+                'category.name as category_name'
             )
-            ->orderBy('category.name')
-            ->get();
+            ->get()
+            ->groupBy('category_name');
 
-        // Agrupa serviços por categoria
-        $result = [];
-        foreach ($categorias as $row) {
-            // Cria categoria se ainda não existir
-            if (!isset($result[$row->categoria_id])) {
-                $result[$row->categoria_id] = [
-                    'id' => $row->categoria_id,
-                    'name' => $row->categoria_nome,
-                    'servicos' => []
-                ];
-            }
-
-            // Adiciona serviço se existir
-            if ($row->servico_id) {
-                $result[$row->categoria_id]['servicos'][] = [
-                    'id' => $row->servico_id,
-                    'name' => $row->servico_descricao,
-                    'price' => $row->preco,
-                ];
-            }
-        }
-
-        // Converte para array indexado numericamente para facilitar na view
-        return array_values($result);
+        return $services;
     }
+
+
 
     // valida o formulario
     public function form( Request $request)
