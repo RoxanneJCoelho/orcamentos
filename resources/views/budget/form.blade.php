@@ -43,7 +43,7 @@
                     </div>
                     <div class="input-group input-group-sm" style="width: 120px;">
                         <button type="button" class="btn btn-outline-primary btn-minus">➖</button>
-                        <input type="text" class="form-control text-center quantidade" value="0" readonly>
+                        <input type="text" class="form-control text-center quantidade" value="0" min="0">
                         <button type="button" class="btn btn-outline-primary btn-plus">➕</button>
                     </div>
                 </div>

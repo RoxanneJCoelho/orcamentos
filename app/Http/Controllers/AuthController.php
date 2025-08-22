@@ -9,11 +9,6 @@ use Illuminate\Validation\ValidationException;
 
 class AuthController extends Controller
 {
-     // mostra a página inicial
-    public function showHomepage(){
-        return view('auth.homepage');
-    }
-
     // mostra a página do login
     public function showLogin(){
         return view('auth.login');
@@ -49,15 +44,4 @@ class AuthController extends Controller
 
     }
 
-    // valida o formulario
-    public function form( Request $request)
-    {
-        //
-    }
-
-
-    // mostrar espaço admin
-    public function showAdmin(){
-        return view ('auth.space');
-    }
 }

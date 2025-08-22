@@ -7,13 +7,15 @@ use Illuminate\Support\Facades\DB;
 
 class BudgetController extends Controller
 {
-    public function create()
+    // busca os dados da bd e mostra o formulário
+    public function showForm()
     {
-        $categorias = $this->getCategoriasComServicos();
-        return view('auth.form', compact('categorias'));
+        $categorias = $this->getDataForm();
+        return view('budget.form', compact('categorias'));
     }
 
-    private function getCategoriasComServicos()
+    // função privada que vai buscar os dados á base de dados
+    private function getDataForm()
     {
         // Faz join de categorias com serviços
         $categorias = DB::table('category')
@@ -52,5 +54,11 @@ class BudgetController extends Controller
 
         // Converte para array indexado numericamente para facilitar na view
         return array_values($result);
+    }
+
+    // valida o formulario
+    public function form( Request $request)
+    {
+        //
     }
 }

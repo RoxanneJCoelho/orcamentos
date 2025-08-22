@@ -88,4 +88,21 @@ document.querySelectorAll('.servico').forEach(servicoDiv => {
 
         atualizarTabela();
     });
+
+    // Input manual
+    input.addEventListener('input', () => {
+        let qtd = parseInt(input.value);
+
+        // Corrige valores inválidos
+        if (isNaN(qtd) || qtd < 0) {
+            input.value = 0;
+            delete carrinho[id];
+        } else if (qtd === 0) {
+            delete carrinho[id];
+        } else {
+            carrinho[id] = { nome, preco, quantidade: qtd };
+        }
+
+        atualizarTabela();
+    });
 });
