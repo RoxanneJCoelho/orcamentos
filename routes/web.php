@@ -14,8 +14,8 @@ Route::get('/', function () {
 Route::get('/home',[UtilController::class, 'showHomepage'] )->name('show.homepage');
 
 // rotas get e post do formulário - pedido de orçamento
-Route::get('/form',[BudgetController::class, 'showForm'] )->name('show.form')->middleware('guest');;
-Route::post('/form',[BudgetController::class, 'form'] )->name('form.store')->middleware('guest');;
+Route::get('/form',[BudgetController::class, 'showForm'] )->name('show.form');
+Route::post('/form',[BudgetController::class, 'form'] )->name('form.store');
 
 // rotas get e post do login e logout
 Route::get('/login',[AuthController::class, 'showLogin'] )->name('show.login');

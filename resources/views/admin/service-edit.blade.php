@@ -11,42 +11,42 @@
         @csrf
         @method('PUT')
 
-        <!-- hidden id -->
+        {{-- ID escondido --}}
         <input type="hidden" name="id" value="{{ $myService->id }}">
 
-        {{-- Campo do código --}}
+        {{-- Código --}}
         <div class="mb-3">
-            <label for="code" class="form-label">Novo Código</label>
-            <input name="code" type="text" class="form-control" id="code" placeholder="{{ $myService->code }}">
+            <label for="editCode" class="form-label">Novo Código</label>
+            <input type="text" name="code" id="editCode" class="form-control" placeholder="{{ $myService->code }}" aria-describedby="editCode">
             @error('code')
             <div class="text-danger">{{ $message }}</div>
             @enderror
         </div>
 
-        {{-- Campo da descrição --}}
+        {{-- Descrição --}}
         <div class="mb-3">
-            <label for="description" class="form-label">Nova Descrição</label>
-            <input name="description" type="text" class="form-control" id="description"
-                placeholder="{{ $myService->description }}">
+            <label for="editDescription" class="form-label">Nova Descrição</label>
+            <input type="text" name="description" id="editDescription" class="form-control"
+                placeholder="{{ $myService->description }}" aria-describedby="editDescription">
             @error('description')
             <div class="text-danger">{{ $message }}</div>
             @enderror
         </div>
 
-        {{-- Campo do preço --}}
+        {{-- Preço --}}
         <div class="mb-3">
-            <label for="price" class="form-label">Novo Preço</label>
-            <input name="price" type="text" class="form-control" id="price" placeholder="{{ $myService->price }}">
+            <label for="editPrice" class="form-label">Novo Preço</label>
+            <input type="text" name="price" id="editPrice" class="form-control" placeholder="{{ $myService->price }}" aria-describedby="editPrice">
             @error('price')
             <div class="text-danger">{{ $message }}</div>
             @enderror
         </div>
 
-        {{-- Campo do desconto --}}
+        {{-- Desconto --}}
         <div class="mb-3">
-            <label for="discount" class="form-label">Novo Desconto</label>
-            <input name="discount" type="text" class="form-control" id="discount"
-                placeholder="{{ $myService->discount }}">
+            <label for="editDiscount" class="form-label">Novo Desconto</label>
+            <input type="text" name="discount" id="editDiscount" class="form-control"
+                placeholder="{{ $myService->discount }}" aria-describedby="editDiscount">
             @error('discount')
             <div class="text-danger">{{ $message }}</div>
             @enderror
@@ -63,7 +63,7 @@
                 @endforeach
             </select>
         </div>
-        <button type="submit" class="btn btn-primary">Atualizar</button>
+        <button type="submit" class="btn bg-primary-subtle">Atualizar</button>
         <a href="{{ route('show.admin') }}" class="btn btn-light text-primary border">Cancelar</a>
     </form>
 </div>

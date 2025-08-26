@@ -1,3 +1,5 @@
+{{-- View do pedido de orçamento --}}
+
 @extends('layouts.master')
 
 @section('title', 'OrçamentosJá - Orçamento')
@@ -12,25 +14,24 @@
         {{-- Nome --}}
         <div class="mb-3">
             <label for="name" class="form-label">Nome</label>
-            <input type="text" name="name" id="name" class="form-control" required">
+            <input type="text" name="name" id="name" class="form-control" aria-describedby="name" required">
         </div>
 
         {{-- Email --}}
-
         <div class="mb-3">
             <label for="email" class="form-label">E-mail</label>
-            <input type="email" name="email" id="email" class="form-control" required>
+            <input type="email" name="email" id="email" class="form-control" aria-describedby="email" required>
         </div>
 
         {{-- Filtro por Categoria --}}
         <div class="mb-3">
-            <label for="categoriaFiltro" class="form-label">Filtrar por categoria</label>
-            <select id="categoriaFiltro" class="form-select">
-                <option value="">Todas</option>
-                @foreach($categorias as $categoria)
-                @if($categoria->services->count() > 0)
-                <option value="{{ $categoria->id }}">
-                    {{ $categoria->name }}
+            <label for="categoryFilter" class="form-label">Filtrar por categoria</label>
+            <select id="categoryFilter" class="form-select">
+                <option value="{{ old('categoryFilter') }}">Todas</option>
+                @foreach($categories as $category)
+                @if($category->services->count() > 0)
+                <option value="{{ $category->id }}">
+                    {{ $category->name }}
                 </option>
                 @endif
                 @endforeach
@@ -40,17 +41,15 @@
 
         {{-- Lista de Serviços --}}
         <div id="listaServicos">
-            @foreach($categorias as $categoria)
-            @if($categoria->services->count() > 0)
-            <div class="categoria mb-4" data-id="{{ $categoria->id }}">
-                <h4>{{ $categoria->name }}</h4>
-                @foreach($categoria->services as $servico)
+            @foreach($categories as $category)
+            @if($category->services->count() > 0)
+            <div class="categoria mb-3" data-id="{{ $category->id }}">
+                <h4>{{ $category->name }}</h4>
+                @foreach($category->services as $service)
                 <div class="servico d-flex justify-content-between align-items-center mb-2 p-2 border rounded"
-                    data-id="{{ $servico->id }}" data-preco="{{ $servico->price }}"
-                    data-desconto="{{ $servico->discount }}">
-                    <div class="flex-grow-1 fw-semibold">
-                        {{ $servico->description }}
-                    </div>
+                    data-id="{{ $service->id }}" data-preco="{{ $service->price }}"
+                    data-desconto="{{ $service->discount }}">
+                    {{ $service->description }}
                     <div class="input-group input-group-sm" style="width: 120px;">
                         <button type="button" class="btn btn-outline-primary btn-minus">➖</button>
                         <input type="text" class="form-control text-center quantidade" value="0" min="0" readonly>

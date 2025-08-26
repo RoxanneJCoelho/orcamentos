@@ -11,7 +11,7 @@
     <title>@yield('title')</title>
 
     {{-- Favicon --}}
-    <link rel="icon" type="image/png" href="{{ asset('assets/images/icon.png') }}">
+    <link rel="icon" type="image/png" href="{{ asset('assets/images/navbar/icon.png') }}">
 
     {{-- Google Fonts - Inter --}}
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -35,13 +35,13 @@
 
             {{-- Logo --}}
             <a class="navbar-brand" href="{{ route('show.homepage') }}">
-                <img src="{{ asset('assets/images/logo.png') }}" alt="OrçamentosJá" class="logo-img">
+                <img src="{{ asset('assets/images/navbar/logo.png') }}" alt="OrçamentosJá" class="logo-img">
             </a>
 
             {{-- Elementos visíveis para não autenticados --}}
             @guest
             <a href="{{ route('show.login') }}" class="nav-link login-btn ms-auto mt-2 me-3">
-                <img src="{{ asset('assets/images/login.png') }}" alt="Login" class="img-fluid">
+                <img src="{{ asset('assets/images/navbar/login.png') }}" alt="Login" class="img-fluid">
             </a>
             @endguest
 
@@ -50,7 +50,7 @@
             {{-- Botão toggler (hamburger) --}}
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent"
                 aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
-                <img src="{{ asset('assets/images/home.png') }}" alt="Home" class="img-fluid">
+                <img src="{{ asset('assets/images/navbar/home.png') }}" alt="Home" class="img-fluid">
             </button>
 
             {{-- Menu colapsável --}}
@@ -58,12 +58,12 @@
                 <div class="d-flex align-items-center ms-auto flex-column flex-md-row">
 
                     {{-- Mensagem de boas-vindas --}}
-                    <span class="me-md-5 mb-2 mb-md-0 mt-2">Bem-vind@, {{ Auth::user()->name }}</span>
+                    <a href="{{ route('show.admin') }}" class="me-md-5 mb-2 mb-md-0 mt-2 text-dark text-decoration-none">Bem-vind@, {{ Auth::user()->name }}</a>
 
                     {{-- Dropdown Mais opções --}}
                     <ul class="navbar-nav me-md-5 mb-2 mb-md-0 mt-2">
                         <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"
+                            <a class="nav-link dropdown-toggle text-dark" role="button" data-bs-toggle="dropdown"
                                 aria-expanded="false">
                                 Mais opções
                             </a>
@@ -76,10 +76,10 @@
                     </ul>
 
                     {{-- Botão logout --}}
-                    <form action="{{ route('logout') }}" method="POST" class="d-inline">
+                    <form action="{{ route('logout') }}" method="POST" class="mb-0">
                         @csrf
                         <button type="submit" class="nav-link logout-btn mt-2 me-3">
-                            <img src="{{ asset('assets/images/logout.png') }}" alt="Logout" class="img-fluid">
+                            <img src="{{ asset('assets/images/navbar/logout.png') }}" alt="Logout" class="img-fluid">
                         </button>
                     </form>
                 </div>
