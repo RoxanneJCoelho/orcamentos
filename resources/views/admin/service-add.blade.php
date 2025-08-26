@@ -12,7 +12,7 @@
         {{-- Campo do código --}}
         <div class="mb-3">
             <label for="code" class="form-label">Código</label>
-            <input required name="code" type="text" class="form-control" id="code" value="{{ old('code') }}">
+            <input name="code" type="text" class="form-control" id="code" value="{{ old('code') }}" required>
             @error('code')
             <div class="text-danger">{{ $message }}</div>
             @enderror

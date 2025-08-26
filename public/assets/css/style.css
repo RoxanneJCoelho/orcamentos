@@ -3,33 +3,26 @@ body {
     font-family: 'Inter', sans-serif;
 }
 
+/* títulos */
+h1, h2, h3 {
+    font-weight: bold;
+    color: var(--bs-primary-text-emphasis);
+    margin-top: 1rem;
+}
+
 /* imagem do logo da navbar */
 .logo-img {
     height: 2.5rem;
 }
 
-/* botão de login e logout */
-.login-btn img, .logout-btn img{
-    margin-top: 1rem;
-    margin-right: 1rem;
+/* imagem e posição da imagem da homepage*/
+.homepage-image {
+    background-image: url('../images/homepage.jpg');
+    background-size: cover;
+    background-position: center;
+    min-height: 300px;
+    min-width: 50%;
 }
-
-.dropdown-menu-horizontal {
-    top: 0;
-    left: 100%;
-    margin-top: 0;
-    margin-left: 0.1rem;
-}
-.dropdown-item {
-    white-space: nowrap;
-}
-.dropdown:hover > .dropdown-menu-horizontal {
-    display: block;
-}
-
-
-
-
 
 
 

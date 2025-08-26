@@ -29,10 +29,10 @@ class AdminController extends Controller
 
         // Validação dos novos dados
         $request->validate([
-            'name' => 'required|string|max:255|regex:/^[A-Za-zÀ-ÿ\s]+$/|unique:category,name',
+            'name' => 'required|string|max:255|regex:/^[A-Za-zÀ-ÿ\s-]+$/|unique:category,name',
         ], [
             'name.unique' => 'Categoria já existente',
-            'name.regex'  => 'Nome inválido: apenas pode colocar espaços e letras',
+            'name.regex'  => 'Nome inválido: apenas pode colocar espaços, letras e hífen',
         ]);
 
         // Criação da nova categoria
@@ -58,10 +58,10 @@ class AdminController extends Controller
     public function editCategoryStore(Request $request)
     {
         $request->validate([
-            'name' => 'required|max:255|regex:/^[A-Za-zÀ-ÿ\s]+$/|unique:category,name,' . $request->id,
+            'name' => 'required|max:255|regex:/^[A-Za-zÀ-ÿ\s-]+$/|unique:category,name,' . $request->id,
         ], [
             'name.unique' => 'Categoria já existente',
-            'name.regex'  => 'Nome inválido: apenas pode colocar espaços e letras',
+            'name.regex'  => 'Nome inválido: apenas pode colocar espaços, letras e hífen',
         ]);
 
         Category::where('id', $request->id)

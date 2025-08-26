@@ -9,21 +9,22 @@
     <form id="orcamentoForm" method="POST" action="{{ route('form.store') }}">
         @csrf
 
-        {{-- Nome e Email --}}
-        <div class="row mb-3">
-            <div class="col-md-6">
-                <label for="name" class="form-label">Nome</label>
-                <input type="text" name="name" id="name" class="form-control" required pattern="[A-Za-zÀ-ÿ\s]+">
-            </div>
-            <div class="col-md-6">
-                <label for="email" class="form-label">E-mail</label>
-                <input type="email" name="email" id="email" class="form-control" required>
-            </div>
+        {{-- Nome --}}
+        <div class="mb-3">
+            <label for="name" class="form-label">Nome</label>
+            <input type="text" name="name" id="name" class="form-control" required">
+        </div>
+
+        {{-- Email --}}
+
+        <div class="mb-3">
+            <label for="email" class="form-label">E-mail</label>
+            <input type="email" name="email" id="email" class="form-control" required>
         </div>
 
         {{-- Filtro por Categoria --}}
         <div class="mb-3">
-            <label for="categoriaFiltro" class="form-label">Filtrar por Categoria</label>
+            <label for="categoriaFiltro" class="form-label">Filtrar por categoria</label>
             <select id="categoriaFiltro" class="form-select">
                 <option value="">Todas</option>
                 @foreach($categorias as $categoria)
