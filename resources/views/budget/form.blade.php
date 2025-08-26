@@ -1,5 +1,7 @@
 @extends('layouts.master')
 
+@section('title', 'OrçamentosJá - Orçamento')
+
 @section('content')
 <div class="container">
     <h2>Pedido de Orçamento</h2>

@@ -2,6 +2,8 @@
 
 @extends('layouts.master')
 
+@section('title', 'OrçamentosJá - Adicionar Categoria')
+
 @section('content')
 <div class='container'>
     <h3>Adicionar Categoria</h3>

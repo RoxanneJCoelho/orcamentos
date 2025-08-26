@@ -1,5 +1,7 @@
 @extends('layouts.master')
 
+@section('title', 'OrçamentosJá - Editar Serviço')
+
 @section('content')
 <div class='container'>
     <h3>Editar Serviço nº {{ $myService->code }} : {{ $myService->description }}</h3>

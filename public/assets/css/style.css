@@ -1,0 +1,36 @@
+/* tipografia a usar em toda a aplicação */
+body {
+    font-family: 'Inter', sans-serif;
+}
+
+/* imagem do logo da navbar */
+.logo-img {
+    height: 2.5rem;
+}
+
+/* botão de login e logout */
+.login-btn img, .logout-btn img{
+    margin-top: 1rem;
+    margin-right: 1rem;
+}
+
+.dropdown-menu-horizontal {
+    top: 0;
+    left: 100%;
+    margin-top: 0;
+    margin-left: 0.1rem;
+}
+.dropdown-item {
+    white-space: nowrap;
+}
+.dropdown:hover > .dropdown-menu-horizontal {
+    display: block;
+}
+
+
+
+
+
+
+
+

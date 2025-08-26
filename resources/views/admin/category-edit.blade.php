@@ -2,6 +2,8 @@
 
 @extends('layouts.master')
 
+@section('title', 'OrçamentosJá - Editar Categoria')
+
 @section('content')
 <div class='container'>
     <h3>Editar Categoria {{ $myCategory->name }}</h3>

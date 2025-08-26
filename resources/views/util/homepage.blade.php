@@ -1,5 +1,7 @@
 @extends('layouts.master')
 
+@section('title', 'OrçamentosJá - Página Inicial')
+
 @section('content')
 @auth
 <h1>Bem vindo ao espaço admin</h1>
