@@ -14,7 +14,8 @@
         {{-- Código --}}
         <div class="mb-3">
             <label for="code" class="form-label">Código</label>
-            <input type="text" name="code" id="code" class="form-control" value="{{ old('code') }}" aria-describedby="code" required>
+            <input type="text" name="code" id="code" class="form-control" value="{{ old('code') }}"
+                aria-describedby="code" required>
             @error('code')
             <div class="text-danger">{{ $message }}</div>
             @enderror
@@ -23,28 +24,42 @@
         {{-- Descrição --}}
         <div class="mb-3">
             <label for="description" class="form-label">Descrição</label>
-            <input type="text" name="description" id="description" class="form-control" value="{{ old('description') }}" aria-describedby="description" required>
+            <input type="text" name="description" id="description" class="form-control" value="{{ old('description') }}"
+                aria-describedby="description" required>
             @error('description')
             <div class="text-danger">{{ $message }}</div>
             @enderror
         </div>
 
-        {{-- Preço --}}
-        <div class="mb-3">
-            <label for="price" class="form-label">Preço</label>
-            <input type="text" name="price" id="price" class="form-control" value="{{ old('price') }}" aria-describedby="price" required>
-            @error('price')
-            <div class="text-danger">{{ $message }}</div>
-            @enderror
-        </div>
+        {{-- Preço e Desconto --}}
+        <div class="row mb-3">
 
-        {{-- Desconto --}}
-        <div class="mb-3">
-            <label for="discount" class="form-label">Desconto</label>
-            <input type="text" name="discount" id="discount" class="form-control"  value="{{ old('discount') }}" aria-describedby="discount" required>
-            @error('discount')
-            <div class="text-danger">{{ $message }}</div>
-            @enderror
+            {{-- Preço --}}
+            <div class="col-6">
+                <label for="price" class="form-label">Preço</label>
+                <div class="input-group">
+                    <input type="number" name="price" id="price" class="form-control" value="{{ old('price') }}"
+                        aria-describedby="price" required step="0.01" min="0">
+                    <span class="input-group-text">€</span>
+                </div>
+                @error('price')
+                <div class="text-danger">{{ $message }}</div>
+                @enderror
+            </div>
+
+            {{-- Desconto --}}
+            <div class="col-6">
+                <label for="discount" class="form-label">Desconto</label>
+                <div class="input-group">
+                    <input type="number" name="discount" id="discount" class="form-control"
+                        value="{{ old('discount') }}" aria-describedby="discount" required step="0.01" min="0"
+                        max="100">
+                    <span class="input-group-text">%</span>
+                </div>
+                @error('discount')
+                <div class="text-danger">{{ $message }}</div>
+                @enderror
+            </div>
         </div>
 
         {{-- Selecionar a categoria --}}
@@ -53,7 +68,7 @@
             <select name="category_id" id="userSelect" class="form-select" required>
                 <option value="" disabled {{ old('user_id') ? '' : 'selected' }}>-- Escolha uma categoria --</option>
                 @foreach ($categories as $category)
-                <option value="{{ $category->id }}" {{ old('user_id') == $category->id ? 'selected' : '' }}>
+                <option value="{{ $category->id }}" {{ old('user_id')==$category->id ? 'selected' : '' }}>
                     {{ $category->name }}
                 </option>
                 @endforeach

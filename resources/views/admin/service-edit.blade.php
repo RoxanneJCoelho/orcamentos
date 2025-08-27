@@ -17,7 +17,8 @@
         {{-- Código --}}
         <div class="mb-3">
             <label for="editCode" class="form-label">Novo Código</label>
-            <input type="text" name="code" id="editCode" class="form-control" placeholder="{{ $myService->code }}" aria-describedby="editCode">
+            <input type="text" name="code" id="editCode" class="form-control" value="{{ old('code') }}"placeholder="{{ $myService->code }}"
+                aria-describedby="editCode">
             @error('code')
             <div class="text-danger">{{ $message }}</div>
             @enderror
@@ -26,30 +27,41 @@
         {{-- Descrição --}}
         <div class="mb-3">
             <label for="editDescription" class="form-label">Nova Descrição</label>
-            <input type="text" name="description" id="editDescription" class="form-control"
-                placeholder="{{ $myService->description }}" aria-describedby="editDescription">
+            <input type="text" name="description" id="editDescription" class="form-control" value="{{ old('description') }}" placeholder="{{ $myService->description }}" aria-describedby="editDescription">
             @error('description')
             <div class="text-danger">{{ $message }}</div>
             @enderror
         </div>
 
-        {{-- Preço --}}
-        <div class="mb-3">
-            <label for="editPrice" class="form-label">Novo Preço</label>
-            <input type="text" name="price" id="editPrice" class="form-control" placeholder="{{ $myService->price }}" aria-describedby="editPrice">
-            @error('price')
-            <div class="text-danger">{{ $message }}</div>
-            @enderror
-        </div>
+        {{-- Preço e Desconto --}}
+        <div class="row mb-3">
 
-        {{-- Desconto --}}
-        <div class="mb-3">
-            <label for="editDiscount" class="form-label">Novo Desconto</label>
-            <input type="text" name="discount" id="editDiscount" class="form-control"
-                placeholder="{{ $myService->discount }}" aria-describedby="editDiscount">
-            @error('discount')
-            <div class="text-danger">{{ $message }}</div>
-            @enderror
+            {{-- Preço --}}
+            <div class="col-6">
+                <label for="price" class="form-label">Preço</label>
+                <div class="input-group">
+                    <input type="number" name="price" id="price" class="form-control" value="{{ old('price') }}" placeholder="{{ $myService->price }}"
+                        aria-describedby="price" step="0.01" min="0">
+                    <span class="input-group-text">€</span>
+                </div>
+                @error('price')
+                <div class="text-danger">{{ $message }}</div>
+                @enderror
+            </div>
+
+            {{-- Desconto --}}
+            <div class="col-6">
+                <label for="discount" class="form-label">Desconto</label>
+                <div class="input-group">
+                    <input type="number" name="discount" id="discount" class="form-control"
+                        value="{{ old('discount') }}" placeholder="{{ $myService->discount }}" aria-describedby="discount" step="0.01" min="0"
+                        max="100">
+                    <span class="input-group-text">%</span>
+                </div>
+                @error('discount')
+                <div class="text-danger">{{ $message }}</div>
+                @enderror
+            </div>
         </div>
 
         {{-- Selecionar a categoria --}}

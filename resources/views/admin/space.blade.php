@@ -11,7 +11,7 @@
     <div class="mb-5">
         <div class="d-flex justify-content-between align-items-center mb-3">
             <h3>Ver categorias</h3>
-            <a href="{{ route('add.category') }}" class="btn btn-primary">Adicionar Categoria</a>
+            <a href="{{ route('add.category') }}" class="btn bg-primary-subtle">Adicionar Categoria</a>
         </div>
         @if (session('message'))
         <div class="alert alert-success alert-dismissible fade show" role="alert">
@@ -51,7 +51,7 @@
                                             <button type="button" class="btn-close" data-bs-dismiss="modal"
                                                 aria-label="Fechar"></button>
                                         </div>
-                                        <div class="modal-body">
+                                        <div class="modal-body text-start">
                                             Tem a certeza que quer remover a categoria <b>{{ $category->name
                                                 }}</b>? Esta ação vai apagar não só a categoria, como todos os serviços a ela associados?
                                         </div>
@@ -77,7 +77,7 @@
                     </tr>
                     @empty
                     <tr>
-                        <td colspan="4" class="text-center">Nenhuma categoria encontrada.</td>
+                        <td>Nenhuma categoria encontrada.</td>
                     </tr>
                     @endforelse
                 </tbody>
@@ -89,7 +89,7 @@
     <div>
         <div class="d-flex justify-content-between align-items-center mb-3">
             <h3>Ver serviços</h3>
-            <a href="{{ route('add.service') }}" class="btn btn-primary">Adicionar Serviço</a>
+            <a href="{{ route('add.service') }}" class="btn bg-primary-subtle">Adicionar Serviço</a>
         </div>
 
         <div class="table-responsive">
@@ -132,7 +132,7 @@
                                             <button type="button" class="btn-close" data-bs-dismiss="modal"
                                                 aria-label="Fechar"></button>
                                         </div>
-                                        <div class="modal-body">
+                                        <div class="modal-body text-start">
                                             Tem a certeza que quer remover o serviço <b>{{ $service->description
                                                 }}</b>?
                                         </div>
@@ -152,13 +152,11 @@
                                     </div>
                                 </div>
                             </div>
-
-                            </form>
                         </td>
                     </tr>
                     @empty
                     <tr>
-                        <td colspan="5" class="text-center">Nenhum serviço encontrado.</td>
+                        <td>Nenhum serviço encontrado.</td>
                     </tr>
                     @endforelse
                 </tbody>

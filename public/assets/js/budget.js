@@ -3,7 +3,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const precoTotalEl = document.getElementById("precoTotal");
 
     // FILTRO DE CATEGORIAS
-    const filtro = document.getElementById('categoriaFiltro');
+    const filtro = document.getElementById('categoryFilter'); // corrigido id
     const categoriasDivs = document.querySelectorAll('#listaServicos .categoria');
 
     filtro.addEventListener('change', function() {
@@ -21,12 +21,14 @@ document.addEventListener("DOMContentLoaded", () => {
         document.querySelectorAll(".servico").forEach(servico => {
             let quantidade = parseInt(servico.querySelector(".quantidade").value) || 0;
             if (quantidade > 0) {
-                let descricao = servico.querySelector(".fw-semibold").innerText;
+                // pega o texto do serviço (sem depender de classe extra)
+                let descricao = servico.childNodes[0].textContent.trim();
+
                 let preco = parseFloat(servico.dataset.preco);
                 let desconto = parseFloat(servico.dataset.desconto) || 0;
 
                 let precoSemDesconto = preco * quantidade;
-                let valorComDesconto = precoSemDesconto - (precoSemDesconto * desconto );
+                let valorComDesconto = precoSemDesconto - (precoSemDesconto * (desconto / 100));
 
                 total += valorComDesconto;
 
@@ -34,16 +36,16 @@ document.addEventListener("DOMContentLoaded", () => {
                 row.innerHTML = `
                     <td>${descricao}</td>
                     <td>${quantidade}</td>
-                    <td>€${precoSemDesconto.toFixed(2)}</td>
+                    <td>${precoSemDesconto.toFixed(2)}€</td>
                     <td>${desconto}%</td>
-                    <td>€${valorComDesconto.toFixed(2)}</td>
+                    <td>${valorComDesconto.toFixed(2)}€</td>
                     <td>
-                        <button type="button" class="btn btn-sm btn-danger btn-remover">❌</button>
+                    <button type="button" class="btn-close" aria-label="Close"></button>
                     </td>
                 `;
 
                 // botão remover → zera a quantidade
-                row.querySelector(".btn-remover").addEventListener("click", () => {
+                row.querySelector(".btn-close").addEventListener("click", () => {
                     servico.querySelector(".quantidade").value = 0;
                     atualizarTabela();
                 });
@@ -55,7 +57,7 @@ document.addEventListener("DOMContentLoaded", () => {
         precoTotalEl.textContent = total.toFixed(2);
     }
 
-    // botões plus/minus
+    // botões plus/minus/quantidade
     document.querySelectorAll(".btn-plus").forEach(btn => {
         btn.addEventListener("click", () => {
             let input = btn.closest(".input-group").querySelector(".quantidade");
@@ -72,7 +74,20 @@ document.addEventListener("DOMContentLoaded", () => {
             atualizarTabela();
         });
     });
+
+    document.querySelectorAll(".quantidade").forEach(input => {
+    input.addEventListener("input", () => {
+        let val = parseInt(input.value);
+        if (isNaN(val) || val < 0) {
+            input.value = 0;
+        } else {
+            input.value = val; // força a ser inteiro
+        }
+        atualizarTabela();
+    });
 });
+});
+
 
 
 

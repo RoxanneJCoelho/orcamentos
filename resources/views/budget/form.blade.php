@@ -51,9 +51,13 @@
                     data-desconto="{{ $service->discount }}">
                     {{ $service->description }}
                     <div class="input-group input-group-sm" style="width: 120px;">
-                        <button type="button" class="btn btn-outline-primary btn-minus">➖</button>
-                        <input type="text" class="form-control text-center quantidade" value="0" min="0" readonly>
-                        <button type="button" class="btn btn-outline-primary btn-plus">➕</button>
+                        <button type="button" class="btn btn-outline-primary btn-minus">
+                            <img src="{{ asset('assets/images/budget/remove.png') }}" alt="Diminuir">
+                        </button>
+                        <input type="text" class="form-control text-center quantidade" value="0" min="0" step="1">
+                        <button type="button" class="btn btn-outline-primary btn-plus">
+                            <img src="{{ asset('assets/images/budget/add.png') }}" alt="Aumentar">
+                        </button>
                     </div>
                 </div>
                 @endforeach
@@ -81,7 +85,7 @@
                     <tbody></tbody>
                 </table>
             </div>
-            <h4>Total: €<span id="precoTotal">0.00</span></h4>
+            <h4>Total: <span id="precoTotal">0.00</span>€</h4>
             <button type="submit" class="btn btn-success mt-2">Finalizar Orçamento</button>
         </div>
     </form>
