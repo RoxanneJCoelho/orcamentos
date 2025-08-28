@@ -22,6 +22,8 @@ Route::get('/login',[AuthController::class, 'showLogin'] )->name('show.login');
 Route::post('/login',[AuthController::class, 'login'] )->name('login');
 Route::post('/logout',[AuthController::class, 'logout'] )->name('logout');
 
+Route::get('/password-recovery', [AuthController::class, 'showPasswordRecovery'])->name('show.password.recovery');
+
 // rota espaço admin - principal
 Route::get('/admin',[AdminController::class, 'showAdmin'] )->name('show.admin')->middleware('auth');
 
@@ -46,3 +48,13 @@ Route::put('/admin/service/edit/{id}',[AdminController::class, 'editServiceStore
 
 // rotas de apagar servico
 Route::delete('/admin/service/delete/{id}',[AdminController::class, 'deleteService'] )->name('delete.service')->middleware('auth');
+
+Route::get('/admin/profile',[AdminController::class, 'showProfile'] )->name('show.profile')->middleware('auth');
+
+// rotas get e post do editar perfil
+Route::get('/admin/profile/edit',[AdminController::class, 'editProfile'] )->name('edit.profile')->middleware('auth');
+Route::put('/admin/profile/edit',[AdminController::class, 'editProfileStore'] )->name('edit.profile.store')->middleware('auth');
+
+Route::get('/admin/profile/password',[AdminController::class, 'editProfilePassword'] )->name('edit.profile.password')->middleware('auth');
+Route::put('/admin/profile/password',[AdminController::class, 'editProfilePasswordStore'] )->name('edit.profile.password.store')->middleware('auth');
+

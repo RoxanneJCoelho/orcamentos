@@ -70,7 +70,7 @@
                             <ul class="dropdown-menu">
                                 <li><a class="dropdown-item" href="#">Categorias</a></li>
                                 <li><a class="dropdown-item" href="#">Serviços</a></li>
-                                <li><a class="dropdown-item" href="#">Perfil</a></li>
+                                <li><a class="dropdown-item" href="{{ route('show.profile') }}">Perfil</a></li>
                             </ul>
                         </li>
                     </ul>

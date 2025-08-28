@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use App\Models\Service;
 use App\Models\Category;
 use Illuminate\Http\Request;
@@ -97,7 +98,7 @@ class AdminController extends Controller
             'code' => 'required|regex:/^[0-9]{6}[a-z]$/|unique:service,code,',
             'description' => 'required|max:255|regex:/^[A-Za-zÀ-ÿ\s]+$/|unique:service,description',
             'price' => 'required|regex:/^\d+(\.\d{1,2})?$/',
-            'discount' => 'required|numeric|between:0,1|regex:/^0(\.\d{1,2})?$/',
+            'discount' => 'required|numeric',
             'category_id' => 'required|exists:category,id',
         ], [
             'code.regex' => 'O código deve ter exatamente 6 dígitos seguidos de uma letra minúscula (ex: 654377i).',
@@ -105,7 +106,7 @@ class AdminController extends Controller
             'description.unique' => 'Serviço já existente',
             'description.regex'  => 'Nome inválido: apenas pode colocar espaços e letras',
             'price.regex' => 'O preço deve ser um número válido com no máximo duas casas decimais, com um ponto a separar a parte inteira da decimal (ex: 10.84).',
-            'discount.numeric' => 'O desconto deve ser um valor entre 0 e 1 , com um ponto a separar a parte inteira da decimal (ex: 0.84).',
+            'discount.numeric' => 'O desconto deve ser um valor entre 0 e 100 , com um ponto a separar a parte inteira da decimal (ex: 10.84).',
         ]);
 
         // Criação da nova categoria
@@ -140,7 +141,7 @@ class AdminController extends Controller
         'code' => 'nullable|regex:/^[0-9]{6}[a-z]$/|unique:service,code,' . $id,
         'description' => 'nullable|max:255|regex:/^[A-Za-zÀ-ÿ\s]+$/|unique:service,description,' . $id,
         'price' => 'nullable|numeric|regex:/^\d+(\.\d{1,2})?$/',
-        'discount' => 'nullable|numeric|between:0,1',
+        'discount' => 'nullable|numeric',
         'category_id' => 'required|exists:category,id',
     ], [
         'code.regex' => 'O código deve ter exatamente 6 dígitos seguidos de uma letra minúscula (ex: 654377i).',
@@ -148,7 +149,7 @@ class AdminController extends Controller
         'description.unique' => 'Serviço já existente',
         'description.regex'  => 'Nome inválido: apenas pode colocar espaços e letras',
         'price.regex' => 'O preço deve ser um número válido com no máximo duas casas decimais, com um ponto a separar a parte inteira da decimal (ex: 10.84).',
-        'discount.numeric' => 'O desconto deve ser um valor entre 0 e 1 (ex: 0.84).',
+        'discount.numeric' => 'O desconto deve ser um valor entre 0 e 100, com um ponto a separar a parte inteira da decimal (ex: 10.84).',
     ]);
 
     $service = Service::find($id);
@@ -184,6 +185,49 @@ class AdminController extends Controller
         return redirect()->route('show.admin')->with('message', 'Serviço removido com sucesso!');;
     }
 
+    // mostrar perfil
+    public function showProfile()
+    {
+        $user = $this->getDataUser();
+        return view('admin.profile', compact('user'));
+    }
+
+    public function editProfile()
+    {
+        $user = $this->getDataUser();
+        return view('admin.profile-edit', compact('user'));
+    }
+    public function editProfileStore(Request $request)
+    {
+        // Validação dos dados
+        $request->validate([
+            'name' => 'required|max:255|regex:/^[A-Za-zÀ-ÿ\s]+$/',
+            'morada' => 'required|max:255|regex:/^[A-Za-zÀ-ÿ\s]+$/',
+            'NIF' => 'required|regex:/^[0-9]{9}$/',
+            'telemovel' => 'required|regex:/^[0-9]{9}$/',
+        ], [
+            'name.regex' => 'Nome inválido: apenas pode colocar espaços e letras',
+            'morada.regex' => 'Morada inválida: apenas pode colocar espaços e letras',
+            'NIF.regex' => 'NIF inválido: deve ter 9 dígitos',
+            'telemovel.regex' => 'Telemóvel inválido: deve ter 9 dígitos',
+        ]);
+
+        return redirect()->route('show.admin')->with('message', 'Perfil atualizado com sucesso!');
+    }
+
+    public function editProfilePassword()
+    {
+        $user = $this->getDataUser();
+        return view('admin.profile-password', compact('user'));
+    }
+
+    // função privada que vai buscar os dados á base de dados das categorias
+    private function getDataUser()
+    {
+        $user = User::get();
+
+        return $user;
+    }
     // função privada que vai buscar os dados á base de dados das categorias
     private function getDataCategories()
     {
