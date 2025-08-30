@@ -24,6 +24,18 @@ h1, h2, h3 {
     min-width: 50%;
 }
 
+.login-image {
+    background-image: url('../images/login/login.jpg');
+    background-size: cover;
+    background-position: center;
+    min-height: 100vh;
+    min-width: 50%;
+}
 
-
-
+.password-recovery-image {
+    background-image: url('../images/password-recovery/password.jpg');
+    background-size: cover;
+    background-position: center;
+    min-height: 100vh;
+    min-width: 50%;
+}

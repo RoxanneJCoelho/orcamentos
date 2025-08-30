@@ -1,43 +1,24 @@
 @extends('layouts.master')
 
-@section('title', 'OrçamentosJá - Login')
-
-
 @section('content')
 
 <div class="d-flex flex-column flex-lg-row login-container min-vh-100 d-flex flex-wrap">
 
     <!-- Texto à direita (desktop) / em baixo (mobile) -->
     <div class="flex-md-fill d-flex flex-column justify-content-start justify-content-lg-center align-items-center p-3 mx-4 login-text">
-        <h2>Bem-vindo à área pessoal do OrçamentosJá</h2>
+        <h2>Recuperação de Senha</h2>
         <form action="{{ route('login') }}" method="POST" class="w-100 login-form">
             @csrf
             {{-- Email --}}
-            <div class="mb-3">
+            <div class="my-5">
                 <label for="email" class="form-label">E-mail</label>
                 <input type="email" name="email" id="email" class="form-control" value="{{ old('email') }}" required>
             </div>
 
-            {{-- Password --}}
-            <div class="mb-3">
-                <label for="password" class="form-label">Password</label>
-                <input type="password" class="form-control @error('password') is-invalid @enderror" name="password"
-                    required>
-                @error('password')
-                <div class="invalid-feedback">{{ $message }}</div>
-                @enderror
-            </div>
-
-
-
-            <div class="mb-3 text-center">
-                <a href="{{ route('show.password.recovery') }}">Esqueci-me da Password</a>
-            </div>
-
             {{-- Submit --}}
-            <div class="d-grid">
+            <div class="d-grid my-5">
                 <button type="submit" class="btn btn-primary">
-                    Log in
+                    Recuperar Password
                 </button>
             </div>
         </form>
@@ -50,7 +31,7 @@
         @endif
 
     </div>
-      <div class="flex-md-fill login-image">
+      <div class="flex-md-fill password-recovery-image">
 
     </div>
 </div>
