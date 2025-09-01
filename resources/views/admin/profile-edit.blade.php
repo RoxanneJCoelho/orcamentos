@@ -1,3 +1,5 @@
+{{-- View para editar dados do admin --}}
+
 @extends('layouts.master')
 
 @section('title', 'OrçamentosJá - Alterar Dados')
@@ -6,18 +8,23 @@
 <div class='container'>
     <h3>Alterar Dados</h3>
 
+    {{-- Nome --}}
     <div class="mb-3">
         <label for="name" class="form-label">Nome:</label>
         <input type="text" name="name" class="form-control">
     </div>
+
+    {{-- Morada --}}
     <div class="mb-3">
         <label for="morada" class="form-label">Morada:</label>
         <input type="text" name="morada" class="form-control">
     </div>
+
+    {{-- NIPC e Telemóvel --}}
     <div class="row mb-3">
         <div class="col-6">
-            <label for="NIF" class="form-label">NIPC:</label>
-            <input type="text" name="NIF" class="form-control">
+            <label for="NIPC" class="form-label">NIPC:</label>
+            <input type="text" name="NIPC" class="form-control">
         </div>
         <div class="col-6">
             <label for="telemovel" class="form-label">Telemóvel:</label>
@@ -25,7 +32,10 @@
         </div>
     </div>
 
+    {{-- Botão alterar --}}
     <button type="submit" class="btn bg-primary-subtle">Alterar</button>
+
+    {{-- Botão cancelar --}}
     <a href="{{ route('show.admin') }}" class="btn btn-light text-primary border">Cancelar</a>
 </div>
 @endsection

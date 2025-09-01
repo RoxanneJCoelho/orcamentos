@@ -1,3 +1,5 @@
+{{-- View do espaço admin (página principal) --}}
+
 @extends('layouts.master')
 
 @section('title', 'OrçamentosJá - Espaço Admin')
@@ -13,12 +15,16 @@
             <h3>Ver categorias</h3>
             <a href="{{ route('add.category') }}" class="btn bg-primary-subtle">Adicionar Categoria</a>
         </div>
+
+        {{-- Mensagem de inserção de dados bem sucedida --}}
         @if (session('message'))
         <div class="alert alert-success alert-dismissible fade show" role="alert">
             {{ session('message') }}
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Fechar"></button>
         </div>
         @endif
+
+        {{-- Tabela das categorias --}}
         <div class="table-responsive">
             <table class="table table-hover align-middle">
                 <thead class="table-light">
@@ -36,13 +42,14 @@
                         <td class="text-end">
                             <a href="{{ route('edit.category', $category->id) }}"
                                 class="btn btn-sm btn-warning me-1">Editar</a>
-                            <!-- Botão que abre o modal -->
+
+                            {{-- Botão que abre o modal --}}
                             <button type="button" class="btn btn-sm btn-danger me-1" data-bs-toggle="modal"
                                 data-bs-target="#deleteModal{{ $category->id }}">
                                 Remover
                             </button>
 
-                            <!-- Modal -->
+                            {{-- Modal --}}
                             <div class="modal fade" id="deleteModal{{ $category->id }}" tabindex="-1"
                                 aria-labelledby="deleteModalLabel{{ $category->id }}" aria-hidden="true">
                                 <div class="modal-dialog">
@@ -56,11 +63,12 @@
                                                 }}</b>? Esta ação vai apagar não só a categoria, como todos os serviços a ela associados?
                                         </div>
                                         <div class="modal-footer">
-                                            <!-- Botão cancelar -->
+
+                                            {{-- Botão cancelar --}}
                                             <button type="button" class="btn btn-secondary"
                                                 data-bs-dismiss="modal">Cancelar</button>
 
-                                            <!-- Form de apagar -->
+                                            {{-- Botão eliminar --}}
                                             <form action="{{ route('delete.category', $category->id) }}" method="POST"
                                                 class="d-inline">
                                                 @csrf
@@ -71,8 +79,6 @@
                                     </div>
                                 </div>
                             </div>
-
-                            </form>
                         </td>
                     </tr>
                     @empty
@@ -92,6 +98,7 @@
             <a href="{{ route('add.service') }}" class="btn bg-primary-subtle">Adicionar Serviço</a>
         </div>
 
+        {{-- Tabela dos serviços --}}
         <div class="table-responsive">
             <table class="table table-hover align-middle">
                 <thead class="table-light">
@@ -117,13 +124,14 @@
                         <td class="text-end">
                             <a href="{{ route('edit.service', $service->id) }}"
                                 class="btn btn-sm btn-warning me-1">Editar</a>
-                            <!-- Botão que abre o modal -->
+
+                            {{-- Botão que abre o modal --}}
                             <button type="button" class="btn btn-sm btn-danger me-1" data-bs-toggle="modal"
                                 data-bs-target="#deleteServiceModal{{ $service->id }}">
                                 Remover
                             </button>
 
-                            <!-- Modal -->
+                            {{-- Modal --}}
                             <div class="modal fade" id="deleteServiceModal{{ $service->id }}" tabindex="-1"
                                 aria-labelledby="deleteServiceModalLabel{{ $service->id }}" aria-hidden="true">
                                 <div class="modal-dialog">
@@ -137,11 +145,12 @@
                                                 }}</b>?
                                         </div>
                                         <div class="modal-footer">
-                                            <!-- Botão cancelar -->
+
+                                            {{-- Botão cancelar --}}
                                             <button type="button" class="btn btn-secondary"
                                                 data-bs-dismiss="modal">Cancelar</button>
 
-                                            <!-- Form de apagar -->
+                                            {{-- Botão eliminar --}}
                                             <form action="{{ route('delete.service', $service->id) }}" method="POST"
                                                 class="d-inline">
                                                 @csrf
@@ -163,6 +172,5 @@
             </table>
         </div>
     </div>
-
 </div>
 @endsection

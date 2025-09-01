@@ -37,7 +37,6 @@ class AdminController extends Controller
         ]);
 
         // Criação da nova categoria
-
         Category::insert([
             'name' => $request->name,
         ]);
@@ -55,7 +54,6 @@ class AdminController extends Controller
     }
 
     // atualiza a categoria na bd
-
     public function editCategoryStore(Request $request)
     {
         $request->validate([

@@ -31,7 +31,7 @@ Route::get('/admin',[AdminController::class, 'showAdmin'] )->name('show.admin')-
 Route::get('/admin/category/add',[AdminController::class, 'addCategory'] )->name('add.category')->middleware('auth');
 Route::post('/admin/category/add',[AdminController::class, 'addCategoryStore'] )->name('add.category.store')->middleware('auth');
 
-// rotas get e post do editar categoria
+// rotas get e put do editar categoria
 Route::get('/admin/category/edit/{id}',[AdminController::class, 'editCategory'] )->name('edit.category')->middleware('auth');
 Route::put('/admin/category/edit/{id}',[AdminController::class, 'editCategoryStore'] )->name('edit.category.store')->middleware('auth');
 
@@ -42,19 +42,21 @@ Route::delete('/admin/category/delete/{id}',[AdminController::class, 'deleteCate
 Route::get('/admin/service/add',[AdminController::class, 'addService'] )->name('add.service')->middleware('auth');
 Route::post('/admin/service/add',[AdminController::class, 'addServiceStore'] )->name('add.service.store')->middleware('auth');
 
-// rotas get e post do editar servico
+// rotas get e put do editar servico
 Route::get('/admin/service/edit/{id}',[AdminController::class, 'editService'] )->name('edit.service')->middleware('auth');
 Route::put('/admin/service/edit/{id}',[AdminController::class, 'editServiceStore'] )->name('edit.service.store')->middleware('auth');
 
 // rotas de apagar servico
 Route::delete('/admin/service/delete/{id}',[AdminController::class, 'deleteService'] )->name('delete.service')->middleware('auth');
 
+// rota da pagina principal de perfil
 Route::get('/admin/profile',[AdminController::class, 'showProfile'] )->name('show.profile')->middleware('auth');
 
-// rotas get e post do editar perfil
+// rotas get e put do alterar dados
 Route::get('/admin/profile/edit',[AdminController::class, 'editProfile'] )->name('edit.profile')->middleware('auth');
 Route::put('/admin/profile/edit',[AdminController::class, 'editProfileStore'] )->name('edit.profile.store')->middleware('auth');
 
+// rotas get e put do alterar password
 Route::get('/admin/profile/password',[AdminController::class, 'editProfilePassword'] )->name('edit.profile.password')->middleware('auth');
 Route::put('/admin/profile/password',[AdminController::class, 'editProfilePasswordStore'] )->name('edit.profile.password.store')->middleware('auth');
 

@@ -11,17 +11,25 @@
     <form method="POST" action="{{ route('edit.category.store', $myCategory->id) }}">
         @csrf
         @method('PUT')
+
+        {{-- ID escondido --}}
         <input type="hidden" name="id" value=" {{ $myCategory->id }}">
 
         {{-- Nome --}}
         <div class="mb-3">
             <label for="editCategoryName" class="form-label">Novo nome</label>
             <input type="text" name="name" id="editCategoryName" class="form-control" required aria-describedby="editCategoryName">
+
+            {{-- Validação de erros --}}
             @error('name')
             <div class="text-danger">{{ $message }}</div>
             @enderror
         </div>
+
+        {{-- Botão atualizar --}}
         <button type="submit" class="btn bg-primary-subtle">Atualizar</button>
+
+        {{-- Botão cancelar --}}
         <a href="{{ route('show.admin') }}" class="btn btn-light text-primary border">Cancelar</a>
     </form>
     @endsection

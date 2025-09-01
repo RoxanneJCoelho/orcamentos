@@ -17,8 +17,8 @@
         {{-- Código --}}
         <div class="mb-3">
             <label for="editCode" class="form-label">Novo Código</label>
-            <input type="text" name="code" id="editCode" class="form-control" value="{{ old('code') }}"placeholder="{{ $myService->code }}"
-                aria-describedby="editCode">
+            <input type="text" name="code" id="editCode" class="form-control" value="{{ old('code') }}"
+                placeholder="{{ $myService->code }}" aria-describedby="editCode">
             @error('code')
             <div class="text-danger">{{ $message }}</div>
             @enderror
@@ -27,7 +27,9 @@
         {{-- Descrição --}}
         <div class="mb-3">
             <label for="editDescription" class="form-label">Nova Descrição</label>
-            <input type="text" name="description" id="editDescription" class="form-control" value="{{ old('description') }}" placeholder="{{ $myService->description }}" aria-describedby="editDescription">
+            <input type="text" name="description" id="editDescription" class="form-control"
+                value="{{ old('description') }}" placeholder="{{ $myService->description }}"
+                aria-describedby="editDescription">
             @error('description')
             <div class="text-danger">{{ $message }}</div>
             @enderror
@@ -35,13 +37,13 @@
 
         {{-- Preço e Desconto --}}
         <div class="row mb-3">
-            
+
             {{-- Preço --}}
             <div class="col-6">
                 <label for="price" class="form-label">Preço</label>
                 <div class="input-group">
-                    <input type="number" name="price" id="price" class="form-control" value="{{ old('price') }}" placeholder="{{ $myService->price }}"
-                        aria-describedby="price" step="0.01" min="0">
+                    <input type="number" name="price" id="price" class="form-control" value="{{ old('price') }}"
+                        placeholder="{{ $myService->price }}" aria-describedby="price" step="0.01" min="0">
                     <span class="input-group-text">€</span>
                 </div>
                 @error('price')
@@ -54,8 +56,8 @@
                 <label for="discount" class="form-label">Desconto</label>
                 <div class="input-group">
                     <input type="number" name="discount" id="discount" class="form-control"
-                        value="{{ old('discount') }}" placeholder="{{ $myService->discount }}" aria-describedby="discount" step="0.01" min="0"
-                        max="100">
+                        value="{{ old('discount') }}" placeholder="{{ $myService->discount }}"
+                        aria-describedby="discount" step="0.01" min="0" max="100">
                     <span class="input-group-text">%</span>
                 </div>
                 @error('discount')
@@ -75,7 +77,11 @@
                 @endforeach
             </select>
         </div>
+
+        {{-- Botão atualizar --}}
         <button type="submit" class="btn bg-primary-subtle">Atualizar</button>
+
+        {{-- Botão cancelar --}}
         <a href="{{ route('show.admin') }}" class="btn btn-light text-primary border">Cancelar</a>
     </form>
 </div>

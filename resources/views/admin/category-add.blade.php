@@ -15,11 +15,17 @@
         <div class="mb-3">
             <label for="addCategoryName" class="form-label">Nome</label>
             <input type="text" name="name" id="addCategoryName" class="form-control" aria-describedby="addCategoryName" required>
+
+            {{-- Validação de erros --}}
             @error('name')
             <div class="text-danger">{{ $message }}</div>
             @enderror
         </div>
+
+        {{-- Botão adicionar --}}
         <button type="submit" class="btn bg-primary-subtle">Adicionar</button>
+
+        {{-- Botão cancelar --}}
         <a href="{{ route('show.admin') }}" class="btn btn-light text-primary border">Cancelar</a>
     </form>
     @endsection
