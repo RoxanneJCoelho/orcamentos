@@ -6,6 +6,7 @@ use App\Models\User;
 use App\Models\Service;
 use App\Models\Category;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class AdminController extends Controller
 {
@@ -24,7 +25,6 @@ class AdminController extends Controller
     }
 
     // valida a categoria e insere na BD
-
     public function addCategoryStore(Request $request)
     {
 
@@ -41,7 +41,6 @@ class AdminController extends Controller
             'name' => $request->name,
         ]);
 
-
         // Redirecionar com mensagem de sucesso
         return redirect()->route('show.admin')->with('message', 'Categoria adicionada com sucesso!');
     }
@@ -56,6 +55,7 @@ class AdminController extends Controller
     // atualiza a categoria na bd
     public function editCategoryStore(Request $request)
     {
+        // Validação dos novos dados
         $request->validate([
             'name' => 'required|max:255|regex:/^[A-Za-zÀ-ÿ\s-]+$/|unique:category,name,' . $request->id,
         ], [
@@ -63,12 +63,13 @@ class AdminController extends Controller
             'name.regex'  => 'Nome inválido: apenas pode colocar espaços, letras e hífen',
         ]);
 
+        // Atualizar a categoria
         Category::where('id', $request->id)
             ->update([
                 'name' => $request->name,
-                'updated_at' => now()
             ]);
 
+        // Redirecionar com mensagem de sucesso
         return redirect()->route('show.admin')->with('message', 'Categoria atualizada com sucesso!');
     }
 
@@ -77,7 +78,7 @@ class AdminController extends Controller
     {
         Category::where('id', $id)->delete();
 
-        return redirect()->route('show.admin')->with('message', 'Categoria removida com sucesso!');;
+        return redirect()->route('show.admin')->with('message', 'Categoria removida com sucesso!');
     }
 
     // mostrar adicionar servicos
@@ -108,7 +109,6 @@ class AdminController extends Controller
         ]);
 
         // Criação da nova categoria
-
         Service::insert([
             'code' => $request->code,
             'description' => $request->description,
@@ -116,7 +116,6 @@ class AdminController extends Controller
             'discount' => $request->discount,
             'category_id' => $request->category_id,
         ]);
-
 
         // Redirecionar com mensagem de sucesso
         return redirect()->route('show.admin')->with('message', 'Serviço adicionado com sucesso!');
@@ -131,86 +130,105 @@ class AdminController extends Controller
     }
 
     // valida os dados do editar servico
-
     public function editServiceStore(Request $request, $id)
-{
-    // Validação dos novos dados
-    $request->validate([
-        'code' => 'nullable|regex:/^[0-9]{6}[a-z]$/|unique:service,code,' . $id,
-        'description' => 'nullable|max:255|regex:/^[A-Za-zÀ-ÿ\s]+$/|unique:service,description,' . $id,
-        'price' => 'nullable|numeric|regex:/^\d+(\.\d{1,2})?$/',
-        'discount' => 'nullable|numeric',
-        'category_id' => 'required|exists:category,id',
-    ], [
-        'code.regex' => 'O código deve ter exatamente 6 dígitos seguidos de uma letra minúscula (ex: 654377i).',
-        'code.unique' => 'Código já existente',
-        'description.unique' => 'Serviço já existente',
-        'description.regex'  => 'Nome inválido: apenas pode colocar espaços e letras',
-        'price.regex' => 'O preço deve ser um número válido com no máximo duas casas decimais, com um ponto a separar a parte inteira da decimal (ex: 10.84).',
-        'discount.numeric' => 'O desconto deve ser um valor entre 0 e 100, com um ponto a separar a parte inteira da decimal (ex: 10.84).',
-    ]);
+    {
+        // Validação dos novos dados
+        $request->validate([
+            'code' => 'nullable|regex:/^[0-9]{6}[a-z]$/|unique:service,code,' . $id,
+            'description' => 'nullable|max:255|regex:/^[A-Za-zÀ-ÿ\s]+$/|unique:service,description,' . $id,
+            'price' => 'nullable|numeric|regex:/^\d+(\.\d{1,2})?$/',
+            'discount' => 'nullable|numeric',
+            'category_id' => 'required|exists:category,id',
+        ], [
+            'code.regex' => 'O código deve ter exatamente 6 dígitos seguidos de uma letra minúscula (ex: 654377i).',
+            'code.unique' => 'Código já existente',
+            'description.unique' => 'Serviço já existente',
+            'description.regex'  => 'Nome inválido: apenas pode colocar espaços e letras',
+            'price.regex' => 'O preço deve ser um número válido com no máximo duas casas decimais, com um ponto a separar a parte inteira da decimal (ex: 10.84).',
+            'discount.numeric' => 'O desconto deve ser um valor entre 0 e 100, com um ponto a separar a parte inteira da decimal (ex: 10.84).',
+        ]);
 
-    $service = Service::find($id);
+        // Atualizar os dados dos serviços (como o formulário nem todos os campos se preenchem, ele apenas envia os dados dos campos preenchidos)
+        $service = Service::find($id);
 
-    if ($request->code) {
-        $service->code = $request->code;
-    }
-    if ($request->description) {
-        $service->description = $request->description;
-    }
-    if ($request->price) {
-        $service->price = $request->price;
-    }
-    if ($request->discount) {
-        $service->discount = $request->discount;
-    }
-    if ($request->category_id) {
-        $service->category_id = $request->category_id;
-    }
+        if ($request->code) {
+            $service->code = $request->code;
+        }
+        if ($request->description) {
+            $service->description = $request->description;
+        }
+        if ($request->price) {
+            $service->price = $request->price;
+        }
+        if ($request->discount) {
+            $service->discount = $request->discount;
+        }
+        if ($request->category_id) {
+            $service->category_id = $request->category_id;
+        }
 
-    $service->save();
+        $service->save();
 
-    // Redirecionar com mensagem de sucesso
-    return redirect()->route('show.admin')->with('message', 'Serviço atualizado com sucesso!');
-}
-
+        // Redirecionar com mensagem de sucesso
+        return redirect()->route('show.admin')->with('message', 'Serviço atualizado com sucesso!');
+    }
 
     // mostrar apagar servicos
     public function deleteService($id)
     {
         Service::where('id', $id)->delete();
 
-        return redirect()->route('show.admin')->with('message', 'Serviço removido com sucesso!');;
+        return redirect()->route('show.admin')->with('message', 'Serviço removido com sucesso!');
     }
 
-    // mostrar perfil
+    // mostrar perfil - página principal
     public function showProfile()
     {
         $user = $this->getDataUser();
         return view('admin.profile', compact('user'));
     }
 
+    // mostrar alterar dados perfil
     public function editProfile()
     {
         $user = $this->getDataUser();
         return view('admin.profile-edit', compact('user'));
     }
+
+    // valida os dados do Alterar Dados
     public function editProfileStore(Request $request)
     {
         // Validação dos dados
         $request->validate([
-            'name' => 'required|max:255|regex:/^[A-Za-zÀ-ÿ\s]+$/',
-            'morada' => 'required|max:255|regex:/^[A-Za-zÀ-ÿ\s]+$/',
-            'NIF' => 'required|regex:/^[0-9]{9}$/',
-            'telemovel' => 'required|regex:/^[0-9]{9}$/',
+            'name' => 'nullable|max:255|regex:/^[A-Za-zÀ-ÿ\s]+$/',
+            'morada' => 'nullable|max:255',
+            'NIF/NIPC' => 'nullable|regex:/^[0-9]{9}$/',
+            'telemovel' => 'nullable|regex:/^[0-9]{9}$/',
         ], [
             'name.regex' => 'Nome inválido: apenas pode colocar espaços e letras',
-            'morada.regex' => 'Morada inválida: apenas pode colocar espaços e letras',
-            'NIF.regex' => 'NIF inválido: deve ter 9 dígitos',
+            'NIF/NIPC.regex' => 'NIF inválido: deve ter 9 dígitos',
             'telemovel.regex' => 'Telemóvel inválido: deve ter 9 dígitos',
         ]);
 
-        return redirect()->route('show.admin')->with('message', 'Perfil atualizado com sucesso!');
+        $user = User::find(Auth::id());
+
+        if ($request->name) {
+            $user->name = $request->name;
+        }
+        if ($request->morada) {
+            $user->morada = $request->morada;
+        }
+        if ($request['NIF/NIPC']) {
+            $user->{'NIF/NIPC'} = $request['NIF/NIPC'];
+        }
+        if ($request->telemovel) {
+            $user->telemovel = $request->telemovel;
+        }
+
+        $user->save();
+
+        // Redirecionar com mensagem de sucesso
+        return redirect()->route('show.profile')->with('message', 'Perfil atualizado com sucesso!');
     }
 
     public function editProfilePassword()
@@ -219,13 +237,12 @@ class AdminController extends Controller
         return view('admin.profile-password', compact('user'));
     }
 
-    // função privada que vai buscar os dados á base de dados das categorias
+    // função privada que vai buscar os dados do user autenticado
     private function getDataUser()
     {
-        $user = User::get();
-
-        return $user;
+        return Auth::user();
     }
+
     // função privada que vai buscar os dados á base de dados das categorias
     private function getDataCategories()
     {
