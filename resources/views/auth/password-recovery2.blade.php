@@ -14,7 +14,6 @@
                 <label for="code" class="form-label">Código enviado</label>
                 <input type="text" name="code" id="code" class="form-control" required>
             </div>
-
             {{-- Submit --}}
             <div class="d-grid my-5">
                 <button type="submit" class="btn btn-primary">
