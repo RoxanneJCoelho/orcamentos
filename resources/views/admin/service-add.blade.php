@@ -66,16 +66,18 @@
         <div class="mb-3">
             <label for="userSelect" class="form-label">Selecionar a categoria</label>
             <select name="category_id" id="userSelect" class="form-select" required>
-                <option value="" disabled {{ old('user_id') ? '' : 'selected' }}>-- Escolha uma categoria --</option>
+                <option value="" disabled {{ old('category_id') ? '' : 'selected' }}>-- Escolha uma categoria --
+                </option>
                 @foreach ($categories as $category)
-                <option value="{{ $category->id }}" {{ old('user_id')==$category->id ? 'selected' : '' }}>
+                <option value="{{ $category->id }}" {{ old('category_id')==$category->id ? 'selected' : '' }}>
                     {{ $category->name }}
                 </option>
                 @endforeach
+
+                @error('category_id')
+                <div class="text-danger">{{ $message }}</div>
+                @enderror
             </select>
-            @error('category_id')
-            <div class="text-danger">{{ $message }}</div>
-            @enderror
         </div>
 
         <button type="submit" class="btn bg-primary-subtle">Adicionar</button>

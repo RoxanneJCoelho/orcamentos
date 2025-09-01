@@ -29,7 +29,7 @@ class AuthController extends Controller
         }
 
         throw ValidationException::withMessages([
-            'credentials' => 'Sorry, incorrect credencials'
+            'credentials' => 'Login inválido'
         ]);
     }
 
@@ -44,7 +44,7 @@ class AuthController extends Controller
 
     }
 
-    public function showPasswordRecovery()  
+    public function showPasswordRecovery()
     {
         return view('auth.password-recovery');
     }

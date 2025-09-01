@@ -10,7 +10,7 @@ class BudgetController extends Controller
     // busca os dados da bd e mostra o formulário
     public function showForm()
     {
-        $categories = Category::with('services')->get(); // traz os servicos as categorias associados
+        $categories = Category::with('services')->get(); // traz com os servicos as categorias associados
         return view('budget.form', compact('categories'));
     }
 
@@ -28,8 +28,6 @@ class BudgetController extends Controller
 
         return $services;
     }
-
-
 
     // valida o formulario
     public function form( Request $request)

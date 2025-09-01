@@ -35,7 +35,7 @@
 
         {{-- Preço e Desconto --}}
         <div class="row mb-3">
-
+            
             {{-- Preço --}}
             <div class="col-6">
                 <label for="price" class="form-label">Preço</label>

@@ -6,7 +6,6 @@
 <div class='container'>
     <h3>Perfil</h3>
 
-
     <p>Nome:</p>
     <p>Morada:</p>
     <p>NIPC:</p>

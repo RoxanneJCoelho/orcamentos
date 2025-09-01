@@ -1,57 +1,52 @@
+{{-- View do login --}}
+
 @extends('layouts.master')
 
 @section('title', 'OrçamentosJá - Login')
 
-
 @section('content')
 
-<div class="d-flex flex-column flex-lg-row login-container min-vh-100 d-flex flex-wrap">
+<div class="homepage-container d-flex flex-column flex-lg-row min-vh-100">
 
-    <!-- Texto à direita (desktop) / em baixo (mobile) -->
-    <div class="flex-md-fill d-flex flex-column justify-content-start justify-content-lg-center align-items-center p-3 mx-4 login-text">
-        <h2>Bem-vindo à área pessoal do OrçamentosJá</h2>
+    <div class="homepage-left d-flex flex-column p-5">
+        <h2 class="text-center justify-content-center align-items-center mb-4">Bem-vindo à área pessoal do OrçamentosJá</h2>
         <form action="{{ route('login') }}" method="POST" class="w-100 login-form">
             @csrf
+
             {{-- Email --}}
-            <div class="mb-3">
+            <div class="mb-4">
                 <label for="email" class="form-label">E-mail</label>
                 <input type="email" name="email" id="email" class="form-control" value="{{ old('email') }}" required>
             </div>
 
             {{-- Password --}}
-            <div class="mb-3">
+            <div class="mb-4">
                 <label for="password" class="form-label">Password</label>
-                <input type="password" class="form-control @error('password') is-invalid @enderror" name="password"
-                    required>
-                @error('password')
-                <div class="invalid-feedback">{{ $message }}</div>
-                @enderror
+                <input type="password" name="password" id="password" class="form-control" required>
             </div>
 
-
-
-            <div class="mb-3 text-center">
+            {{-- Esqueci me da Password --}}
+            <div class="mb-4">
                 <a href="{{ route('show.password.recovery') }}">Esqueci-me da Password</a>
             </div>
 
-            {{-- Submit --}}
-            <div class="d-grid">
-                <button type="submit" class="btn btn-primary">
-                    Log in
-                </button>
+            {{-- Submeter --}}
+            <div class="mb-4">
+                <button type="submit" class="btn bg-primary-subtle w-100">Login</button>
             </div>
         </form>
 
-        {{-- Validation Errors (se não usares @error individual) --}}
+        {{-- Validação de erros --}}
         @if ($errors->any())
         <div class="alert alert-danger mt-3">
             {{ $errors->first() }}
         </div>
         @endif
-
     </div>
-      <div class="flex-md-fill login-image">
 
+    {{-- Imagem --}}
+    <div class="homepage-right">
+        <img src="{{ asset('assets/images/login/login.jpg') }}" alt="homepage" class="homepage-image">
     </div>
 </div>
 

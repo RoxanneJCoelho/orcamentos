@@ -15,27 +15,16 @@ h1, h2, h3 {
     height: 2.5rem;
 }
 
-/* imagem e posição da imagem da homepage*/
+/* imagem e posição da imagem da homepage, login e recuperação de senha*/
+
+.homepage-left,
+.homepage-right {
+    width: 100%;
+}
+
 .homepage-image {
-    background-image: url('../images/homepage/homepage.jpg');
-    background-size: cover;
-    background-position: center;
-    min-height: 300px;
-    min-width: 50%;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
 }
 
-.login-image {
-    background-image: url('../images/login/login.jpg');
-    background-size: cover;
-    background-position: center;
-    min-height: 100vh;
-    min-width: 50%;
-}
-
-.password-recovery-image {
-    background-image: url('../images/password-recovery/password.jpg');
-    background-size: cover;
-    background-position: center;
-    min-height: 100vh;
-    min-width: 50%;
-}
