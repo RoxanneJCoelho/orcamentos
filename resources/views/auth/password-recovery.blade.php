@@ -1,38 +1,34 @@
+{{-- View da recuperação de senha (por o email) --}}
+
 @extends('layouts.master')
+
+@section('title', 'OrçamentosJá - Recuperação de senha')
 
 @section('content')
 
-<div class="d-flex flex-column flex-lg-row login-container min-vh-100 d-flex flex-wrap">
+<div class="homepage-container d-flex flex-column flex-lg-row min-vh-100">
 
-    <!-- Texto à direita (desktop) / em baixo (mobile) -->
-    <div class="flex-md-fill d-flex flex-column justify-content-start justify-content-lg-center align-items-center p-3 mx-4 login-text">
-        <h2>Recuperação de Senha</h2>
+    <div class="homepage-left d-flex flex-column p-5 justify-content-center align-items-center mb-4">
+        <h2 class="text-center">Recuperação de senha</h2>
         <form action="{{ route('login') }}" method="POST" class="w-100 login-form">
             @csrf
+
             {{-- Email --}}
-            <div class="my-5">
+            <div class="mb-4">
                 <label for="email" class="form-label">E-mail</label>
                 <input type="email" name="email" id="email" class="form-control" value="{{ old('email') }}" required>
             </div>
 
-            {{-- Submit --}}
-            <div class="d-grid my-5">
-                <button type="submit" class="btn btn-primary">
-                    Recuperar Password
-                </button>
+            {{-- Submeter --}}
+            <div class="mb-4">
+                <button type="submit" class="btn bg-primary-subtle w-100">Recuperar password</button>
             </div>
         </form>
-
-        {{-- Validation Errors (se não usares @error individual) --}}
-        @if ($errors->any())
-        <div class="alert alert-danger mt-3">
-            {{ $errors->first() }}
-        </div>
-        @endif
-
     </div>
-      <div class="flex-md-fill password-recovery-image">
 
+    {{-- Imagem --}}
+    <div class="homepage-right">
+        <img src="{{ asset('assets/images/password-recovery/password.jpg') }}" alt="homepage" class="homepage-image">
     </div>
 </div>
 

@@ -73,14 +73,13 @@
                     {{ $category->name }}
                 </option>
                 @endforeach
-
-                @error('category_id')
-                <div class="text-danger">{{ $message }}</div>
-                @enderror
             </select>
         </div>
 
+        {{-- Botão adicionar --}}
         <button type="submit" class="btn bg-primary-subtle">Adicionar</button>
+
+        {{-- Botão cancelar --}}
         <a href="{{ route('show.admin') }}" class="btn btn-light text-primary border">Cancelar</a>
     </form>
 </div>
