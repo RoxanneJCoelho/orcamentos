@@ -22,6 +22,7 @@
             {{-- Submeter --}}
             <div class="mb-4">
                 <button type="submit" class="btn bg-primary-subtle w-100">Recuperar password</button>
+
             </div>
         </form>
     </div>
