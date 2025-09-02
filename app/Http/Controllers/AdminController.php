@@ -27,7 +27,6 @@ class AdminController extends Controller
     // valida a categoria e insere na BD
     public function addCategoryStore(Request $request)
     {
-
         // Validação dos novos dados
         $request->validate([
             'name' => 'required|string|max:255|regex:/^[A-Za-zÀ-ÿ\s-]+$/|unique:category,name',
@@ -57,7 +56,7 @@ class AdminController extends Controller
     {
         // Validação dos novos dados
         $request->validate([
-            'name' => 'required|max:255|regex:/^[A-Za-zÀ-ÿ\s-]+$/|unique:category,name,' . $request->id,
+            'name' => 'required|max:255|regex:/^[A-Za-zÀ-ÿ\s-]+$/|unique:category,name'
         ], [
             'name.unique' => 'Categoria já existente',
             'name.regex'  => 'Nome inválido: apenas pode colocar espaços, letras e hífen',
@@ -67,6 +66,7 @@ class AdminController extends Controller
         Category::where('id', $request->id)
             ->update([
                 'name' => $request->name,
+                'updated_at' => now()
             ]);
 
         // Redirecionar com mensagem de sucesso
@@ -94,9 +94,9 @@ class AdminController extends Controller
 
         // Validação dos novos dados
         $request->validate([
-            'code' => 'required|regex:/^[0-9]{6}[a-z]$/|unique:service,code,',
+            'code' => 'required|regex:/^[0-9]{6}[a-z]$/|unique:service,code',
             'description' => 'required|max:255|regex:/^[A-Za-zÀ-ÿ\s]+$/|unique:service,description',
-            'price' => 'required|regex:/^\d+(\.\d{1,2})?$/',
+            'price' => 'required|numeric',
             'discount' => 'required|numeric',
             'category_id' => 'required|exists:category,id',
         ], [
@@ -104,11 +104,9 @@ class AdminController extends Controller
             'code.unique' => 'Código já existente',
             'description.unique' => 'Serviço já existente',
             'description.regex'  => 'Nome inválido: apenas pode colocar espaços e letras',
-            'price.regex' => 'O preço deve ser um número válido com no máximo duas casas decimais, com um ponto a separar a parte inteira da decimal (ex: 10.84).',
-            'discount.numeric' => 'O desconto deve ser um valor entre 0 e 100 , com um ponto a separar a parte inteira da decimal (ex: 10.84).',
         ]);
 
-        // Criação da nova categoria
+        // Criação do novo servico
         Service::insert([
             'code' => $request->code,
             'description' => $request->description,
@@ -130,44 +128,31 @@ class AdminController extends Controller
     }
 
     // valida os dados do editar servico
-    public function editServiceStore(Request $request, $id)
+    public function editServiceStore(Request $request)
     {
         // Validação dos novos dados
         $request->validate([
-            'code' => 'nullable|regex:/^[0-9]{6}[a-z]$/|unique:service,code,' . $id,
-            'description' => 'nullable|max:255|regex:/^[A-Za-zÀ-ÿ\s]+$/|unique:service,description,' . $id,
-            'price' => 'nullable|numeric|regex:/^\d+(\.\d{1,2})?$/',
-            'discount' => 'nullable|numeric',
-            'category_id' => 'required|exists:category,id',
+            'code' => 'regex:/^[0-9]{6}[a-z]$/',
+            'description' => 'max:255|regex:/^[A-Za-zÀ-ÿ\s]+$/',
+            'price' => 'numeric',
+            'discount' => 'numeric',
+            'category_id' => 'exists:category,id',
         ], [
             'code.regex' => 'O código deve ter exatamente 6 dígitos seguidos de uma letra minúscula (ex: 654377i).',
             'code.unique' => 'Código já existente',
             'description.unique' => 'Serviço já existente',
             'description.regex'  => 'Nome inválido: apenas pode colocar espaços e letras',
-            'price.regex' => 'O preço deve ser um número válido com no máximo duas casas decimais, com um ponto a separar a parte inteira da decimal (ex: 10.84).',
-            'discount.numeric' => 'O desconto deve ser um valor entre 0 e 100, com um ponto a separar a parte inteira da decimal (ex: 10.84).',
         ]);
 
-        // Atualizar os dados dos serviços (como o formulário nem todos os campos se preenchem, ele apenas envia os dados dos campos preenchidos)
-        $service = Service::find($id);
-
-        if ($request->code) {
-            $service->code = $request->code;
-        }
-        if ($request->description) {
-            $service->description = $request->description;
-        }
-        if ($request->price) {
-            $service->price = $request->price;
-        }
-        if ($request->discount) {
-            $service->discount = $request->discount;
-        }
-        if ($request->category_id) {
-            $service->category_id = $request->category_id;
-        }
-
-        $service->save();
+        // Atualizar dados serviços
+        Service::where('id', $request->id)
+            ->update([
+                'code'        => $request->code,
+                'description' => $request->description,
+                'price'       => $request->price,
+                'discount'    => $request->discount,
+                'category_id' => $request->category_id,
+            ]);
 
         // Redirecionar com mensagem de sucesso
         return redirect()->route('show.admin')->with('message', 'Serviço atualizado com sucesso!');
@@ -200,37 +185,29 @@ class AdminController extends Controller
     {
         // Validação dos dados
         $request->validate([
-            'name' => 'nullable|max:255|regex:/^[A-Za-zÀ-ÿ\s]+$/',
-            'morada' => 'nullable|max:255',
-            'NIF/NIPC' => 'nullable|regex:/^[0-9]{9}$/',
-            'telemovel' => 'nullable|regex:/^[0-9]{9}$/',
+            'name' => 'string|max:255|regex:/^[A-Za-zÀ-ÿ\s]+$/',
+            'NIF/NIPC' => 'regex:/^[0-9]{9}$/',
+            'telemovel' => 'regex:/^[0-9]{9}$/',
         ], [
             'name.regex' => 'Nome inválido: apenas pode colocar espaços e letras',
-            'NIF/NIPC.regex' => 'NIF inválido: deve ter 9 dígitos',
-            'telemovel.regex' => 'Telemóvel inválido: deve ter 9 dígitos',
+            'NIF/NIPC.regex' => 'O NIF/NIPC deve ter exatamente 9 dígitos',
+            'telemovel.regex' => 'O número de telemóvel deve ter exatamente 9 dígitos',
         ]);
 
-        $user = User::find(Auth::id());
-
-        if ($request->name) {
-            $user->name = $request->name;
-        }
-        if ($request->morada) {
-            $user->morada = $request->morada;
-        }
-        if ($request['NIF/NIPC']) {
-            $user->{'NIF/NIPC'} = $request['NIF/NIPC'];
-        }
-        if ($request->telemovel) {
-            $user->telemovel = $request->telemovel;
-        }
-
-        $user->save();
+        // Atualizar dados perfil
+        User::where('id', $request->id)
+            ->update([
+                'name'        => $request->name,
+                'morada'      => $request->morada,
+                'NIF/NIPC'    => $request->input('NIF/NIPC'),
+                'telemovel'   => $request->telemovel,
+            ]);
 
         // Redirecionar com mensagem de sucesso
         return redirect()->route('show.profile')->with('message', 'Perfil atualizado com sucesso!');
     }
 
+    // mostrar alterar password
     public function editProfilePassword()
     {
         $user = $this->getDataUser();
@@ -243,7 +220,7 @@ class AdminController extends Controller
         return Auth::user();
     }
 
-    // função privada que vai buscar os dados á base de dados das categorias
+    // função privada que vai buscar os dados á bd das categorias
     private function getDataCategories()
     {
         $categories = Category::get();
@@ -251,15 +228,12 @@ class AdminController extends Controller
         return $categories;
     }
 
-    // função privada que vai buscar os dados á base de dados dos serviços
+    // função privada que vai buscar os dados á bd dos serviços
     private function getDataServices()
     {
         // join de categorias e servicos
         $services = Category::join('service', 'category.id', '=', 'service.category_id')
-            ->select(
-                'service.*',
-                'category.name'
-            )
+            ->select('service.*', 'category.name')
             ->get();
 
         return $services;
