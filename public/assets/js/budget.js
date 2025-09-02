@@ -17,6 +17,7 @@ document.addEventListener("DOMContentLoaded", () => {
     function atualizarTabela() {
         let total = 0;
         tabelaSelecionados.innerHTML = "";
+        let objetoPost = document.getElementById("objetoPost");
 
         document.querySelectorAll(".servico").forEach(servico => {
             let quantidade = parseInt(servico.querySelector(".quantidade").value) || 0;
@@ -31,6 +32,8 @@ document.addEventListener("DOMContentLoaded", () => {
                 let valorComDesconto = precoSemDesconto - (precoSemDesconto * (desconto / 100));
 
                 total += valorComDesconto;
+
+                objetoPost.value = total;
 
                 let row = document.createElement("tr");
                 row.innerHTML = `
