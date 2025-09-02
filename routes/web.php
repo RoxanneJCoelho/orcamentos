@@ -28,8 +28,6 @@ Route::get('/password-recovery', [AuthController::class, 'showPasswordRecovery']
 Route::get('/admin',[AdminController::class, 'showAdmin'] )->name('show.admin')->middleware('auth');
 
 // rotas get e post do adicionar categoria
-
-//çlkjhgfddjhgjhgjhg
 Route::get('/admin/category/add',[AdminController::class, 'addCategory'] )->name('add.category')->middleware('auth');
 Route::post('/admin/category/add',[AdminController::class, 'addCategoryStore'] )->name('add.category.store')->middleware('auth');
 
