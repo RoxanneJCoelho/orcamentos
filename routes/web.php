@@ -22,6 +22,7 @@ Route::get('/login',[AuthController::class, 'showLogin'] )->name('show.login');
 Route::post('/login',[AuthController::class, 'login'] )->name('login');
 Route::post('/logout',[AuthController::class, 'logout'] )->name('logout');
 
+// rota de recuperação de senha
 Route::get('/password-recovery', [AuthController::class, 'showPasswordRecovery'])->name('show.password.recovery');
 
 // rota espaço admin - principal
