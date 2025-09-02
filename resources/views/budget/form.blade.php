@@ -8,13 +8,14 @@
 <div class="container">
     <h2>Pedido de Orçamento</h2>
 
-    <form id="orcamentoForm" method="POST" action="{{ route('form.store') }}">
+    <form id="orcamentoForm" method="POST" action="{{ route('budget.create') }}">
         @csrf
+        <input type="hidden" name="code" value="" id="objetoPost">
 
         {{-- Nome --}}
         <div class="mb-3">
             <label for="name" class="form-label">Nome</label>
-            <input type="text" name="name" id="name" class="form-control" aria-describedby="name" required">
+            <input type="text" name="name" id="name" class="form-control" aria-describedby="name" required>
         </div>
 
         {{-- Email --}}

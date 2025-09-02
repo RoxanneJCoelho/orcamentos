@@ -16,6 +16,7 @@ Route::get('/home',[UtilController::class, 'showHomepage'] )->name('show.homepag
 // rotas get e post do formulário - pedido de orçamento
 Route::get('/form',[BudgetController::class, 'showForm'] )->name('show.form');
 Route::post('/form',[BudgetController::class, 'form'] )->name('form.store');
+Route::post('/budget', [BudgetController::class, 'budgetCreation'])->name('budget.create');
 
 // rotas get e post do login e logout
 Route::get('/login',[AuthController::class, 'showLogin'] )->name('show.login');
@@ -60,4 +61,7 @@ Route::put('/admin/profile/edit',[AdminController::class, 'editProfileStore'] )-
 // rotas get e put do alterar password
 Route::get('/admin/profile/password',[AdminController::class, 'editProfilePassword'] )->name('edit.profile.password')->middleware('auth');
 Route::put('/admin/profile/password',[AdminController::class, 'editProfilePasswordStore'] )->name('edit.profile.password.store')->middleware('auth');
+
+
+
 
