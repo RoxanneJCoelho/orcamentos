@@ -14,7 +14,7 @@
         {{-- Nome --}}
         <div class="mb-3">
             <label for="addCategoryName" class="form-label">Nome</label>
-            <input type="text" name="name" id="addCategoryName" class="form-control" aria-describedby="addCategoryName" required>
+            <input type="text" name="name" id="addCategoryName" class="form-control"required>
 
             {{-- Validação de erros --}}
             @error('name')
@@ -28,5 +28,5 @@
         {{-- Botão cancelar --}}
         <a href="{{ route('show.admin') }}" class="btn btn-light text-primary border">Cancelar</a>
     </form>
-    @endsection
 </div>
+@endsection
