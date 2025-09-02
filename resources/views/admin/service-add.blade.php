@@ -65,11 +65,11 @@
         {{-- Selecionar a categoria --}}
         <div class="mb-3">
             <label for="userSelect" class="form-label">Selecionar a categoria</label>
-            <select name="category_id" id="userSelect" class="form-select" required>
-                <option value="" disabled {{ old('category_id') ? '' : 'selected' }}>-- Escolha uma categoria --
+            <select name="category_id" id="categorySelect" class="form-select" required>
+                <option value="" disabled {{ old('category_id') }}>-- Escolha uma categoria --
                 </option>
                 @foreach ($categories as $category)
-                <option value="{{ $category->id }}" {{ old('category_id')==$category->id ? 'selected' : '' }}>
+                <option value="{{ $category->id }}" >
                     {{ $category->name }}
                 </option>
                 @endforeach

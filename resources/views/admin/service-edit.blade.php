@@ -11,9 +11,6 @@
         @csrf
         @method('PUT')
 
-        {{-- ID escondido --}}
-        <input type="hidden" name="id" value="{{ $myService->id }}">
-
         {{-- Código --}}
         <div class="mb-3">
             <label for="editCode" class="form-label">Novo Código</label>
@@ -55,7 +52,7 @@
                 <label for="discount" class="form-label">Desconto</label>
                 <div class="input-group">
                     <input type="number" name="discount" id="discount" class="form-control"
-                        value="{{ $myService->discount }}" 
+                        value="{{ $myService->discount }}"
                         aria-describedby="discount" step="0.01" min="0" max="100">
                     <span class="input-group-text">%</span>
                 </div>
@@ -68,9 +65,10 @@
         {{-- Selecionar a categoria --}}
         <div class="mb-3">
             <label for="categorySelect" class="form-label">Mudar categoria</label>
-            <select name="category_id" id="categorySelect" class="form-select">
+            <select name="category_id" id="categorySelect" class="form-select" required>
+                <option value="" disabled> -- Escolha uma categoria -- </option>
                 @foreach ($categories as $category)
-                <option value="{{ $category->id }}" {{ $category->id == $myService->category_id ? 'selected' : '' }}>
+                <option value="{{ $category->id }}">
                     {{ $category->name }}
                 </option>
                 @endforeach
