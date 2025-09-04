@@ -27,11 +27,27 @@ class BudgetController extends Controller
         //
     }
 
-    public function budgetCreation(Request $request)
-    {
-      $code = $request->code;
-        return view('pdf.orcamento', compact('code'));
-    }
+    // public function budgetCreation(Request $request)
+    // {
+    //     $code = ($request->code);
+    //     return view('pdf.orcamento', compact('code'));
+    // }
+
+public function budgetCreation(Request $request)
+{
+    $codesJson = $request->input('code'); // recebe array de strings JSON
+
+    // Decodifica todos os itens JSON para arrays PHP
+    $codes = array_map(function ($item) {
+        return json_decode($item, true);
+    }, $codesJson);
+    // Agora $codes é um array com todos os arrays PHP decodificados
+    return view('pdf.orcamento', ['codes' => $codes]);
+}
+
+
+
+
         // função privada que vai buscar os dados á bd das categorias
     private function getDataCategories()
     {

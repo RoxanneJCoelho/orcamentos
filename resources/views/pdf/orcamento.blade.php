@@ -9,21 +9,28 @@
                         <tr>
                             <th>Serviço</th>
                             <th>Quantidade</th>
-                            <th>Preço S/Desconto</th>
-                            <th>Desconto</th>
-                            <th>Valor</th>
+                            <th>Preço S/Desconto €</th>
+                            <th>Desconto %</th>
+                            <th>Valor €</th>
                         </tr>
                     </thead>
                     <tbody>
-                    <td></td>
-                    <td>quantidade</td>
-                    <td>precoSemDesconto€</td>
-                    <td>desconto%</td>
-                    <td>valorComDesconto€</td>
+                        @foreach ($codes as $code)
+                            <tr>
+                                <td>{{ $code[0] }}</td>
+                                <td>{{ $code[1] }}</td>
+                                <td>{{ $code[2] }}</td>
+                                <td>{{ $code[3] }}</td>
+                                <td>{{ $code[4] }}</td>
+                            </tr>
+                        @endforeach
+
+
                     </tbody>
+
                 </table>
             </div>
-            <h4>Total: <span id="precoTotal">{{$code}}</span>€</h4>
+            <h4>Total: <span id="precoTotal">{{$code[5]}}</span>€</h4>
         </div>
 @endsection
 @section('scripts')

@@ -10,7 +10,7 @@
 
     <form id="orcamentoForm" method="POST" action="{{ route('budget.create') }}">
         @csrf
-        <input type="hidden" name="code" value="" id="objetoPost">
+        <input type="hidden" name="code[]" value="" id="objetoPost">
 
         {{-- Nome --}}
         <div class="mb-3">

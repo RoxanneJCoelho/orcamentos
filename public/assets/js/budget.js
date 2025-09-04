@@ -17,7 +17,7 @@ document.addEventListener("DOMContentLoaded", () => {
     function atualizarTabela() {
         let total = 0;
         tabelaSelecionados.innerHTML = "";
-        let objetoPost = document.getElementById("objetoPost");
+        // let objetoPost = document.getElementById("objetoPost");
 
         document.querySelectorAll(".servico").forEach(servico => {
             let quantidade = parseInt(servico.querySelector(".quantidade").value) || 0;
@@ -33,7 +33,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 total += valorComDesconto;
 
-                objetoPost.value = total;
+                let objetoPost = [descricao, quantidade, precoSemDesconto.toFixed(2), desconto, valorComDesconto.toFixed(2), total.toFixed(2) ]
+                document.getElementById("objetoPost").value = JSON.stringify(objetoPost);
 
                 let row = document.createElement("tr");
                 row.innerHTML = `
