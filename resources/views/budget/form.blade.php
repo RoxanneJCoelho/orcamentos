@@ -25,7 +25,7 @@
         </div>
 
         {{-- Filtro por Categoria --}}
-        <div class="mb-3">
+        {{-- <div class="mb-3">
             <label for="categoryFilter" class="form-label">Filtrar por categoria</label>
             <select id="categoryFilter" class="form-select">
                 <option value="{{ old('categoryFilter') }}">Todas</option>
@@ -37,7 +37,23 @@
                 @endif
                 @endforeach
             </select>
+        </div> --}}
+
+        {{-- Filtro por Categoria --}}
+        <div class="mb-3">
+            <label for="categoryFilter" class="form-label">Escolha o serviço desejado</label>
+            <select id="categoryFilter" class="form-select">
+                {{-- <option value="{{ old('categoryFilter') }}">Escolha o serviço desejado</option> --}}
+                @foreach($services as $service)
+
+                <option value="{{ $service->id }}">
+                    {{ $service->description }}
+                </option>
+
+                @endforeach
+            </select>
         </div>
+
 
 
         {{-- Lista de Serviços --}}

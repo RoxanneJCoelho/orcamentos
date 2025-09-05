@@ -1,10 +1,14 @@
 document.addEventListener("DOMContentLoaded", () => {
     const tabelaSelecionados = document.querySelector("#tabelaSelecionados tbody");
     const precoTotalEl = document.getElementById("precoTotal");
-
+    let objetoPost = {};
+    let countservice =1;
+    // cria uma key única para cada clique
+    let key ='service';
     // FILTRO DE CATEGORIAS
     const filtro = document.getElementById('categoryFilter'); // corrigido id
     const categoriasDivs = document.querySelectorAll('#listaServicos .categoria');
+    const formulario = document.getElementById('orcamentoForm');
 
     filtro.addEventListener('change', function() {
         const valor = this.value;
@@ -17,7 +21,7 @@ document.addEventListener("DOMContentLoaded", () => {
     function atualizarTabela() {
         let total = 0;
         tabelaSelecionados.innerHTML = "";
-        // let objetoPost = document.getElementById("objetoPost");
+
 
         document.querySelectorAll(".servico").forEach(servico => {
             let quantidade = parseInt(servico.querySelector(".quantidade").value) || 0;
@@ -33,8 +37,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 total += valorComDesconto;
 
-                let objetoPost = [descricao, quantidade, precoSemDesconto.toFixed(2), desconto, valorComDesconto.toFixed(2), total.toFixed(2) ]
+
+                key = `service_${countservice}`;
+                objetoPost[key] = [descricao, quantidade, precoSemDesconto.toFixed(2), desconto, valorComDesconto.toFixed(2), total.toFixed(2) ]
+                console.log(objetoPost);
                 document.getElementById("objetoPost").value = JSON.stringify(objetoPost);
+                countservice++;
+
 
                 let row = document.createElement("tr");
                 row.innerHTML = `
@@ -79,17 +88,40 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 
-    document.querySelectorAll(".quantidade").forEach(input => {
-    input.addEventListener("input", () => {
+    document.querySelectorAll(".btn-atualizar").forEach(btn => {
+    input.addEventListener("click", () => {
+
+        let input = document.getElementById("quantidade");
         let val = parseInt(input.value);
         if (isNaN(val) || val < 0) {
             input.value = 0;
         } else {
             input.value = val; // força a ser inteiro
         }
+
+        let servicoParaAtualizar = document.querySelector("#listaServicos .servico .quantidade");
+        if (servicoParaAtualizar) {
+            servicoParaAtualizar.value = val; // seta valor do input interno
+        }
+
         atualizarTabela();
+        });
     });
-});
+
+//     document.querySelectorAll(".btn-atualizar").forEach(btn => {
+//     btn.addEventListener("click", () => {
+//         atualizarTabela();
+//     });
+// });
+console.log(formulario);
+formulario.addEventListener('submit', function(event){
+event.preventDefault();
+console.log('ola');
+
+//formulario.submit()
+
+})
+
 });
 
 

@@ -41,7 +41,7 @@ public function budgetCreation(Request $request)
     $codes = array_map(function ($item) {
         return json_decode($item, true);
     }, $codesJson);
-    // Agora $codes é um array com todos os arrays PHP decodificados
+
     return view('pdf.orcamento', ['codes' => $codes]);
 }
 
