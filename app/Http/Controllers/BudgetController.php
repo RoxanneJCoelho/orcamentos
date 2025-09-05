@@ -44,8 +44,8 @@ class BudgetController extends Controller
     private function getDataServices()
     {
         // join de categorias e servicos
-        $services = Category::join('service', 'category.id', '=', 'service.category_id')
-            ->select('service.*', 'category.name')
+        $services = Category::join('services', 'categories.id', '=', 'services.category_id')
+            ->select('services.*', 'categories.name')
             ->get();
 
         return $services;
