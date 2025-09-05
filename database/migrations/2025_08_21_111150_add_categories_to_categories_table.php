@@ -12,8 +12,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('category', function (Blueprint $table) {
-            DB::table('category')->insert([
+        Schema::table('categories', function (Blueprint $table) {
+            DB::table('categories')->insert([
                 ['name' => 'Front-End'],
                 ['name' => 'Back-End']
             ]);
@@ -25,7 +25,7 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('category', function (Blueprint $table) {
+        Schema::table('categories', function (Blueprint $table) {
             //
         });
     }

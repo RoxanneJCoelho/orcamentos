@@ -3,9 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
-use App\Models\Service;
 use App\Models\Category;
+use App\Models\Service;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 
 class AdminController extends Controller
@@ -15,6 +16,21 @@ class AdminController extends Controller
     {
         $categories = $this->getDataCategories();
         $services = $this->getDataServices();
+
+        $search = request()->query('search') ? request()->query('search') : null;
+        $query = DB::table('category');
+
+        if (!empty(request()->query('category_id')))
+            {
+                $query->where('id', request()->query('category_id'));
+            }
+        if ($search)
+            {
+                $query->where("name", "LIKE", "%{$search}%");
+            }
+
+        $allCategories = $query->get();
+
         return view('admin.space', compact('categories', 'services'));
     }
 

@@ -24,6 +24,11 @@
         </div>
         @endif
 
+        <form action="">
+            <input type="ms-5" type="text" value="{{request()->query('search')}}" name="search" id="search" placeholder="Digite a categoria a pesquisar">
+            <button class="btn bg-primary-subtle">Pesquisar</button>
+        </form>
+
         {{-- Tabela das categorias --}}
         <div class="table-responsive">
             <table class="table table-hover align-middle">
