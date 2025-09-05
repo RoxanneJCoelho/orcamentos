@@ -19,7 +19,7 @@ return new class extends Migration
             'email' => 'admin@admin.com',
             'password' => Hash::make('admin'),
             'morada' => 'Porto',
-            'NIF/NIPC' => '777777777',
+            'nif_nipc' => '777777777',
             'telemovel' => '930000000',
             'tipo_utilizador' => 'ADMIN'
         ]);

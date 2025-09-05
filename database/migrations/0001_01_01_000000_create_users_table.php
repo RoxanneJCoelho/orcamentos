@@ -18,7 +18,7 @@ return new class extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->string('morada')->nullable();
-            $table->string('NIF/NIPC')->nullable();
+            $table->string('nif_nipc')->nullable();
             $table->string('telemovel')->nullable();
             $table->enum('tipo_utilizador', ['ADMIN', 'CLIENTE'])->default('CLIENTE');
             $table->rememberToken();

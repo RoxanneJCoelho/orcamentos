@@ -3,9 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
-use App\Models\Service;
 use App\Models\Category;
+use App\Models\Service;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 
 class AdminController extends Controller
@@ -13,8 +14,10 @@ class AdminController extends Controller
     // mostrar espaço admin
     public function showAdmin()
     {
-        $categories = $this->getDataCategories();
-        $services = $this->getDataServices();
+        $search = request()->query('search') ? request()->query('search') : null;
+        $categories = $this->getDataCategories($search);
+        $services = $this->getDataServices($search);
+
         return view('admin.space', compact('categories', 'services'));
     }
 
@@ -84,7 +87,8 @@ class AdminController extends Controller
     // mostrar adicionar servicos
     public function addService()
     {
-        $categories = $this->getDataCategories();
+        $search = request()->query('search') ? request()->query('search') : null;
+        $categories = $this->getDataCategories($search);
         return view('admin.service-add', compact('categories'));
     }
 
@@ -122,8 +126,9 @@ class AdminController extends Controller
     // mostrar editar servicos
     public function editService($id)
     {
+        $search = request()->query('search') ? request()->query('search') : null;
         $myService = Service::where('id', $id)->first();
-        $categories = $this->getDataCategories();
+        $categories = $this->getDataCategories($search);
         return view('admin.service-edit', compact('myService', 'categories'));
     }
 
@@ -152,6 +157,7 @@ class AdminController extends Controller
                 'price'       => $request->price,
                 'discount'    => $request->discount,
                 'category_id' => $request->category_id,
+                'updated_at' => now()
             ]);
 
         // Redirecionar com mensagem de sucesso
@@ -186,11 +192,11 @@ class AdminController extends Controller
         // Validação dos dados
         $request->validate([
             'name' => 'string|max:255|regex:/^[A-Za-zÀ-ÿ\s]+$/',
-            'NIF/NIPC' => 'regex:/^[0-9]{9}$/',
+            'nif_nipc' => 'regex:/^[0-9]{9}$/',
             'telemovel' => 'regex:/^[0-9]{9}$/',
         ], [
             'name.regex' => 'Nome inválido: apenas pode colocar espaços e letras',
-            'NIF/NIPC.regex' => 'O NIF/NIPC deve ter exatamente 9 dígitos',
+            'nif_nipc.regex' => 'O NIF/NIPC deve ter exatamente 9 dígitos',
             'telemovel.regex' => 'O número de telemóvel deve ter exatamente 9 dígitos',
         ]);
 
@@ -199,7 +205,7 @@ class AdminController extends Controller
             ->update([
                 'name'        => $request->name,
                 'morada'      => $request->morada,
-                'NIF/NIPC'    => $request->input('NIF/NIPC'),
+                'nif_nipc'    => $request->nif_nipc,
                 'telemovel'   => $request->telemovel,
             ]);
 
@@ -221,21 +227,43 @@ class AdminController extends Controller
     }
 
     // função privada que vai buscar os dados á bd das categorias
-    private function getDataCategories()
+    private function getDataCategories($search)
     {
-        $categories = Category::get();
+        $query = DB::table('categories');
 
-        return $categories;
+        if (!empty(request()->query('category_id')))
+            {
+                $query->where('id', request()->query('category_id'));
+            }
+        if ($search)
+            {
+                $query->where("name", "LIKE", "%{$search}%");
+            }
+
+        $allCategories = $query->get();
+
+        return $allCategories;
     }
 
     // função privada que vai buscar os dados á bd dos serviços
-    private function getDataServices()
+    private function getDataServices($search)
     {
         // join de categorias e servicos
-        $services = Category::join('service', 'category.id', '=', 'service.category_id')
-            ->select('service.*', 'category.name')
-            ->get();
+        $query = Category::join('services', 'categories.id', '=', 'services.category_id')
+            ->select('services.*', 'categories.name');
 
-        return $services;
+        if (!empty(request()->query('category_id')))
+            {
+                $query->where('id', request()->query('category_id'));
+            }
+        if ($search)
+            {
+                $query->where("name", "LIKE", "%{$search}%");
+                $query->orWhere("code", "LIKE", "%{$search}%");
+            }
+
+        $allServices = $query->get();
+
+        return $allServices;
     }
 }

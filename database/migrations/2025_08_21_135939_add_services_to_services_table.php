@@ -12,8 +12,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('service', function (Blueprint $table) {
-            DB::table('service')->insert([
+        Schema::table('services', function (Blueprint $table) {
+            DB::table('services')->insert([
                 [
                     'code' => '746373y',
                     'description' => 'Criação de uma HomePage',
@@ -37,7 +37,7 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('service', function (Blueprint $table) {
+        Schema::table('services', function (Blueprint $table) {
             //
         });
     }

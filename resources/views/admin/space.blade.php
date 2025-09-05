@@ -24,6 +24,13 @@
         </div>
         @endif
 
+        {{-- Barra de pesquisa das categorias --}}
+        <form action="">
+            <input class="ms-5" type="text" value="{{request()->query('search')}}" name="search" id="search"
+                placeholder="Digite a categoria a pesquisar">
+            <button class="btn bg-primary-subtle">Pesquisar</button>
+        </form>
+
         {{-- Tabela das categorias --}}
         <div class="table-responsive">
             <table class="table table-hover align-middle">
@@ -60,7 +67,8 @@
                                         </div>
                                         <div class="modal-body text-start">
                                             Tem a certeza que quer remover a categoria <b>{{ $category->name
-                                                }}</b>? Esta ação vai apagar não só a categoria, como todos os serviços a ela associados?
+                                                }}</b>? Esta ação vai apagar não só a categoria, como todos os serviços
+                                            a ela associados?
                                         </div>
                                         <div class="modal-footer">
 
@@ -97,6 +105,13 @@
             <h3>Ver serviços</h3>
             <a href="{{ route('add.service') }}" class="btn bg-primary-subtle">Adicionar Serviço</a>
         </div>
+
+        {{-- Barra de pesquisa dos serviços --}}
+        <form action="">
+            <input class="ms-5" type="text" value="{{request()->query('search')}}" name="search" id="search"
+                placeholder="Digite a categoria a pesquisar">
+            <button class="btn bg-primary-subtle">Pesquisar</button>
+        </form>
 
         {{-- Tabela dos serviços --}}
         <div class="table-responsive">
