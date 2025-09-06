@@ -26,7 +26,7 @@
 
         {{-- Barra de pesquisa das categorias --}}
         <form action="">
-            <input class="ms-5" type="text" value="{{request()->query('search')}}" name="search" id="search"
+            <input class="mb-3" type="text" value="{{request()->query('search')}}" name="search" id="search"
                 placeholder="Digite a categoria a pesquisar">
             <button class="btn bg-primary-subtle">Pesquisar</button>
         </form>
@@ -108,8 +108,8 @@
 
         {{-- Barra de pesquisa dos serviços --}}
         <form action="">
-            <input class="ms-5" type="text" value="{{request()->query('search')}}" name="search" id="search"
-                placeholder="Digite a categoria a pesquisar">
+            <input class="mb-3" type="text" value="{{request()->query('search2')}}" name="search2" id="search2"
+                placeholder="Digite o serviço a pesquisar">
             <button class="btn bg-primary-subtle">Pesquisar</button>
         </form>
 

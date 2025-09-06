@@ -20,8 +20,8 @@ Route::post('/budget', [BudgetController::class, 'budgetCreation'])->name('budge
 
 // rotas get e post do login e logout
 Route::get('/login',[AuthController::class, 'showLogin'] )->name('show.login');
-Route::post('/login',[AuthController::class, 'login'] )->name('login');
-Route::post('/logout',[AuthController::class, 'logout'] )->name('logout');
+Route::post('/login',[AuthController::class, 'loginAdmin'] )->name('login');
+Route::post('/logout',[AuthController::class, 'logoutAdmin'] )->name('logout');
 
 // rota de recuperação de senha
 Route::get('/password-recovery', [AuthController::class, 'showPasswordRecovery'])->name('show.password.recovery');

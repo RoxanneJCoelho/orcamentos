@@ -14,7 +14,7 @@ class AuthController extends Controller
     }
 
     // valida o login e atira para a página espaço admin
-    public function login(Request $request)
+    public function loginAdmin(Request $request)
     {
        $validated=$request->validate([
             'email'=>'required|email',
@@ -33,7 +33,7 @@ class AuthController extends Controller
     }
 
     // faz o logout e atira para a homepage
-    public function logout(Request $request)
+    public function logoutAdmin(Request $request)
     {
         Auth::logout();
         $request->session()->invalidate();
@@ -41,11 +41,6 @@ class AuthController extends Controller
 
         return redirect()->route('show.homepage');
 
-    }
-
-    public function showPasswordRecovery()
-    {
-        return view('auth.password-recovery');
     }
 
 }

@@ -15,8 +15,9 @@ class AdminController extends Controller
     public function showAdmin()
     {
         $search = request()->query('search') ? request()->query('search') : null;
+        $search2 = request()->query('search2') ? request()->query('search2') : null;
         $categories = $this->getDataCategories($search);
-        $services = $this->getDataServices($search);
+        $services = $this->getDataServices($search2);
 
         return view('admin.space', compact('categories', 'services'));
     }
@@ -246,7 +247,7 @@ class AdminController extends Controller
     }
 
     // função privada que vai buscar os dados á bd dos serviços
-    private function getDataServices($search)
+    private function getDataServices($search2)
     {
         // join de categorias e servicos
         $query = Category::join('services', 'categories.id', '=', 'services.category_id')
@@ -256,10 +257,10 @@ class AdminController extends Controller
             {
                 $query->where('id', request()->query('category_id'));
             }
-        if ($search)
+        if ($search2)
             {
-                $query->where("name", "LIKE", "%{$search}%");
-                $query->orWhere("code", "LIKE", "%{$search}%");
+                $query->where("description", "LIKE", "%{$search2}%");
+                $query->orWhere("code", "LIKE", "%{$search2}%");
             }
 
         $allServices = $query->get();
