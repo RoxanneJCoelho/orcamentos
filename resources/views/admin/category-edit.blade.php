@@ -8,7 +8,7 @@
 <div class='container'>
     <h3>Editar Categoria {{ $myCategory->name }}</h3>
 
-    <form method="POST" action="{{ route('edit.category.store', $myCategory->id) }}">
+    <form method="POST" action="{{ route('edit.category.store') }}">
         @csrf
         @method('PUT')
 
@@ -18,7 +18,7 @@
         {{-- Nome --}}
         <div class="mb-3">
             <label for="editCategoryName" class="form-label">Novo nome</label>
-            <input type="text" name="name" id="editCategoryName" class="form-control" required>
+            <input type="text" name="name" id="editCategoryName" class="form-control" value="{{$myCategory->name}}">
 
             {{-- Validação de erros --}}
             @error('name')
