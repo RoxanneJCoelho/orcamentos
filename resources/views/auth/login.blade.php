@@ -27,7 +27,7 @@
 
             {{-- Esqueci me da Password --}}
             <div class="mb-4">
-                <a href="{{ route('show.password.recovery') }}">Esqueci-me da Password</a>
+                <a href="{{ route('password.request') }}">Esqueci-me da Password</a>
             </div>
 
             {{-- Submeter --}}

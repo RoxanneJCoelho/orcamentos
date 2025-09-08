@@ -15,8 +15,9 @@ class AdminController extends Controller
     public function showAdmin()
     {
         $search = request()->query('search') ? request()->query('search') : null;
+        $search2 = request()->query('search2') ? request()->query('search2') : null;
         $categories = $this->getDataCategories($search);
-        $services = $this->getDataServices($search);
+        $services = $this->getDataServices($search2);
 
         return view('admin.space', compact('categories', 'services'));
     }
@@ -32,7 +33,7 @@ class AdminController extends Controller
     {
         // Validação dos novos dados
         $request->validate([
-            'name' => 'required|string|max:255|regex:/^[A-Za-zÀ-ÿ\s-]+$/|unique:category,name',
+            'name' => 'required|string|max:255|regex:/^[A-Za-zÀ-ÿ\s-]+$/|unique:categories,name',
         ], [
             'name.unique' => 'Categoria já existente',
             'name.regex'  => 'Nome inválido: apenas pode colocar espaços, letras e hífen',
@@ -41,6 +42,7 @@ class AdminController extends Controller
         // Criação da nova categoria
         Category::insert([
             'name' => $request->name,
+            'created_at' => now()
         ]);
 
         // Redirecionar com mensagem de sucesso
@@ -59,7 +61,7 @@ class AdminController extends Controller
     {
         // Validação dos novos dados
         $request->validate([
-            'name' => 'required|max:255|regex:/^[A-Za-zÀ-ÿ\s-]+$/|unique:category,name'
+            'name' => 'required|max:255|regex:/^[A-Za-zÀ-ÿ\s-]+$/|unique:categories,name'
         ], [
             'name.unique' => 'Categoria já existente',
             'name.regex'  => 'Nome inválido: apenas pode colocar espaços, letras e hífen',
@@ -98,11 +100,11 @@ class AdminController extends Controller
 
         // Validação dos novos dados
         $request->validate([
-            'code' => 'required|regex:/^[0-9]{6}[a-z]$/|unique:service,code',
-            'description' => 'required|max:255|regex:/^[A-Za-zÀ-ÿ\s]+$/|unique:service,description',
+            'code' => 'required|regex:/^[0-9]{6}[a-z]$/|unique:services,code',
+            'description' => 'required|max:255|regex:/^[A-Za-zÀ-ÿ\s]+$/|unique:services,description',
             'price' => 'required|numeric',
             'discount' => 'required|numeric',
-            'category_id' => 'required|exists:category,id',
+            'category_id' => 'required|exists:categories,id',
         ], [
             'code.regex' => 'O código deve ter exatamente 6 dígitos seguidos de uma letra minúscula (ex: 654377i).',
             'code.unique' => 'Código já existente',
@@ -117,6 +119,7 @@ class AdminController extends Controller
             'price' => $request->price,
             'discount' => $request->discount,
             'category_id' => $request->category_id,
+
         ]);
 
         // Redirecionar com mensagem de sucesso
@@ -137,11 +140,11 @@ class AdminController extends Controller
     {
         // Validação dos novos dados
         $request->validate([
-            'code' => 'regex:/^[0-9]{6}[a-z]$/',
-            'description' => 'max:255|regex:/^[A-Za-zÀ-ÿ\s]+$/',
+            'code' => 'regex:/^[0-9]{6}[a-z]$/|unique:services,code',
+            'description' => 'max:255|regex:/^[A-Za-zÀ-ÿ\s]+$/|unique:services,description',
             'price' => 'numeric',
             'discount' => 'numeric',
-            'category_id' => 'exists:category,id',
+            'category_id' => 'exists:categories,id',
         ], [
             'code.regex' => 'O código deve ter exatamente 6 dígitos seguidos de uma letra minúscula (ex: 654377i).',
             'code.unique' => 'Código já existente',
@@ -246,7 +249,7 @@ class AdminController extends Controller
     }
 
     // função privada que vai buscar os dados á bd dos serviços
-    private function getDataServices($search)
+    private function getDataServices($search2)
     {
         // join de categorias e servicos
         $query = Category::join('services', 'categories.id', '=', 'services.category_id')
@@ -256,10 +259,10 @@ class AdminController extends Controller
             {
                 $query->where('id', request()->query('category_id'));
             }
-        if ($search)
+        if ($search2)
             {
-                $query->where("name", "LIKE", "%{$search}%");
-                $query->orWhere("code", "LIKE", "%{$search}%");
+                $query->where("description", "LIKE", "%{$search2}%");
+                $query->orWhere("code", "LIKE", "%{$search2}%");
             }
 
         $allServices = $query->get();

@@ -20,8 +20,8 @@ Route::post('/budget', [BudgetController::class, 'budgetCreation'])->name('budge
 
 // rotas get e post do login e logout
 Route::get('/login',[AuthController::class, 'showLogin'] )->name('show.login');
-Route::post('/login',[AuthController::class, 'login'] )->name('login');
-Route::post('/logout',[AuthController::class, 'logout'] )->name('logout');
+Route::post('/login',[AuthController::class, 'loginAdmin'] )->name('login');
+Route::post('/logout',[AuthController::class, 'logoutAdmin'] )->name('logout');
 
 // rota de recuperação de senha
 Route::get('/password-recovery', [AuthController::class, 'showPasswordRecovery'])->name('show.password.recovery');
@@ -35,7 +35,7 @@ Route::post('/admin/category/add',[AdminController::class, 'addCategoryStore'] )
 
 // rotas get e put do editar categoria
 Route::get('/admin/category/edit/{id}',[AdminController::class, 'editCategory'] )->name('edit.category')->middleware('auth');
-Route::put('/admin/category/edit/{id}',[AdminController::class, 'editCategoryStore'] )->name('edit.category.store')->middleware('auth');
+Route::put('/admin/category/edit',[AdminController::class, 'editCategoryStore'] )->name('edit.category.store')->middleware('auth');
 
 // rota de apagar categoria
 Route::delete('/admin/category/delete/{id}',[AdminController::class, 'deleteCategory'] )->name('delete.category')->middleware('auth');
@@ -46,7 +46,7 @@ Route::post('/admin/service/add',[AdminController::class, 'addServiceStore'] )->
 
 // rotas get e put do editar servico
 Route::get('/admin/service/edit/{id}',[AdminController::class, 'editService'] )->name('edit.service')->middleware('auth');
-Route::put('/admin/service/edit/{id}',[AdminController::class, 'editServiceStore'] )->name('edit.service.store')->middleware('auth');
+Route::put('/admin/service/edit',[AdminController::class, 'editServiceStore'] )->name('edit.service.store')->middleware('auth');
 
 // rotas de apagar servico
 Route::delete('/admin/service/delete/{id}',[AdminController::class, 'deleteService'] )->name('delete.service')->middleware('auth');
@@ -62,6 +62,10 @@ Route::put('/admin/profile/edit',[AdminController::class, 'editProfileStore'] )-
 Route::get('/admin/profile/password',[AdminController::class, 'editProfilePassword'] )->name('edit.profile.password')->middleware('auth');
 Route::put('/admin/profile/password',[AdminController::class, 'editProfilePasswordStore'] )->name('edit.profile.password.store')->middleware('auth');
 
+// rota fallback
+Route::fallback(function(){
+    return view('util.fallback');
+});
 
 
 

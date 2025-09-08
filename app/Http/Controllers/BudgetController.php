@@ -14,25 +14,32 @@ class BudgetController extends Controller
     //     return view('budget.form', compact('categories'));
     // }
 
-    public function showForm(){
-
+    public function showForm()
+    {
         $categories = $this->getDataCategories();
         $services = $this->getDataServices();
-        return view('budget.form', compact('categories', 'services'));
+
+           // Agrupar serviços por category_id
+        $servicesByCategory = [];
+        foreach ($services as $service) {
+            $servicesByCategory[$service->category_id][] = $service;
+        }
+
+        return view('budget.form', compact('categories', 'servicesByCategory'));
     }
 
     // valida o formulario
-    public function form( Request $request)
+    public function form(Request $request)
     {
         //
     }
 
     public function budgetCreation(Request $request)
     {
-      $code = $request->code;
+        $code = $request->code;
         return view('pdf.orcamento', compact('code'));
     }
-        // função privada que vai buscar os dados á bd das categorias
+    // função privada que vai buscar os dados á bd das categorias
     private function getDataCategories()
     {
         $categories = Category::get();
@@ -50,5 +57,4 @@ class BudgetController extends Controller
 
         return $services;
     }
-
 }

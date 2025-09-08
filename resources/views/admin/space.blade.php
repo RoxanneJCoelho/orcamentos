@@ -25,9 +25,8 @@
         @endif
 
         {{-- Barra de pesquisa das categorias --}}
-        <form action="">
-            <input class="ms-5" type="text" value="{{request()->query('search')}}" name="search" id="search"
-                placeholder="Digite a categoria a pesquisar">
+        <form action="" class="d-flex justify-content-between align-items-center mb-3">
+            <input type="text" class="form-control me-2" value="{{ request()->query('search') }}" name="search" id="search" placeholder="Digite a categoria a pesquisar">
             <button class="btn bg-primary-subtle">Pesquisar</button>
         </form>
 
@@ -107,9 +106,8 @@
         </div>
 
         {{-- Barra de pesquisa dos serviços --}}
-        <form action="">
-            <input class="ms-5" type="text" value="{{request()->query('search')}}" name="search" id="search"
-                placeholder="Digite a categoria a pesquisar">
+        <form action="" class="d-flex justify-content-between align-items-center mb-3">
+            <input type="text" class="form-control me-2" value="{{ request()->query('search2') }}" name="search2" id="search2" placeholder="Digite o serviço a pesquisar">
             <button class="btn bg-primary-subtle">Pesquisar</button>
         </form>
 

@@ -10,7 +10,7 @@
 
     <div class="homepage-left d-flex flex-column p-5 justify-content-center align-items-center mb-4">
         <h2 class="text-center">Recuperação de senha</h2>
-        <form action="{{ route('login') }}" method="POST" class="w-100 login-form">
+        <form action="{{ route('password.email') }}" method="POST" class="w-100 login-form">
             @csrf
 
             {{-- Email --}}

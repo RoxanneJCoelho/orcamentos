@@ -30,7 +30,7 @@
             <select id="categoryFilter" class="form-select">
                 <option value="{{ old('categoryFilter') }}">Todas</option>
                 @foreach($categories as $category)
-                @if($category->services->count() > 0)
+                @if(!empty($servicesByCategory[$category->id]))
                 <option value="{{ $category->id }}">
                     {{ $category->name }}
                 </option>
@@ -39,14 +39,13 @@
             </select>
         </div>
 
-
         {{-- Lista de Serviços --}}
         <div id="listaServicos">
             @foreach($categories as $category)
-            @if($category->services->count() > 0)
+            @if(!empty($servicesByCategory[$category->id]))
             <div class="categoria mb-3" data-id="{{ $category->id }}">
                 <h4>{{ $category->name }}</h4>
-                @foreach($category->services as $service)
+                @foreach($servicesByCategory[$category->id] as $service)
                 <div class="servico d-flex justify-content-between align-items-center mb-2 p-2 border rounded"
                     data-id="{{ $service->id }}" data-preco="{{ $service->price }}"
                     data-desconto="{{ $service->discount }}">
@@ -66,7 +65,6 @@
             @endif
             @endforeach
         </div>
-
 
         {{-- Total --}}
         <div id="barraTotal" class="mt-4 mb-5 p-3 bg-light border rounded">
