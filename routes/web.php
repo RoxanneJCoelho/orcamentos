@@ -23,9 +23,6 @@ Route::get('/login',[AuthController::class, 'showLogin'] )->name('show.login');
 Route::post('/login',[AuthController::class, 'loginAdmin'] )->name('login');
 Route::post('/logout',[AuthController::class, 'logoutAdmin'] )->name('logout');
 
-// rota de recuperação de senha
-Route::get('/password-recovery', [AuthController::class, 'showPasswordRecovery'])->name('show.password.recovery');
-
 // rota espaço admin - principal
 Route::get('/admin',[AdminController::class, 'showAdmin'] )->name('show.admin')->middleware('auth');
 
@@ -57,10 +54,6 @@ Route::get('/admin/profile',[AdminController::class, 'showProfile'] )->name('sho
 // rotas get e put do alterar dados
 Route::get('/admin/profile/edit',[AdminController::class, 'editProfile'] )->name('edit.profile')->middleware('auth');
 Route::put('/admin/profile/edit',[AdminController::class, 'editProfileStore'] )->name('edit.profile.store')->middleware('auth');
-
-// rotas get e put do alterar password
-Route::get('/admin/profile/password',[AdminController::class, 'editProfilePassword'] )->name('edit.profile.password')->middleware('auth');
-Route::put('/admin/profile/password',[AdminController::class, 'editProfilePasswordStore'] )->name('edit.profile.password.store')->middleware('auth');
 
 // rota fallback
 Route::fallback(function(){

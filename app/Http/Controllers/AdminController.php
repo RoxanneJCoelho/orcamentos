@@ -3,11 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
-use App\Models\Category;
 use App\Models\Service;
+use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class AdminController extends Controller
 {
@@ -199,28 +200,21 @@ class AdminController extends Controller
             'telemovel' => 'regex:/^[0-9]{9}$/',
         ], [
             'name.regex' => 'Nome inválido: apenas pode colocar espaços e letras',
-            'nif_nipc.regex' => 'O NIF/NIPC deve ter exatamente 9 dígitos',
+            'nif_nipc.regex' => 'O NIPC deve ter exatamente 9 dígitos',
             'telemovel.regex' => 'O número de telemóvel deve ter exatamente 9 dígitos',
         ]);
 
-        // Atualizar dados perfil
-        User::where('id', $request->id)
-            ->update([
-                'name'        => $request->name,
-                'morada'      => $request->morada,
-                'nif_nipc'    => $request->nif_nipc,
-                'telemovel'   => $request->telemovel,
-            ]);
+        // atualizar dados admin
+        $userId = Auth::id();
 
+        User::where('id', $userId)->update([
+            'name'      => $request->name,
+            'morada'    => $request->morada,
+            'nif_nipc'  => $request->nif_nipc,
+            'telemovel' => $request->telemovel,
+        ]);
         // Redirecionar com mensagem de sucesso
         return redirect()->route('show.profile')->with('message', 'Perfil atualizado com sucesso!');
-    }
-
-    // mostrar alterar password
-    public function editProfilePassword()
-    {
-        $user = $this->getDataUser();
-        return view('admin.profile-password', compact('user'));
     }
 
     // função privada que vai buscar os dados do user autenticado
@@ -234,14 +228,12 @@ class AdminController extends Controller
     {
         $query = DB::table('categories');
 
-        if (!empty(request()->query('category_id')))
-            {
-                $query->where('id', request()->query('category_id'));
-            }
-        if ($search)
-            {
-                $query->where("name", "LIKE", "%{$search}%");
-            }
+        if (!empty(request()->query('category_id'))) {
+            $query->where('id', request()->query('category_id'));
+        }
+        if ($search) {
+            $query->where("name", "LIKE", "%{$search}%");
+        }
 
         $allCategories = $query->get();
 
@@ -255,15 +247,13 @@ class AdminController extends Controller
         $query = Category::join('services', 'categories.id', '=', 'services.category_id')
             ->select('services.*', 'categories.name');
 
-        if (!empty(request()->query('category_id')))
-            {
-                $query->where('id', request()->query('category_id'));
-            }
-        if ($search2)
-            {
-                $query->where("description", "LIKE", "%{$search2}%");
-                $query->orWhere("code", "LIKE", "%{$search2}%");
-            }
+        if (!empty(request()->query('category_id'))) {
+            $query->where('id', request()->query('category_id'));
+        }
+        if ($search2) {
+            $query->where("description", "LIKE", "%{$search2}%");
+            $query->orWhere("code", "LIKE", "%{$search2}%");
+        }
 
         $allServices = $query->get();
 

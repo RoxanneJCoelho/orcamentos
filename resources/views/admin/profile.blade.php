@@ -20,13 +20,10 @@
 
     <p>Nome: {{ $user->name }}</p>
     <p>Morada: {{ $user->morada }}</p>
-    <p>NIPC: {{ $user->{'NIF/NIPC'} }}</p>
+    <p>NIPC: {{ $user->nif_nipc }}</p>
     <p>Telemóvel: {{ $user->telemovel }}</p>
 
     {{-- Botão alterar dados --}}
     <a href="{{ route('edit.profile') }}" class="btn bg-primary-subtle">Alterar Dados</a>
-
-    {{-- Botão alterar password --}}
-    <a href="{{ route('edit.profile.password') }}" class="btn btn-light text-primary border">Alterar Password</a>
 </div>
 @endsection
