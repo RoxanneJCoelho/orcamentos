@@ -13,21 +13,42 @@
         <form method="POST" action="{{ route('password.update') }}">
             @csrf
             <div class="mb-3">
-                <label for="exampleInputEmail1" class="form-label">Email address</label>
+
+                {{-- Email --}}
+                <label for="exampleInputEmail1" class="form-label">Email </label>
                 <input name="email" value="{{ request()->email }}" type="email" class="form-control"
                     id="exampleInputEmail1" aria-describedby="emailHelp">
             </div>
             <div class="mb-3">
-                <label for="password" class="form-label">Password</label>
+
+                {{-- Nova password --}}
+                <label for="password" class="form-label">Nova password</label>
                 <input type="password" class="form-control @error('password') is-invalid @enderror" name="password" />
                 @error('password')
                 <div class="invalid-feedback"></div>
                 @enderror
             </div>
             <div class="mb-3">
-                <label for="password" class="form-label">Password Confirmation</label>
+
+                {{-- Confirmação da nova password --}}
+                <label for="password" class="form-label">Confirmar nova password</label>
                 <input type="password" class="form-control" name="password_confirmation" />
             </div>
+
+            {{-- Validação de erros --}}
+            @if ($errors->any())
+            <div class="alert alert-danger mt-3">
+                {{ $errors->first() }}
+            </div>
+            @endif
+
+            {{-- Mensagem de sucesso --}}
+            @if (session('status'))
+            <div class="alert alert-success">
+                {{ session('status') }}
+            </div>
+            @endif
+
             <input type="hidden" name="token" value="{{ request()->route('token') }}">
             <button type="submit" class="btn bg-primary-subtle w-100">Submeter nova password</button>
         </form>
