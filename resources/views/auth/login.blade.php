@@ -13,6 +13,13 @@
         <form action="{{ route('login') }}" method="POST" class="w-100 login-form">
             @csrf
 
+            {{-- Mensagem de sucesso da recuperação de senha --}}
+            @if (session('status'))
+            <div class="alert alert-success">
+                {{ session('status') }}
+            </div>
+            @endif
+
             {{-- Email --}}
             <div class="mb-4">
                 <label for="email" class="form-label">E-mail</label>

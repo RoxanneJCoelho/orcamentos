@@ -10,25 +10,22 @@
 
     <div class="homepage-left d-flex flex-column p-5 justify-content-center align-items-center mb-4">
         <h2 class="text-center">Recuperação de senha</h2>
-        <form method="POST" action="{{ route('password.update') }}">
+        <form method="POST" class="w-100 login-form" action="{{ route('password.update') }}">
             @csrf
             <div class="mb-3">
 
                 {{-- Email --}}
                 <label for="exampleInputEmail1" class="form-label">Email </label>
                 <input name="email" value="{{ request()->email }}" type="email" class="form-control"
-                    id="exampleInputEmail1" aria-describedby="emailHelp">
+                    id="exampleInputEmail1" aria-describedby="emailHelp" readonly>
             </div>
             <div class="mb-3">
 
                 {{-- Nova password --}}
-                <label for="password" class="form-label">Nova password</label>
-                <input type="password" class="form-control @error('password') is-invalid @enderror" name="password" />
-                @error('password')
-                <div class="invalid-feedback"></div>
-                @enderror
-            </div>
-            <div class="mb-3">
+                <div class="mb-3">
+                    <label for="password" class="form-label">Password</label>
+                    <input type="password" class="form-control" name="password" />
+                </div>
 
                 {{-- Confirmação da nova password --}}
                 <label for="password" class="form-label">Confirmar nova password</label>
@@ -39,13 +36,6 @@
             @if ($errors->any())
             <div class="alert alert-danger mt-3">
                 {{ $errors->first() }}
-            </div>
-            @endif
-
-            {{-- Mensagem de sucesso --}}
-            @if (session('status'))
-            <div class="alert alert-success">
-                {{ session('status') }}
             </div>
             @endif
 
