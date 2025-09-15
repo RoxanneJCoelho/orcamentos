@@ -1,10 +1,16 @@
 document.addEventListener("DOMContentLoaded", () => {
     const tabelaSelecionados = document.querySelector("#tabelaSelecionados tbody");
     const precoTotalEl = document.getElementById("precoTotal");
-
+    let objetoPost = [];
+    let totalBugdet = 0;
+    let countservice =1;
+    let finalArray = [];
+    // cria uma key única para cada clique
+    let key ='service';
     // FILTRO DE CATEGORIAS
-    const filtro = document.getElementById('categoryFilter');
+    const filtro = document.getElementById('categoryFilter'); // corrigido id
     const categoriasDivs = document.querySelectorAll('#listaServicos .categoria');
+    const formulario = document.getElementById('orcamentoForm');
 
     filtro.addEventListener('change', function() {
         const valor = this.value;
@@ -18,36 +24,39 @@ document.addEventListener("DOMContentLoaded", () => {
         let total = 0;
         tabelaSelecionados.innerHTML = "";
 
-        let dadosTabela = [];
 
         document.querySelectorAll(".servico").forEach(servico => {
             let quantidade = parseInt(servico.querySelector(".quantidade").value) || 0;
             if (quantidade > 0) {
+                // pega o texto do serviço (sem depender de classe extra)
                 let descricao = servico.childNodes[0].textContent.trim();
+
                 let preco = parseFloat(servico.dataset.preco);
                 let desconto = parseFloat(servico.dataset.desconto) || 0;
 
                 let precoSemDesconto = preco * quantidade;
                 let valorComDesconto = precoSemDesconto - (precoSemDesconto * (desconto / 100));
+
                 total += valorComDesconto;
 
-                dadosTabela.push({
-                    descricao,
-                    quantidade,
-                    precoSemDesconto,
-                    desconto,
-                    valorComDesconto
-                });
+
+                key = `service_${countservice}`;
+                let newArray = [descricao, quantidade, precoSemDesconto.toFixed(2), desconto, valorComDesconto.toFixed(2), total.toFixed(2) ]
+                objetoPost.push(newArray);
+
+                countservice++;
+
+
 
                 let row = document.createElement("tr");
                 row.innerHTML = `
-                    <td>${descricao}</td>
+                    <td class="nRows">${descricao}</td>
                     <td>${quantidade}</td>
                     <td>${precoSemDesconto.toFixed(2)}€</td>
                     <td>${desconto}%</td>
                     <td>${valorComDesconto.toFixed(2)}€</td>
                     <td>
-                        <button type="button" class="btn-close" aria-label="Close"></button>
+                    <button type="button" class="btn-close" aria-label="Close"></button>
                     </td>
                 `;
 
@@ -61,47 +70,73 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         });
 
-        // Atualiza inputs hidden do form
-        document.getElementById("tabelaSelecionadosJSON").value = JSON.stringify(dadosTabela);
-        document.getElementById("precoTotalPost").value = total.toFixed(2);
-
-        // Atualiza visual do total
         precoTotalEl.textContent = total.toFixed(2);
     }
 
-    // Delegação de eventos para + / - (funciona mesmo com serviços dinâmicos)
-    document.getElementById("listaServicos").addEventListener("click", function(e) {
-        if (e.target.classList.contains("btn-plus")) {
-            let input = e.target.closest(".input-group").querySelector(".quantidade");
+    // botões plus/minus/quantidade
+    document.querySelectorAll(".btn-plus").forEach(btn => {
+        btn.addEventListener("click", () => {
+
+            let input = btn.closest(".input-group").querySelector(".quantidade");
             input.value = parseInt(input.value) + 1;
             atualizarTabela();
-        } else if (e.target.classList.contains("btn-minus")) {
-            let input = e.target.closest(".input-group").querySelector(".quantidade");
+        });
+    });
+
+    document.querySelectorAll(".btn-minus").forEach(btn => {
+        btn.addEventListener("click", () => {
+
+            let input = btn.closest(".input-group").querySelector(".quantidade");
             let atual = parseInt(input.value);
             if (atual > 0) input.value = atual - 1;
             atualizarTabela();
-        }
+        });
     });
 
-    // Input manual de quantidade
-    document.getElementById("listaServicos").addEventListener("input", function(e) {
-        if (e.target.classList.contains("quantidade")) {
-            let val = parseInt(e.target.value);
-            e.target.value = isNaN(val) || val < 0 ? 0 : val;
-            atualizarTabela();
+    document.querySelectorAll(".btn-atualizar").forEach(btn => {
+    input.addEventListener("click", () => {
+
+        let input = document.getElementById("quantidade");
+        let val = parseInt(input.value);
+        if (isNaN(val) || val < 0) {
+            input.value = 0;
+        } else {
+            input.value = val; // força a ser inteiro
         }
+
+        let servicoParaAtualizar = document.querySelector("#listaServicos .servico .quantidade");
+        if (servicoParaAtualizar) {
+            servicoParaAtualizar.value = val; // seta valor do input interno
+        }
+
+        atualizarTabela();
+        });
     });
 
-    // Atualiza inputs hidden antes do submit
-    const form = document.getElementById("orcamentoForm");
-    form.addEventListener("submit", function(e) {
-        atualizarTabela(); // garante que o JSON e total estão preenchidos
-    });
+//     document.querySelectorAll(".btn-atualizar").forEach(btn => {
+//     btn.addEventListener("click", () => {
+//         atualizarTabela();
+//     });
+// });
+
+formulario.addEventListener('submit', function(event){
+    let rows = document.getElementsByClassName("nRows");
+event.preventDefault();
+console.log(rows.length);
+finalArray.length = 0;
+
+for (let i = rows.length; i > 0; i--) {
+  finalArray.push(objetoPost[objetoPost.length-i]);
+
+}
+
+//document.getElementById("totalBugdet").value= JSON.stringify(total);
+// finalArray.push(objetoPost[objetoPost.length-1]);
+// finalArray.push(objetoPost[objetoPost.length-2]);
+document.getElementById("objetoPost").value = JSON.stringify(finalArray);
+// console.log(objetoPost);
+formulario.submit()
+
+})
 
 });
-
-
-
-
-
-

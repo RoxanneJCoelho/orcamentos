@@ -27,14 +27,31 @@ class BudgetController extends Controller
     }
 
     public function budgetCreation(Request $request)
-    {
-        // dd($request->all());
-        $tabela = json_decode($request->tabelaSelecionadosJSON, true);
-        $precoTotal = $request->precoTotal;
+{
+    ini_set('max_execution_time', 120);
+    ini_set('memory_limit', '256M');
+    $codesJson = $request->input('code'); // recebe array de strings JSON
 
-        // Para gerar PDF ou mostrar na view
-        return view('pdf.orcamento', compact('tabela', 'precoTotal'));
-    }
+    // Decodifica todos os itens JSON para arrays PHP
+    // $codes = array_map(function ($item) {
+    //     return json_decode($item, true);
+    // }, $codesJson);
+
+    $codes = json_decode($codesJson, true);
+    //print_r($codes);
+
+    return view('pdf.orcamento', ['codes' => $codes]);
+    // return Pdf::view('pdf.orcamento', ['codes' => $codes])
+    //     ->name('orcamento.pdf')
+    //     ->download();
+}
+
+// public function downloadPdf(){
+
+//     return Pdf::view('pdf.orcamento')
+//     ->name('orcamento.pdf');
+
+// }
 
     // função privada que vai buscar os dados á bd dos serviços
     private function getDataServices()
