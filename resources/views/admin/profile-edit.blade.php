@@ -27,14 +27,25 @@
         {{-- NIPC e Telemóvel --}}
         <div class="row mb-3">
             <div class="col-6">
-                <label for="NIPC" class="form-label">NIPC:</label>
-                <input type="text" name="NIF/NIPC" class="form-control" value="{{ old('NIF/NIPC', Auth::user()->{'NIF/NIPC'}) }}">
+                <label for="nif_nipc" class="form-label">NIPC:</label>
+                <input type="text" name="nif_nipc" class="form-control" value="{{ old('nif_nipc', Auth::user()->nif_nipc) }}">
             </div>
             <div class="col-6">
                 <label for="telemovel" class="form-label">Telemóvel:</label>
                 <input type="text" name="telemovel" class="form-control" value="{{ old('telemovel', Auth::user()->telemovel) }}">
             </div>
         </div>
+
+        {{-- Mensagens de erro --}}
+        @if ($errors->any())
+        <div class="alert alert-danger">
+            <ul>
+                @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+        @endif
 
         {{-- Botão alterar --}}
         <button type="submit" class="btn bg-primary-subtle">Alterar</button>

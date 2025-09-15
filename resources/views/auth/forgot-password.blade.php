@@ -19,6 +19,20 @@
                 <input type="email" name="email" id="email" class="form-control" value="{{ old('email') }}" required>
             </div>
 
+            {{-- Validação de erros --}}
+            @if ($errors->any())
+            <div class="alert alert-danger mt-3">
+                {{ $errors->first() }}
+            </div>
+            @endif
+
+            {{-- Mensagem de sucesso --}}
+            @if (session('status'))
+            <div class="alert alert-success">
+                {{ session('status') }}
+            </div>
+            @endif
+
             {{-- Submeter --}}
             <div class="mb-4">
                 <button type="submit" class="btn bg-primary-subtle w-100">Recuperar password</button>
