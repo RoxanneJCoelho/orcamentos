@@ -10,6 +10,8 @@
 
     <form id="orcamentoForm" method="POST" action="{{ route('budget.create') }}">
         @csrf
+        <input type="hidden" name="tabelaSelecionadosJSON" id="tabelaSelecionadosJSON">
+        <input type="hidden" name="precoTotal" id="precoTotalPost">
         <input type="hidden" name="code" value="" id="objetoPost">
 
         {{-- Nome --}}
@@ -27,25 +29,24 @@
         {{-- Filtro por Categoria --}}
         <div class="mb-3">
             <label for="categoryFilter" class="form-label">Filtrar por categoria</label>
+            {{-- {{ dd($services) }} --}}
             <select id="categoryFilter" class="form-select">
-                <option value="{{ old('categoryFilter') }}">Todas</option>
-                @foreach($categories as $category)
-                @if(!empty($servicesByCategory[$category->id]))
-                <option value="{{ $category->id }}">
-                    {{ $category->name }}
+                <option value="">Todas</option>
+                @foreach($services as $categoryId => $categoryServices)
+                <option value="{{ $categoryId }}">
+                    {{ $categoryServices->first()->category_name }}
                 </option>
-                @endif
                 @endforeach
             </select>
         </div>
 
+
         {{-- Lista de Serviços --}}
         <div id="listaServicos">
-            @foreach($categories as $category)
-            @if(!empty($servicesByCategory[$category->id]))
-            <div class="categoria mb-3" data-id="{{ $category->id }}">
-                <h4>{{ $category->name }}</h4>
-                @foreach($servicesByCategory[$category->id] as $service)
+            @foreach($services as $categoryId => $categoryServices)
+            <div class="categoria mb-3" data-id="{{ $categoryId }}">
+                <h4>{{ $categoryServices->first()->category_name }}</h4>
+                @foreach($categoryServices as $service)
                 <div class="servico d-flex justify-content-between align-items-center mb-2 p-2 border rounded"
                     data-id="{{ $service->id }}" data-preco="{{ $service->price }}"
                     data-desconto="{{ $service->discount }}">
@@ -62,7 +63,6 @@
                 </div>
                 @endforeach
             </div>
-            @endif
             @endforeach
         </div>
 
