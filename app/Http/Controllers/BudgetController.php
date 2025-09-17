@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
+use Dompdf\Dompdf;
 use Illuminate\Http\Request;
 
 class BudgetController extends Controller
@@ -17,6 +18,7 @@ class BudgetController extends Controller
     public function showForm()
     {
         $services = $this->getDataServices();
+
         return view('budget.form', compact('services'));
     }
 
@@ -27,31 +29,34 @@ class BudgetController extends Controller
     }
 
     public function budgetCreation(Request $request)
-{
-    ini_set('max_execution_time', 120);
-    ini_set('memory_limit', '256M');
-    $codesJson = $request->input('code'); // recebe array de strings JSON
+    {
+        ini_set('max_execution_time', 120);
+        ini_set('memory_limit', '256M');
+        $codesJson = $request->input('code'); // recebe array de strings JSON
 
-    // Decodifica todos os itens JSON para arrays PHP
-    // $codes = array_map(function ($item) {
-    //     return json_decode($item, true);
-    // }, $codesJson);
+        // Decodifica todos os itens JSON para arrays PHP
+        // $codes = array_map(function ($item) {
+        //     return json_decode($item, true);
+        // }, $codesJson);
 
-    $codes = json_decode($codesJson, true);
-    //print_r($codes);
+        $codes = json_decode($codesJson, true);
+        // print_r($codes);
 
-    return view('pdf.orcamento', ['codes' => $codes]);
-    // return Pdf::view('pdf.orcamento', ['codes' => $codes])
-    //     ->name('orcamento.pdf')
-    //     ->download();
-}
+        $pdf = Dompdf::loadView('pdf.orcamento');
 
-// public function downloadPdf(){
+        return $pdf->download('pdf.orcamento');
+        // return view('pdf.orcamento', ['codes' => $codes]);
+        // // return Pdf::view('pdf.orcamento', ['codes' => $codes])
+        //     ->name('orcamento.pdf')
+        //     ->download();
+    }
 
-//     return Pdf::view('pdf.orcamento')
-//     ->name('orcamento.pdf');
+    // public function downloadPdf(){
 
-// }
+    //     return Pdf::view('pdf.orcamento')
+    //     ->name('orcamento.pdf');
+
+    // }
 
     // função privada que vai buscar os dados á bd dos serviços
     private function getDataServices()

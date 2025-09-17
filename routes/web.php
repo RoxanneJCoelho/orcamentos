@@ -1,10 +1,12 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\PDFController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UtilController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\BudgetController;
+
 
 Route::get('/', function () {
     return view('welcome');
@@ -54,6 +56,13 @@ Route::get('/admin/profile',[AdminController::class, 'showProfile'] )->name('sho
 // rotas get e put do alterar dados
 Route::get('/admin/profile/edit',[AdminController::class, 'editProfile'] )->name('edit.profile')->middleware('auth');
 Route::put('/admin/profile/edit',[AdminController::class, 'editProfileStore'] )->name('edit.profile.store')->middleware('auth');
+
+// Rotas para gerar PDFs e email
+Route::get('/certificates/download/{event}/{participant}', [PDFController::class, 'certificateDownload'])
+    ->name('certificates.download');
+
+Route::post('/certificates/send', [PDFController::class, 'sendCertificate'])
+    ->name('certificates.send');
 
 // rota fallback
 Route::fallback(function(){

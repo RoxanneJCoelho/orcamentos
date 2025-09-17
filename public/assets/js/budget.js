@@ -135,7 +135,11 @@ for (let i = rows.length; i > 0; i--) {
 // finalArray.push(objetoPost[objetoPost.length-2]);
 document.getElementById("objetoPost").value = JSON.stringify(finalArray);
 // console.log(objetoPost);
-formulario.submit()
+if (finalArray.length > 0){
+    formulario.submit();
+} else {
+    alert("Está vazio");
+}
 
 })
 

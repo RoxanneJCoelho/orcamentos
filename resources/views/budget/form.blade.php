@@ -85,7 +85,11 @@
                 </table>
             </div>
             <h4>Total: <span id="precoTotal">0.00</span>€</h4>
-            <button type="submit" class="btn btn-success mt-2">Finalizar Orçamento</button>
+                <button type="submit" class="btn btn-primary mt-2" id="btnDownloadPdf">Descarregar PDF</button>
+        </button>
+
+        <button type="submit" class="btn btn-primary mt-2" id="btnEnviarEmail">Enviar Orçamento por Email</button>
+        </button>
         </div>
     </form>
 </div>
