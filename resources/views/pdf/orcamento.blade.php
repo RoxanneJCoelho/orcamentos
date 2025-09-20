@@ -24,18 +24,13 @@
                             <td>{{ $code[4] }}</td>
                         </tr>
                     @endforeach
-
-
                 </tbody>
 
             </table>
         </div>
         <h4>Total: <span id="precoTotal">{{ $code[5] }}</span>€</h4>
-        <button type="button" class="btn btn-primary mt-2" id="btnDownloadPdf">Descarregar PDF</button>
-        </button>
-
-        <button type="button" class="btn btn-primary mt-2" id="btnEnviarEmail">Enviar Orçamento por Email</button>
-        </button>
+        <h1>{{$name}}</h1>
+        <h2>{{$email}}</h2>
     </div>
 @endsection
 @section('scripts')

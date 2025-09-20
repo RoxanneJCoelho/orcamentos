@@ -2,7 +2,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const tabelaSelecionados = document.querySelector("#tabelaSelecionados tbody");
     const precoTotalEl = document.getElementById("precoTotal");
     let objetoPost = [];
-    let totalBugdet = 0;
+    let nameEmail = [];
     let countservice =1;
     let finalArray = [];
     // cria uma key única para cada clique
@@ -11,6 +11,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const filtro = document.getElementById('categoryFilter'); // corrigido id
     const categoriasDivs = document.querySelectorAll('#listaServicos .categoria');
     const formulario = document.getElementById('orcamentoForm');
+
 
     filtro.addEventListener('change', function() {
         const valor = this.value;
@@ -133,7 +134,13 @@ for (let i = rows.length; i > 0; i--) {
 //document.getElementById("totalBugdet").value= JSON.stringify(total);
 // finalArray.push(objetoPost[objetoPost.length-1]);
 // finalArray.push(objetoPost[objetoPost.length-2]);
+
+// const name = document.getElementById('name').value;
+// const email = document.getElementById('email').value;
+// nameEmail.push(name);
+// nameEmail.push(email);
 document.getElementById("objetoPost").value = JSON.stringify(finalArray);
+document.getElementById("nameEmail").value = JSON.stringify(nameEmail);
 // console.log(objetoPost);
 if (finalArray.length > 0){
     formulario.submit();

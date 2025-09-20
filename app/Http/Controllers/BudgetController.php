@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Category;
 use Dompdf\Dompdf;
+use App\Mail\BudgetMail;
+use App\Models\Category;
 use Illuminate\Http\Request;
+use Barryvdh\DomPDF\Facade\PDF;
 
 class BudgetController extends Controller
 {
@@ -30,33 +32,34 @@ class BudgetController extends Controller
 
     public function budgetCreation(Request $request)
     {
-        ini_set('max_execution_time', 120);
-        ini_set('memory_limit', '256M');
         $codesJson = $request->input('code'); // recebe array de strings JSON
-
-        // Decodifica todos os itens JSON para arrays PHP
-        // $codes = array_map(function ($item) {
-        //     return json_decode($item, true);
-        // }, $codesJson);
+        $codesJson2 = $request->input('data');
 
         $codes = json_decode($codesJson, true);
+        $data = json_decode($codesJson2, true);
+
+        $request->input('name');
+        $request->input('email');
+
+        //dd($request->all());
         // print_r($codes);
+        //dd($request->name);
 
-        $pdf = Dompdf::loadView('pdf.orcamento');
+        $pdf = PDF::loadView('pdf.orcamento', ['codes' => $codes], ['name' => $name], ['email' => $email]);
+        //return $pdf->stream();
 
-        return $pdf->download('pdf.orcamento');
-        // return view('pdf.orcamento', ['codes' => $codes]);
-        // // return Pdf::view('pdf.orcamento', ['codes' => $codes])
-        //     ->name('orcamento.pdf')
-        //     ->download();
+        //botao download
+        return $pdf->download('pdf.orcamento.pdf');
+
+        //botao email
+
+        $pdf = PDF::loadView('pdf.orcamento', ['codes' => $codes])->output();
+
+        Mail::to($data->$data[1])->send(new BudgetMail($pdf, $data->$data[0]));
+
+        return back()->with('success', 'Certificado enviado com sucesso para ' . 'email');
+
     }
-
-    // public function downloadPdf(){
-
-    //     return Pdf::view('pdf.orcamento')
-    //     ->name('orcamento.pdf');
-
-    // }
 
     // função privada que vai buscar os dados á bd dos serviços
     private function getDataServices()

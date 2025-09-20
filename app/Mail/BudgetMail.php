@@ -30,7 +30,7 @@ class CertificateMail extends Mailable
         return $this->subject('Segue o seu Orçamento')
             ->view('budget.form')
             ->attachData(
-                $this->pdfContent, 'budget.pdf', [
+                $this->pdfContent, 'pdf.orcamento.pdf', [
                 'mime' => 'application/pdf',
             ]);
     }

@@ -11,7 +11,7 @@
     <form id="orcamentoForm" method="POST" action="{{ route('budget.create') }}">
         @csrf
         <input type="hidden" name="tabelaSelecionadosJSON" id="tabelaSelecionadosJSON">
-        <input type="hidden" name="precoTotal" id="precoTotalPost">
+        <input type="hidden" name="data" value="" id="nameEmail">
         <input type="hidden" name="code" value="" id="objetoPost">
 
         {{-- Nome --}}
