@@ -8,7 +8,22 @@
 <div class="container">
     <h2>Pedido de Orçamento</h2>
 
-    <form id="orcamentoForm" method="POST" action="{{ route('budget.create') }}">
+    @if (session('success'))
+            <div class="mb-4 p-3 rounded border border-green-200 bg-green-50 text-green-700 text-sm flex items-start gap-2" role="alert">
+                <svg class="w-5 h-5 mt-0.5" fill="currentColor" aria-hidden="true"><use href="#ms-add" /></svg>
+                <span>{{ session('success') }}</span>
+            </div>
+        @endif
+
+        @if ($errors->any())
+            <div class="mb-4 p-3 rounded border border-red-200 bg-red-50 text-red-700 text-sm" role="alert">
+                <ul class="list-disc pl-5 space-y-1">
+                    @foreach ($errors->all() as $error) <li>{{ $error }}</li> @endforeach
+                </ul>
+            </div>
+        @endif
+
+    <form id="orcamentoForm" method="POST" action="{{route('budget.create')}}">
         @csrf
         <input type="hidden" name="tabelaSelecionadosJSON" id="tabelaSelecionadosJSON">
         <input type="hidden" name="data" value="" id="nameEmail">
@@ -85,11 +100,8 @@
                 </table>
             </div>
             <h4>Total: <span id="precoTotal">0.00</span>€</h4>
-                <button type="submit" class="btn btn-primary mt-2" id="btnDownloadPdf">Descarregar PDF</button>
-        </button>
-
-        <button type="submit" class="btn btn-primary mt-2" id="btnEnviarEmail">Enviar Orçamento por Email</button>
-        </button>
+            <button type="submit" class="btn btn-primary mt-2" id="btnDownloadPdf" name="action" value="download">Descarregar PDF</button>
+            <button type="submit" class="btn btn-primary mt-2" id="btnEnviarEmail" name="action" value="sendEmail">Enviar Orçamento por Email</button>
         </div>
     </form>
 </div>
