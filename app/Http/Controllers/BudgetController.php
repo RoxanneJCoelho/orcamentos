@@ -31,35 +31,33 @@ class BudgetController extends Controller
     }
 
     public function budgetCreation(Request $request)
-    {
-        $codesJson = $request->input('code'); // recebe array de strings JSON
-        $codesJson2 = $request->input('data');
+{
+    $codesJson = $request->input('code');
+    $codesJson2 = $request->input('data');
 
-        $codes = json_decode($codesJson, true);
-        $data = json_decode($codesJson2, true);
+    $codes = json_decode($codesJson, true);
+    $data = json_decode($codesJson2, true);
 
-        $request->input('name');
-        $request->input('email');
+    // Guardar name e email em variáveis
+    $name = $request->input('name');
+    $email = $request->input('email');
 
-        //dd($request->all());
-        // print_r($codes);
-        //dd($request->name);
+    // Gerar PDF corretamente
+    $pdf = PDF::loadView('pdf.orcamento', [
+        'codes' => $codes,
+        'name'  => $name,
+        'email' => $email
+    ]);
 
-        $pdf = PDF::loadView('pdf.orcamento', ['codes' => $codes], ['name' => $name], ['email' => $email]);
-        //return $pdf->stream();
+    return $pdf->download('pdf.orcamento.pdf');
 
-        //botao download
-        return $pdf->download('pdf.orcamento.pdf');
+    // Caso queiras enviar por email
+    /*
+    $pdfOutput = $pdf->output();
+    Mail::to($data[1])->send(new BudgetMail($pdfOutput, $data[0]));
+    */
+}
 
-        //botao email
-
-        $pdf = PDF::loadView('pdf.orcamento', ['codes' => $codes])->output();
-
-        Mail::to($data->$data[1])->send(new BudgetMail($pdf, $data->$data[0]));
-
-        return back()->with('success', 'Certificado enviado com sucesso para ' . 'email');
-
-    }
 
     // função privada que vai buscar os dados á bd dos serviços
     private function getDataServices()
