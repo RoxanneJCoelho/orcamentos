@@ -51,7 +51,7 @@ class BudgetController extends Controller
 
     return $pdf->download('pdf.orcamento.pdf');
 
-    // Caso queiras enviar por email
+
     /*
     $pdfOutput = $pdf->output();
     Mail::to($data[1])->send(new BudgetMail($pdfOutput, $data[0]));
