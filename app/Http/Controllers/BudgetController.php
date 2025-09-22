@@ -12,12 +12,6 @@ use Illuminate\Support\Facades\Mail;
 
 class BudgetController extends Controller
 {
-    // // busca os dados da bd e mostra o formulário
-    // public function showForm()
-    // {
-    //     $categories = Category::with('services')->get(); // traz com os servicos as categorias associados
-    //     return view('budget.form', compact('categories'));
-    // }
 
     public function showForm()
     {
@@ -26,11 +20,7 @@ class BudgetController extends Controller
         return view('budget.form', compact('services'));
     }
 
-    // valida o formulario
-    public function form(Request $request)
-    {
-        //
-    }
+    // valida o formulario, gera pdf e envia para email
 
     public function budgetCreation(Request $request)
     {
