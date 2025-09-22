@@ -53,6 +53,22 @@ class BudgetController extends Controller
 
     return $pdf->download('pdf.orcamento.pdf');
 
+    if($request->input('action') === 'download'){
+
+            $pdf = PDF::loadView('pdf.orcamento', ['codes' => $codes]);
+
+            return $pdf->download('pdf.orcamento', ['codes' => $codes]);
+
+        }elseif($request->input('action') === 'sendEmail'){
+
+            $pdf = PDF::loadView('pdf.orcamento', ['codes' => $codes])->output();
+
+            Mail::to('admin@admin.com')->send(new MyTestEmail($pdf));
+
+
+        return back()->with('success', 'Certificado enviado com sucesso para ' . 'email');
+        }
+
 
     /*
     $pdfOutput = $pdf->output();
