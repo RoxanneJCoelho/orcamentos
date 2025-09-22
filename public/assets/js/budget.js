@@ -144,6 +144,7 @@ for (let i = rows.length; i > 0; i--) {
 // nameEmail.push(name);
 // nameEmail.push(email);
 document.getElementById("objetoPost").value = JSON.stringify(finalArray);
+document.getElementById("total").value = precoTotalEl.textContent;
 
 // console.log(objetoPost);
 if (finalArray.length > 0){

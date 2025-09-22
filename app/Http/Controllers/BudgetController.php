@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
-use App\Models\Budget;
-use App\Models\Option;
+use Dompdf\Dompdf;
+use App\Mail\BudgetMail;
 use App\Models\Category;
 use App\Mail\MyTestEmail;
 use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade\PDF;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 
 class BudgetController extends Controller
@@ -21,100 +22,94 @@ class BudgetController extends Controller
         return view('budget.form', compact('services'));
     }
 
-
-
-    public function budgetCreation(Request $request)
+    // valida o formulario
+    public function form(Request $request)
     {
-        // validação de dados
-        $request->validate([
-            'name'  => 'required|string|max:255',
-            'email' => 'required|email|max:255',
-        ]);
+        //
+    }
 
-        // Criação de novo user
-        $user = User::insertGetId([
-            'name' => $request->name,
-            'email' => $request->email,
-            'created_at' => now()
-        ]);
-
-        //  dd($user);
-
-        // Criação de novo orçamento
-        $budget = Budget::insertGetId([
-            'user_id' => $user,
-            'total'   => 0,
-            'emission_date' => now(),
-            'created_at' => now()
-        ]);
-
-        // Ler os dados da tabela
-        $servicosSelecionados = json_decode($request->tabelaSelecionadosJSON, true);
-        $total = 0;
-
-        foreach ($servicosSelecionados as $servico) {
-            $preco = $servico['preco'];
-            $quantidade = $servico['quantidade'];
-            $desconto = $servico['desconto'] ?? 0;
-
-            $valorFinal = ($preco * $quantidade) * (1 - $desconto / 100);
-            $total += $valorFinal;
-
-            Option::insert([
-                'budget_id' => $budget,
-                'service_id'   => $servico['id'],
-                'qtd'         => $quantidade,
-                'discount'     => $desconto,
-                'valor'        => $valorFinal,
-                'created_at' => now()
-            ]);
-        }
-
-        // // atualizar o total do orçamento
-        $budget->update(['total' => $total]);
-
-        // // mensagem de sucesso
-        return redirect()->back()->with('success', 'Orçamento registado com sucesso!');
+    public function budgetCreation(Request $request){
 
         $codesJson = $request->input('code');
         $codesJson2 = $request->input('data');
 
         $codes = json_decode($codesJson, true);
 
-        // Guardar name e email em variáveis
-        $name = $request->input('name');
-        $email = $request->input('email');
+    // Guardar name e email em variáveis
+    $name = $request->input('name');
+    $email = $request->input('email');
+    $total = $request->input('total');
+
+    DB::table('users')->updateOrInsert(
+        ['email' => $email],
+        ['name' => $name, 'password' => Hash::make('defaultpassword'), 'updated_at' => now()]
+    );
+
+
+        $user = User::where('email', $email)->first();
+        $userId = $user->id;
+        $budgetCode = uniqid();
 
         // dd($request->all());
 
         $isPDF = $request->input('isPDF');
 
-        // dd($isPDF);
-        if ($isPDF === 'true') {
-            // Gerar PDF corretamente
-            $pdf = PDF::loadView('pdf.orcamento', [
-                'codes' => $codes,
-                'name'  => $name,
-                'email' => $email
-            ]);
+        if (!DB::table('budget')
+    ->where('user_id', $userId)
+    ->where('total', $total)
+    ->where('emission_date', '>=', now()->subDays(30))
+    ->exists()) {
+
+    DB::table('budget')->insert([
+        'user_id' => $userId,
+        'code' => $budgetCode,
+        'emission_date' => now(),
+        'total' => $total,
+        'created_at' => now(),
+        'updated_at' => now()
+    ]);
+}
+
+    // dd($isPDF);
+    if($isPDF === 'true'){
+  // Gerar PDF corretamente
+    $pdf = PDF::loadView('pdf.orcamento', [
+        'codes' => $codes,
+        'name'  => $name,
+        'email' => $email,
+        'total' => $total,
+    ]);
 
             return $pdf->download('pdf.orcamento.pdf');
-        } else {
-            $pdf = PDF::loadView('pdf.orcamento', [
-                'codes' => $codes,
-                'name'  => $name,
-                'email' => $email
-            ])->output();
+
+
+        }else {
+                            $pdf = PDF::loadView('pdf.orcamento', [
+        'codes' => $codes,
+        'name'  => $name,
+        'email' => $email,
+        'total' => $total
+    ])->output();
 
             Mail::to($email)->send(new MyTestEmail($pdf, $name));
 
-            return back()->with('success', 'Orçamento enviado com sucesso para ' . $email);
-        }
-    }
+                    return back()->with('success', 'Orçamento enviado com sucesso para ' . $email);
+
+
+
+                            }
+
+
+
+    /*
+    $pdfOutput = $pdf->output();
+    Mail::to($data[1])->send(new BudgetMail($pdfOutput, $data[0]));
+    */
+}
+
 
     // função privada que vai buscar os dados á bd dos serviços
-    private function getDataServices()
-    {
+    private function getDataServices() {
         // join de categorias e servicos
         $services = Category::join('services', 'categories.id', '=', 'services.category_id')
             ->select('services.*', 'categories.name as category_name')
