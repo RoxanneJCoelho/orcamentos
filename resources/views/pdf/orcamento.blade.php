@@ -48,7 +48,7 @@
 
             </table>
         </div>
-        <h4>Total: <span id="precoTotal">{{ $code[5] }}</span>€</h4>
+        <h4>Total: <span id="precoTotal">{{ $total }}</span>€</h4>
         {{-- <h1>{{$name}}</h1>
         <h2>{{$email}}</h2> --}}
     </div>

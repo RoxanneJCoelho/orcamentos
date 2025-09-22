@@ -28,6 +28,7 @@
         <input type="hidden" name="tabelaSelecionadosJSON" id="tabelaSelecionadosJSON">
         <input type="hidden" name="isPDF" value="" id="isPDF">
         <input type="hidden" name="code" value="" id="objetoPost">
+        <input type="hidden" name="total" value="" id="total">
 
         {{-- Nome --}}
         <div class="mb-3">

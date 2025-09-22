@@ -3,11 +3,14 @@
 namespace App\Http\Controllers;
 
 use Dompdf\Dompdf;
+use App\Models\User;
 use App\Mail\BudgetMail;
 use App\Models\Category;
 use App\Mail\MyTestEmail;
 use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade\PDF;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 
 class BudgetController extends Controller
@@ -33,6 +36,7 @@ class BudgetController extends Controller
     }
 
     public function budgetCreation(Request $request){
+        // dd($request->all());
 
     $codesJson = $request->input('code');
     $codesJson2 = $request->input('data');
@@ -43,6 +47,55 @@ class BudgetController extends Controller
     // Guardar name e email em variáveis
     $name = $request->input('name');
     $email = $request->input('email');
+    $total = $request->input('total');
+
+    DB::table('users')->updateOrInsert(
+        ['email' => $email],
+        ['name' => $name, 'password' => Hash::make('defaultpassword'), 'updated_at' => now()]
+    );
+
+
+        $user = User::where('email', $email)->first();
+        $userId = $user->id;
+        $budgetCode = uniqid();
+
+    //ir à bd e ver se tem para o user esse total. se não, insert normal
+    //se sim, verificar ainda se o que est+a é há mais de 30dias. se for, insere novo
+
+    // if (DB::table('budget')->where('user_id', $userId)->exists() AND DB::table('budget')->where('total', $total)->exists() AND DB::table('budget')->where('emission_date', '>=', now()->subDays(30))->exists()) {
+
+
+    //     DB :: table('budget')->Insert(
+    //     ['user_id' => $userId,
+    //     'code' => $budgetCode,
+    //     'emission_date' => now(),
+    //     'total' => ($total),
+    //     'created_at' => now(),
+    //     'updated_at' => now()
+
+
+    // ]);
+    // }
+
+    if (!DB::table('budget')
+    ->where('user_id', $userId)
+    ->where('total', $total)
+    ->where('emission_date', '>=', now()->subDays(30))
+    ->exists()) {
+
+    DB::table('budget')->insert([
+        'user_id' => $userId,
+        'code' => $budgetCode,
+        'emission_date' => now(),
+        'total' => $total,
+        'created_at' => now(),
+        'updated_at' => now()
+    ]);
+}
+
+
+
+
 
     // dd($request->all());
 
@@ -54,7 +107,8 @@ class BudgetController extends Controller
     $pdf = PDF::loadView('pdf.orcamento', [
         'codes' => $codes,
         'name'  => $name,
-        'email' => $email
+        'email' => $email,
+        'total' => $total,
     ]);
 
             return $pdf->download('pdf.orcamento.pdf');
@@ -64,7 +118,8 @@ class BudgetController extends Controller
                             $pdf = PDF::loadView('pdf.orcamento', [
         'codes' => $codes,
         'name'  => $name,
-        'email' => $email
+        'email' => $email,
+        'total' => $total
     ])->output();
 
             Mail::to($email)->send(new MyTestEmail($pdf, $name));
@@ -74,6 +129,8 @@ class BudgetController extends Controller
 
 
                             }
+                        }
+
 
 
 
@@ -81,12 +138,11 @@ class BudgetController extends Controller
     $pdfOutput = $pdf->output();
     Mail::to($data[1])->send(new BudgetMail($pdfOutput, $data[0]));
     */
-}
+
 
 
     // função privada que vai buscar os dados á bd dos serviços
-    private function getDataServices()
-    {
+    private function getDataServices() {
         // join de categorias e servicos
         $services = Category::join('services', 'categories.id', '=', 'services.category_id')
             ->select('services.*', 'categories.name as category_name')
