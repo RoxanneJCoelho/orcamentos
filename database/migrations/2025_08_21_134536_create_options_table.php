@@ -15,10 +15,11 @@ return new class extends Migration
             $table->id();
             $table->timestamps();
             $table->unsignedBigInteger('budget_id');
-            $table->foreign('budget_id')->references('id')->on('budget');
+            $table->foreign('budget_id')->references('id')->on('budgets');
             $table->unsignedBigInteger('service_id');
             $table->foreign('service_id')->references('id')->on('services');
             $table->integer('qtd');
+            $table->double('discount', 8, 2);
             $table->double('valor', 8, 2);
         });
     }
