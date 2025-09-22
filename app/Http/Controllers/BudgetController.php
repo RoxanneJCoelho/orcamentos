@@ -5,8 +5,10 @@ namespace App\Http\Controllers;
 use Dompdf\Dompdf;
 use App\Mail\BudgetMail;
 use App\Models\Category;
+use App\Mail\MyTestEmail;
 use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade\PDF;
+use Illuminate\Support\Facades\Mail;
 
 class BudgetController extends Controller
 {
@@ -41,25 +43,23 @@ class BudgetController extends Controller
         $request->input('name');
         $request->input('email');
 
-        //dd($request->all());
-        // print_r($codes);
-        //dd($request->name);
+        if($request->input('action') === 'download'){
 
-        $pdf = PDF::loadView('pdf.orcamento', ['codes' => $codes], ['name' => $name], ['email' => $email]);
-        //return $pdf->stream();
+            $pdf = PDF::loadView('pdf.orcamento', ['codes' => $codes]);
 
-        //botao download
-        return $pdf->download('pdf.orcamento.pdf');
+            return $pdf->download('pdf.orcamento', ['codes' => $codes]);
 
-        //botao email
+        }elseif($request->input('action') === 'sendEmail'){
 
-        $pdf = PDF::loadView('pdf.orcamento', ['codes' => $codes])->output();
+            $pdf = PDF::loadView('pdf.orcamento', ['codes' => $codes])->output();
 
-        Mail::to($data->$data[1])->send(new BudgetMail($pdf, $data->$data[0]));
+            Mail::to('admin@admin.com')->send(new MyTestEmail($pdf));
+
 
         return back()->with('success', 'Certificado enviado com sucesso para ' . 'email');
-
+        }
     }
+
 
     // função privada que vai buscar os dados á bd dos serviços
     private function getDataServices()
