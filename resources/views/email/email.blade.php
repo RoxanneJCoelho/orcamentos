@@ -5,7 +5,7 @@
     <title>Orçamento</title>
 </head>
 <body>
-    <p>Olá ,</p>
+    <p>Olá, {{$name}}</p>
     <p>Segue em anexo o seu orçamento.</p>
     <p>Obrigado!</p>
 </body>

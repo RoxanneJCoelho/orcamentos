@@ -32,33 +32,56 @@ class BudgetController extends Controller
         //
     }
 
-    public function budgetCreation(Request $request)
-    {
-        $codesJson = $request->input('code'); // recebe array de strings JSON
-        $codesJson2 = $request->input('data');
+    public function budgetCreation(Request $request){
 
-        $codes = json_decode($codesJson, true);
-        $data = json_decode($codesJson2, true);
+    $codesJson = $request->input('code');
+    $codesJson2 = $request->input('data');
 
-        $request->input('name');
-        $request->input('email');
+    $codes = json_decode($codesJson, true);
+    $data = json_decode($codesJson2, true);
 
-        if($request->input('action') === 'download'){
+    // Guardar name e email em variáveis
+    $name = $request->input('name');
+    $email = $request->input('email');
 
-            $pdf = PDF::loadView('pdf.orcamento', ['codes' => $codes]);
+    // dd($request->all());
 
-            return $pdf->download('pdf.orcamento', ['codes' => $codes]);
+    $isPDF = $request->input('isPDF');
 
-        }elseif($request->input('action') === 'sendEmail'){
+    // dd($isPDF);
+    if($isPDF === 'true'){
+  // Gerar PDF corretamente
+    $pdf = PDF::loadView('pdf.orcamento', [
+        'codes' => $codes,
+        'name'  => $name,
+        'email' => $email
+    ]);
 
-            $pdf = PDF::loadView('pdf.orcamento', ['codes' => $codes])->output();
-
-            Mail::to('admin@admin.com')->send(new MyTestEmail($pdf));
+            return $pdf->download('pdf.orcamento.pdf');
 
 
-        return back()->with('success', 'Certificado enviado com sucesso para ' . 'email');
-        }
-    }
+        }else {
+                            $pdf = PDF::loadView('pdf.orcamento', [
+        'codes' => $codes,
+        'name'  => $name,
+        'email' => $email
+    ])->output();
+
+            Mail::to($email)->send(new MyTestEmail($pdf, $name));
+
+                    return back()->with('success', 'Orçamento enviado com sucesso para ' . $email);
+
+
+
+                            }
+
+
+
+    /*
+    $pdfOutput = $pdf->output();
+    Mail::to($data[1])->send(new BudgetMail($pdfOutput, $data[0]));
+    */
+}
 
 
     // função privada que vai buscar os dados á bd dos serviços

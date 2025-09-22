@@ -15,14 +15,16 @@ class MyTestEmail extends Mailable
     use Queueable, SerializesModels;
 
     public $pdf;
-    public $name='hhjkig';
+    public $name;
+    public $pdfName='Orçamento';
 
     /**
      * Create a new message instance.
      */
-    public function __construct( $pdf)
+    public function __construct( $pdf, $name)
     {
         $this->pdf = $pdf;
+        $this->name = $name;
     }
 
     /**
@@ -31,7 +33,7 @@ class MyTestEmail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'My Test Email',
+            subject: 'O seu Orçamento está pronto',
         );
     }
 
@@ -57,10 +59,13 @@ class MyTestEmail extends Mailable
 
     public function build()
     {
-        return $this->subject('Seu Certificado')
+        return $this->subject('O seu Orçamento está pronto')
             ->view('pdf.orcamento')
+            ->with([
+                'name' => $this->name,
+            ])
             ->attachData(
-                $this->pdf, "certificate-{$this->name}.pdf", [
+                $this->pdf, "{$this->pdfName}.pdf", [
                 'mime' => 'application/pdf',
             ]);
     }

@@ -1,0 +1,60 @@
+body {
+    font-family: "DejaVu Sans", sans-serif;
+    font-size: 13px;
+    color: #2a2a2a;
+    background: #fcfcfc;
+    margin: 20px;
+}
+
+h1 {
+    font-size: 23px;
+    color: #234488;
+    margin-bottom: 12px;
+}
+
+h2, h4, h5 {
+    margin-bottom: 8px;
+    font-weight: bold;
+    color: #375a8c;
+}
+
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 16px;
+    font-size: 12px;
+    background: #fff;
+}
+
+.table th, .table td {
+    border: 1px solid #bfc8d7;
+    padding: 7px 10px;
+    text-align: left;
+}
+.table th {
+    background: #eef3fa;
+}
+
+.table tr:nth-child(even) {
+    background: #f7fafd;
+}
+
+.header.client  {
+    background: #f2f5fc;
+    border: 1px solid #dbe2ed;
+    padding: 10px 13px;
+    margin-bottom: 18px;
+    margin-top: 10px;
+    border-radius: 3px;
+    font-size: 12px;
+    color: #29446c;
+}
+
+.footer {
+    margin-top: 34px;
+    text-align: center;
+    font-size: 11px;
+    color: #a4a4a4;
+    padding-top: 10px;
+    border-top: 1px solid #e2e2e2;
+}

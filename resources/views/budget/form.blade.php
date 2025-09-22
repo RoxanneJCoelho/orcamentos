@@ -26,7 +26,7 @@
     <form id="orcamentoForm" method="POST" action="{{route('budget.create')}}">
         @csrf
         <input type="hidden" name="tabelaSelecionadosJSON" id="tabelaSelecionadosJSON">
-        <input type="hidden" name="data" value="" id="nameEmail">
+        <input type="hidden" name="isPDF" value="" id="isPDF">
         <input type="hidden" name="code" value="" id="objetoPost">
 
         {{-- Nome --}}
@@ -100,8 +100,8 @@
                 </table>
             </div>
             <h4>Total: <span id="precoTotal">0.00</span>€</h4>
-            <button type="submit" class="btn btn-primary mt-2" id="btnDownloadPdf" name="action" value="download">Descarregar PDF</button>
-            <button type="submit" class="btn btn-primary mt-2" id="btnEnviarEmail" name="action" value="sendEmail">Enviar Orçamento por Email</button>
+            <button type="submit" class="btn btn-primary mt-2" id="btnDownloadPdf" name="pdf" value="download">Descarregar PDF</button>
+            <button type="submit" class="btn btn-primary mt-2" id="btnEnviarEmail" name="email" value="sendEmail">Enviar Orçamento por Email</button>
         </div>
     </form>
 </div>
