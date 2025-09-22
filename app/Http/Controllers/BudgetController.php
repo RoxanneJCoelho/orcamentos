@@ -77,7 +77,6 @@ class BudgetController extends Controller
         // return redirect()->back()->with('success', 'Orçamento registado com sucesso!');
 
         $codesJson = $request->input('code');
-        $codesJson2 = $request->input('data');
 
         $codes = json_decode($codesJson, true);
 
