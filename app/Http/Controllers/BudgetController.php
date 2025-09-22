@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Dompdf\Dompdf;
+use App\Models\User;
 use App\Mail\BudgetMail;
 use App\Models\Category;
 use App\Mail\MyTestEmail;
