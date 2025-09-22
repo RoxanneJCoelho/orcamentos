@@ -2,7 +2,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const tabelaSelecionados = document.querySelector("#tabelaSelecionados tbody");
     const precoTotalEl = document.getElementById("precoTotal");
     let objetoPost = [];
-    let nameEmail = [];
+    let isPDF = document.querySelector('#isPDF');
     let countservice =1;
     let finalArray = [];
     // cria uma key única para cada clique
@@ -121,6 +121,10 @@ document.addEventListener("DOMContentLoaded", () => {
 // });
 
 formulario.addEventListener('submit', function(event){
+    if(event.submitter.id == 'btnDownloadPdf') {
+isPDF.value = true
+
+    } else {isPDF.value = false}
     let rows = document.getElementsByClassName("nRows");
 event.preventDefault();
 console.log(rows.length);
@@ -140,7 +144,7 @@ for (let i = rows.length; i > 0; i--) {
 // nameEmail.push(name);
 // nameEmail.push(email);
 document.getElementById("objetoPost").value = JSON.stringify(finalArray);
-document.getElementById("nameEmail").value = JSON.stringify(nameEmail);
+
 // console.log(objetoPost);
 if (finalArray.length > 0){
     formulario.submit();

@@ -32,8 +32,8 @@ class BudgetController extends Controller
         //
     }
 
-    public function budgetCreation(Request $request)
-{
+    public function budgetCreation(Request $request){
+
     $codesJson = $request->input('code');
     $codesJson2 = $request->input('data');
 
@@ -44,30 +44,37 @@ class BudgetController extends Controller
     $name = $request->input('name');
     $email = $request->input('email');
 
-    // Gerar PDF corretamente
+    // dd($request->all());
+
+    $isPDF = $request->input('isPDF');
+
+    // dd($isPDF);
+    if($isPDF === 'true'){
+  // Gerar PDF corretamente
     $pdf = PDF::loadView('pdf.orcamento', [
         'codes' => $codes,
         'name'  => $name,
         'email' => $email
     ]);
 
-    return $pdf->download('pdf.orcamento.pdf');
-
-    if($request->input('action') === 'download'){
-
-            $pdf = PDF::loadView('pdf.orcamento', ['codes' => $codes]);
-
-            return $pdf->download('pdf.orcamento', ['codes' => $codes]);
-
-        }elseif($request->input('action') === 'sendEmail'){
-
-            $pdf = PDF::loadView('pdf.orcamento', ['codes' => $codes])->output();
-
-            Mail::to('admin@admin.com')->send(new MyTestEmail($pdf));
+            return $pdf->download('pdf.orcamento.pdf');
 
 
-        return back()->with('success', 'Certificado enviado com sucesso para ' . 'email');
-        }
+        }else {
+                            $pdf = PDF::loadView('pdf.orcamento', [
+        'codes' => $codes,
+        'name'  => $name,
+        'email' => $email
+    ])->output();
+
+            Mail::to($email)->send(new MyTestEmail($pdf, $name));
+
+                    return back()->with('success', 'Orçamento enviado com sucesso para ' . $email);
+
+
+
+                            }
+
 
 
     /*
