@@ -17,10 +17,7 @@ Route::get('/home',[UtilController::class, 'showHomepage'] )->name('show.homepag
 
 // rotas get e post do formulário - pedido de orçamento
 Route::get('/form',[BudgetController::class, 'showForm'] )->name('show.form');
-Route::post('/form',[BudgetController::class, 'form'] )->name('form.store');
 Route::post('/budget', [BudgetController::class, 'budgetCreation'])->name('budget.create');
-// Route::post('/budgetSend', [BudgetController::class, 'budgetSend'])->name('budget.send');
-
 
 // rotas get e post do login e logout
 Route::get('/login',[AuthController::class, 'showLogin'] )->name('show.login');

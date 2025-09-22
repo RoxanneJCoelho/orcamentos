@@ -66,7 +66,7 @@
         <div class="mb-3">
             <label for="categorySelect" class="form-label">Mudar categoria</label>
             <select name="category_id" id="categorySelect" class="form-select" required>
-                <option value="" disabled> -- Escolha uma categoria -- </option>
+                <option value="" disabled selected>-- Escolha uma categoria --</option>
                 @foreach ($categories as $category)
                 <option value="{{ $category->id }}">
                     {{ $category->name }}

@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Mail;
 
 class BudgetController extends Controller
 {
-
+    // mostra o orcamento
     public function showForm()
     {
         $services = $this->getDataServices();
@@ -21,9 +21,10 @@ class BudgetController extends Controller
     }
 
     // valida o formulario, gera pdf e envia para email
-
     public function budgetCreation(Request $request)
     {
+        // validação de dados
+
         $codesJson = $request->input('code'); // recebe array de strings JSON
         $codesJson2 = $request->input('data');
 
@@ -46,7 +47,7 @@ class BudgetController extends Controller
             Mail::to('admin@admin.com')->send(new MyTestEmail($pdf));
 
 
-        return back()->with('success', 'Certificado enviado com sucesso para ' . 'email');
+        return back()->with('success', 'Orçamento enviado com sucesso para ' . 'email');
         }
     }
 
