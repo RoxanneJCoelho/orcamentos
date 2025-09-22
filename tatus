@@ -1,0 +1,61 @@
+[33md78c83c[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mfrancisco[m[33m, [m[1;31morigin/francisco[m[33m)[m Updates on comments
+[33m536b626[m Corrections and First Design
+[33me47208c[m pdf update
+[33m903cd24[m Merge pull request #17 from RoxanneJCoelho/francisco
+[33m4116e12[m Almost Done
+[33mfb741c4[m[33m ([m[1;32mmain[m[33m)[m Merge pull request #16 from RoxanneJCoelho/RobertoCouto
+[33ma443427[m update pdf
+[33mf16a957[m Merge pull request #15 from RoxanneJCoelho/roxie
+[33m40860e4[m[33m ([m[1;31morigin/roxie[m[33m)[m last update
+[33mfca212a[m Merge pull request #14 from RoxanneJCoelho/roxie
+[33mc01c232[m update
+[33mfb40871[m update validations messages
+[33m96b2b1f[m restore migration
+[33m23091f5[m update forgot password
+[33ma90a64d[m update database
+[33m4ccdbc8[m update database
+[33m916bb09[m Merge pull request #12 from RoxanneJCoelho/francisco
+[33md930520[m update migrations
+[33m5d1a684[m Merge pull request #11 from RoxanneJCoelho/roxie
+[33m16a1dc2[m update admin
+[33md03383d[m update password
+[33m0045bf3[m[33m ([m[1;31morigin/michele[m[33m)[m Merge pull request #10 from RoxanneJCoelho/roxie
+[33mfe819a9[m update search
+[33m145f4ef[m update database
+[33m0c20bf2[m Merge pull request #9 from RoxanneJCoelho/RobertoCouto
+[33m32cd1dc[m Merge branch 'main' into RobertoCouto
+[33me1af478[m Merge pull request #8 from RoxanneJCoelho/michele
+[33mb8d5b61[m update view
+[33mc5da1d7[m budget
+[33m2cce659[m Merge pull request #7 from RoxanneJCoelho/roxie
+[33m027441e[m update service edit
+[33m15e0e7f[m update admin controller
+[33m630c80e[m Merge pull request #6 from RoxanneJCoelho/RobertoCouto
+[33mb098ddf[m update migration
+[33m27fb888[m Merge pull request #5 from RoxanneJCoelho/RobertoCouto
+[33mc5f0b54[m update migrations
+[33mccbd437[m .
+[33m765757f[m Merge pull request #3 from RoxanneJCoelho/roxie
+[33m0ee3686[m update alterar dados
+[33mf09a080[m Merge pull request #2 from RoxanneJCoelho/michele
+[33me4c4383[m Merge branch 'main' into michele
+[33m8c8b076[m pdf email
+[33m056b28a[m update views
+[33ma527e08[m update login
+[33m8cb3276[m Merge pull request #1 from RoxanneJCoelho/michele
+[33m556f078[m update michele
+[33m134ab8a[m update espaço admin
+[33m6e91d4c[m update espaço admin
+[33m9a97508[m update layout
+[33mc5927fa[m update layout
+[33m932cfc5[m update budget
+[33madcd061[m update espaço admin
+[33m9e221a9[m update add and edit category
+[33mbbbcd66[m update espaco admin
+[33ma3715ff[m update form
+[33m3832535[m update form
+[33m9b17785[m update form
+[33m1620d8a[m update database budget
+[33m6075f53[m update database option
+[33m27ba305[m update database
+[33mf900b8f[m first commit

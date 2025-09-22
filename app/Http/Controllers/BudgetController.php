@@ -21,7 +21,8 @@ class BudgetController extends Controller
         return view('budget.form', compact('services'));
     }
 
-    // valida o formulario, gera pdf e envia para email
+
+
     public function budgetCreation(Request $request)
     {
         // validação de dados
@@ -43,6 +44,7 @@ class BudgetController extends Controller
         $budget = Budget::insertGetId([
             'user_id' => $user,
             'total'   => 0,
+            'emission_date' => now(),
             'created_at' => now()
         ]);
 
@@ -74,32 +76,41 @@ class BudgetController extends Controller
         // // mensagem de sucesso
         return redirect()->back()->with('success', 'Orçamento registado com sucesso!');
 
-        // // GERAR PDF
-        // $codesJson = $request->input('code'); // recebe array de strings JSON
-        // $codesJson2 = $request->input('data');
+        $codesJson = $request->input('code');
+        $codesJson2 = $request->input('data');
 
-        // $codes = json_decode($codesJson, true);
-        // $data = json_decode($codesJson2, true);
+        $codes = json_decode($codesJson, true);
 
-        // $request->input('name');
-        // $request->input('email');
+        // Guardar name e email em variáveis
+        $name = $request->input('name');
+        $email = $request->input('email');
 
-        // if ($request->input('action') === 'download') {
+        // dd($request->all());
 
-        //     $pdf = PDF::loadView('pdf.orcamento', ['codes' => $codes]);
+        $isPDF = $request->input('isPDF');
 
-        //     return $pdf->download('pdf.orcamento', ['codes' => $codes]);
-        // } elseif ($request->input('action') === 'sendEmail') {
+        // dd($isPDF);
+        if ($isPDF === 'true') {
+            // Gerar PDF corretamente
+            $pdf = PDF::loadView('pdf.orcamento', [
+                'codes' => $codes,
+                'name'  => $name,
+                'email' => $email
+            ]);
 
-        //     $pdf = PDF::loadView('pdf.orcamento', ['codes' => $codes])->output();
+            return $pdf->download('pdf.orcamento.pdf');
+        } else {
+            $pdf = PDF::loadView('pdf.orcamento', [
+                'codes' => $codes,
+                'name'  => $name,
+                'email' => $email
+            ])->output();
 
-        //     Mail::to('admin@admin.com')->send(new MyTestEmail($pdf));
+            Mail::to($email)->send(new MyTestEmail($pdf, $name));
 
-
-        //     return back()->with('success', 'Orçamento enviado com sucesso para ' . 'email');
-        // }
+            return back()->with('success', 'Orçamento enviado com sucesso para ' . $email);
+        }
     }
-
 
     // função privada que vai buscar os dados á bd dos serviços
     private function getDataServices()
