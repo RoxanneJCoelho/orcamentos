@@ -21,8 +21,6 @@ class BudgetController extends Controller
         return view('budget.form', compact('services'));
     }
 
-
-
     public function budgetCreation(Request $request)
     {
         // validação de dados
@@ -52,29 +50,31 @@ class BudgetController extends Controller
         $servicosSelecionados = json_decode($request->tabelaSelecionadosJSON, true);
         $total = 0;
 
-        foreach ($servicosSelecionados as $servico) {
-            $preco = $servico['preco'];
-            $quantidade = $servico['quantidade'];
-            $desconto = $servico['desconto'] ?? 0;
+        // dd($servicosSelecionados);
 
-            $valorFinal = ($preco * $quantidade) * (1 - $desconto / 100);
-            $total += $valorFinal;
+        // foreach ($servicosSelecionados as $servico) {
+        //     $preco = $servico['preco'];
+        //     $quantidade = $servico['quantidade'];
+        //     $desconto = $servico['desconto'] ?? 0;
 
-            Option::insert([
-                'budget_id' => $budget,
-                'service_id'   => $servico['id'],
-                'qtd'         => $quantidade,
-                'discount'     => $desconto,
-                'valor'        => $valorFinal,
-                'created_at' => now()
-            ]);
-        }
+        //     $valorFinal = ($preco * $quantidade) * (1 - $desconto / 100);
+        //     $total += $valorFinal;
+
+        //     Option::insert([
+        //         'budget_id' => $budget,
+        //         'service_id'   => $servico['id'],
+        //         'qtd'         => $quantidade,
+        //         'discount'     => $desconto,
+        //         'valor'        => $valorFinal,
+        //         'created_at' => now()
+        //     ]);
+        // }
 
         // // atualizar o total do orçamento
-        $budget->update(['total' => $total]);
+        // Budget::update(['total' => $total]);
 
         // // mensagem de sucesso
-        return redirect()->back()->with('success', 'Orçamento registado com sucesso!');
+        // return redirect()->back()->with('success', 'Orçamento registado com sucesso!');
 
         $codesJson = $request->input('code');
         $codesJson2 = $request->input('data');
@@ -108,7 +108,7 @@ class BudgetController extends Controller
 
             Mail::to($email)->send(new MyTestEmail($pdf, $name));
 
-            return back()->with('success', 'Orçamento enviado com sucesso para ' . $email);
+            return back()->with('message', 'Orçamento enviado com sucesso para ' . $email);
         }
     }
 
