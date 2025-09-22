@@ -5,8 +5,10 @@ namespace App\Http\Controllers;
 use Dompdf\Dompdf;
 use App\Mail\BudgetMail;
 use App\Models\Category;
+use App\Mail\MyTestEmail;
 use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade\PDF;
+use Illuminate\Support\Facades\Mail;
 
 class BudgetController extends Controller
 {
