@@ -31,15 +31,17 @@ class BudgetController extends Controller
         ]);
 
         // Criação de novo user
-        $user = User::insert([
+        $user = User::insertGetId([
             'name' => $request->name,
             'email' => $request->email,
             'created_at' => now()
         ]);
 
+        //  dd($user);
+
         // Criação de novo orçamento
-        $budget = Budget::insert([
-            'user_id' => $user->id,
+        $budget = Budget::insertGetId([
+            'user_id' => $user,
             'total'   => 0,
             'created_at' => now()
         ]);
@@ -57,7 +59,7 @@ class BudgetController extends Controller
             $total += $valorFinal;
 
             Option::insert([
-                'budget_id' => $budget->id,
+                'budget_id' => $budget,
                 'service_id'   => $servico['id'],
                 'qtd'         => $quantidade,
                 'discount'     => $desconto,
@@ -67,10 +69,10 @@ class BudgetController extends Controller
         }
 
         // // atualizar o total do orçamento
-        // $budget->update(['total' => $total]);
+        $budget->update(['total' => $total]);
 
         // // mensagem de sucesso
-        // return redirect()->back()->with('success', 'Orçamento registado com sucesso!');
+        return redirect()->back()->with('success', 'Orçamento registado com sucesso!');
 
         // // GERAR PDF
         // $codesJson = $request->input('code'); // recebe array de strings JSON
