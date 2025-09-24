@@ -13,7 +13,7 @@
     </style>
 
 </head>
-
+<img src="{{ public_path('assets/images/navbar/logo.png') }}" style="width:120px; height:auto; margin-bottom:15px;" alt="Logo">
 <body>
     <div class ="header client">
         <strong> Dados do Cliente</strong><br>
