@@ -24,12 +24,7 @@ class BudgetController extends Controller
         return view('budget.form', compact('services'));
     }
 
-    // valida o formulario
-    public function form(Request $request)
-    {
-        //
-    }
-
+    // criação de orcamento
     public function budgetCreation(Request $request)
     {
 
