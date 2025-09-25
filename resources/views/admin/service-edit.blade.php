@@ -10,7 +10,8 @@
     <form method="POST" action="{{ route('edit.service.store', $myService->id) }}">
         @csrf
         @method('PUT')
-
+        <input type="hidden" name="id" value="{{ $myService->id }}">
+ 
         {{-- Código --}}
         <div class="mb-3">
             <label for="editCode" class="form-label">Novo Código</label>
