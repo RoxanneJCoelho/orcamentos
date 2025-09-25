@@ -108,7 +108,7 @@
             </div>
             <h4>Total: <span id="precoTotal">0.00</span>€</h4>
             <button type="submit" class="btn btn-primary mt-2" id="btnDownloadPdf" name="pdf" value="download">Descarregar PDF</button>
-            <button type="submit" class="btn btn-primary mt-2" id="btnEnviarEmail" name="email" value="sendEmail">Enviar Orçamento por Email</button>
+            <button type="submit" class="btn bg-primary-subtle mt-2" id="btnEnviarEmail" name="email" value="sendEmail">Enviar Orçamento por Email</button>
         </div>
     </form>
 </div>
