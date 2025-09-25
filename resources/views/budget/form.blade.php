@@ -8,20 +8,26 @@
 <div class="container">
     <h2>Pedido de Orçamento</h2>
 
-    @if (session('success'))
-            <div class="mb-4 p-3 rounded border border-green-200 bg-green-50 text-green-700 text-sm flex items-start gap-2" role="alert">
-                <svg class="w-5 h-5 mt-0.5" fill="currentColor" aria-hidden="true"><use href="#ms-add" /></svg>
-                <span>{{ session('success') }}</span>
-            </div>
+    {{-- Mensagem de inserção de dados bem sucedida --}}
+        @if (session('success'))
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            {{ session('success') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Fechar"></button>
+        </div>
         @endif
 
-        @if ($errors->any())
-            <div class="mb-4 p-3 rounded border border-red-200 bg-red-50 text-red-700 text-sm" role="alert">
-                <ul class="list-disc pl-5 space-y-1">
-                    @foreach ($errors->all() as $error) <li>{{ $error }}</li> @endforeach
+        {{-- Validação de erros --}}
+            @if ($errors->any())
+            <div class="alert alert-danger mt-3">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                    @endforeach
                 </ul>
             </div>
-        @endif
+            @endif
+
+        {{-- Formulário do orçamento --}}
 
     <form id="orcamentoForm" method="POST" action="{{route('budget.create')}}">
         @csrf
@@ -102,7 +108,7 @@
             </div>
             <h4>Total: <span id="precoTotal">0.00</span>€</h4>
             <button type="submit" class="btn btn-primary mt-2" id="btnDownloadPdf" name="pdf" value="download">Descarregar PDF</button>
-            <button type="submit" class="btn btn-primary mt-2" id="btnEnviarEmail" name="email" value="sendEmail">Enviar Orçamento por Email</button>
+            <button type="submit" class="btn bg-primary-subtle mt-2" id="btnEnviarEmail" name="email" value="sendEmail">Enviar Orçamento por Email</button>
         </div>
     </form>
 </div>

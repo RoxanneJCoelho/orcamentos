@@ -8,7 +8,6 @@ use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
 
 class AdminController extends Controller
 {
@@ -141,15 +140,13 @@ class AdminController extends Controller
     {
         // Validação dos novos dados
         $request->validate([
-            'code' => 'regex:/^[0-9]{6}[a-z]$/|unique:services,code',
-            'description' => 'max:255|regex:/^[A-Za-zÀ-ÿ\s]+$/|unique:services,description',
+            'code' => 'regex:/^[0-9]{6}[a-z]$/',
+            'description' => 'max:255|regex:/^[A-Za-zÀ-ÿ\s]+$/',
             'price' => 'numeric',
             'discount' => 'numeric',
             'category_id' => 'exists:categories,id',
         ], [
             'code.regex' => 'O código deve ter exatamente 6 dígitos seguidos de uma letra minúscula (ex: 654377i).',
-            'code.unique' => 'Código já existente',
-            'description.unique' => 'Serviço já existente',
             'description.regex'  => 'Nome inválido: apenas pode colocar espaços e letras',
         ]);
 

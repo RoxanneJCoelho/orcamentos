@@ -13,10 +13,25 @@
     </style>
 
 </head>
-<img src="{{ public_path('assets/images/navbar/logo.png') }}" style="width:120px; height:auto; margin-bottom:15px;" alt="Logo">
+
 <body>
-    <div class ="header client">
-        <strong> Dados do Cliente</strong><br>
+
+    <div class="header logo">
+        <img src="{{ public_path('assets/images/navbar/icon.png') }}" alt="Logo">
+        <h2>OrçamentosJá</h2>
+    </div>
+
+    <div class="header client">
+        <strong>Dados da Empresa</strong><br>
+        <span>Nome: {{ $admin->name }}</span><br>
+        <span>Email: {{ $admin->email }}</span><br>
+        <span>Morada: {{ $admin->morada }}</span><br>
+        <span>NIPC: {{ $admin->nif_nipc }}</span><br>
+        <span>Telemovel: {{ $admin->telemovel }}</span><br>
+    </div>
+
+    <div class="header client">
+        <strong>Dados do Cliente</strong><br>
         <span>Nome: {{ $name }}</span><br>
         <span>Email: {{ $email }}</span><br>
     </div>
@@ -36,21 +51,18 @@
                 </thead>
                 <tbody>
                     @foreach ($codes as $code)
-                        <tr>
-                            <td>{{ $code[0] }}</td>
-                            <td>{{ $code[1] }}</td>
-                            <td>{{ $code[2] }}</td>
-                            <td>{{ $code[3] }}</td>
-                            <td>{{ $code[4] }}</td>
-                        </tr>
+                    <tr>
+                        <td>{{ $code[0] }}</td>
+                        <td>{{ $code[1] }}</td>
+                        <td>{{ $code[2] }}</td>
+                        <td>{{ $code[3] }}</td>
+                        <td>{{ $code[4] }}</td>
+                    </tr>
                     @endforeach
                 </tbody>
-
             </table>
         </div>
         <h4>Total: <span id="precoTotal">{{ $total }}</span>€</h4>
-        {{-- <h1>{{$name}}</h1>
-        <h2>{{$email}}</h2> --}}
     </div>
 
     <div class="footer">
