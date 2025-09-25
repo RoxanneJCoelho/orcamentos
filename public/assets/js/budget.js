@@ -3,10 +3,12 @@ document.addEventListener("DOMContentLoaded", () => {
     const precoTotalEl = document.getElementById("precoTotal");
     let objetoPost = [];
     let isPDF = document.querySelector('#isPDF');
-    let countservice =1;
+    let countservice = 1;
     let finalArray = [];
+
     // cria uma key única para cada clique
     let key ='service';
+    
     // FILTRO DE CATEGORIAS
     const filtro = document.getElementById('categoryFilter'); // corrigido id
     const categoriasDivs = document.querySelectorAll('#listaServicos .categoria');

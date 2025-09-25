@@ -2,9 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use Dompdf\Dompdf;
 use App\Models\User;
-use App\Mail\BudgetMail;
 use App\Models\Category;
 use App\Mail\MyTestEmail;
 use Illuminate\Http\Request;
@@ -32,8 +30,6 @@ class BudgetController extends Controller
             Storage::makeDirectory('pdfs');
         }
         $codesJson = $request->input('code');
-        $codesJson2 = $request->input('data');
-
         $codes = json_decode($codesJson, true);
 
         // Guardar name e email em variáveis

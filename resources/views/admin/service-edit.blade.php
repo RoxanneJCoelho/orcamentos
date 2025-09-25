@@ -7,9 +7,12 @@
     <h3>Editar Serviço nº {{ $myService->code }} : {{ $myService->description }}</h3>
     <h5>Edite apenas nos campos onde precisa editar, o resto pode deixar em branco</h5>
 
-    <form method="POST" action="{{ route('edit.service.store', $myService->id) }}">
+    <form method="POST" action="{{ route('edit.service.store') }}">
         @csrf
         @method('PUT')
+
+        {{-- ID escondido --}}
+        <input type="hidden" name="id" value=" {{ $myService->id }}">
 
         {{-- Código --}}
         <div class="mb-3">
