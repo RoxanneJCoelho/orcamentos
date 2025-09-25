@@ -1,9 +1,26 @@
 body {
-    font-family: "DejaVu Sans", sans-serif;
-    font-size: 13px;
+    font-family: "Inter", sans-serif;
+    font-size: 20px;
     color: #2a2a2a;
     background: #fcfcfc;
     margin: 20px;
+}
+
+.header.logo {
+    margin-bottom: 15px;
+    overflow: hidden;
+}
+
+.header.logo img {
+    width: 40px;
+    height: auto;
+    float: left;
+    margin-right: 10px;
+}
+
+.header.logo h2 {
+    margin: 0;
+    line-height: 40px;
 }
 
 h1 {

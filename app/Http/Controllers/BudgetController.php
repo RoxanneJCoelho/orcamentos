@@ -67,12 +67,16 @@ class BudgetController extends Controller
             ]);
         }
 
+        // buscar os dados do admin
+        $admin = $this->getDataAdmin();
+
         // Gerar PDF
         $pdf = PDF::loadView('pdf.orcamento', [
             'codes' => $codes,
             'name'  => $name,
             'email' => $email,
             'total' => $total,
+            'admin' => $admin,
         ]);
 
         // Guardar PDF no storage
@@ -91,6 +95,7 @@ class BudgetController extends Controller
             'name'  => $name,
             'email' => $email,
             'total' => $total,
+            'admin' => $admin,
         ]);
             return $pdf->download('pdf.orcamento.pdf');
         } else {
@@ -99,6 +104,7 @@ class BudgetController extends Controller
             'name'  => $name,
             'email' => $email,
             'total' => $total,
+            'admin' => $admin,
         ]);
             Mail::to($email)->send(new MyTestEmail($pdf->output(), $name));
             return back()->with('success', 'Orçamento enviado com sucesso para ' . $email);
@@ -116,5 +122,14 @@ class BudgetController extends Controller
             ->groupBy('category_id');
 
         return $services;
+    }
+
+    // função privada que vai buscar os dados do admin á bd dos users
+    private function getDataAdmin()
+    {
+        // join de categorias e servicos
+        $admin = DB::table('users')->where('tipo_utilizador', 'ADMIN')->first();
+
+        return $admin;
     }
 }

@@ -9,9 +9,9 @@
     <h2>Pedido de Orçamento</h2>
 
     {{-- Mensagem de inserção de dados bem sucedida --}}
-        @if (session('message'))
+        @if (session('success'))
         <div class="alert alert-success alert-dismissible fade show" role="alert">
-            {{ session('message') }}
+            {{ session('success') }}
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Fechar"></button>
         </div>
         @endif
